@@ -23,32 +23,32 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
     void "create Schema with SchemaFields"(){
         setup:
         Schema schema = new Schema(name: "Performance Monitor");
-        schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue()));
-        schema.addToSchemaFields(new SchemaField(name: "writeTime", fieldType: FieldType.LONG.getValue()));
-        schema.save();
+        schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue()))
+        schema.addToSchemaFields(new SchemaField(name: "writeTime", fieldType: FieldType.LONG.getValue()))
+        schema.save()
 
         expect:
-        Schema.count() == 1;
-        SchemaField.count() == 2;
+        Schema.count() == 1
+        SchemaField.count() == 2
     }
 
     void "delete Schema with SchemaFields"(){
         setup:
         Schema schema = new Schema(name: "Performance Monitor");
-        schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue(), schema: schema));
-        schema.addToSchemaFields(new SchemaField(name: "writeTime", fieldType: FieldType.LONG.getValue(), schema: schema));
-        schema.save();
+        schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue(), schema: schema))
+        schema.addToSchemaFields(new SchemaField(name: "writeTime", fieldType: FieldType.LONG.getValue(), schema: schema))
+        schema.save()
 
         expect:
-        Schema.count() == 1;
-        SchemaField.count() == 2;
+        Schema.count() == 1
+        SchemaField.count() == 2
 
         when:
-        schema = Schema.findByName("Performance Monitor");
-        schema.delete(flush: true);
+        schema = Schema.findByName("Performance Monitor")
+        schema.delete(flush: true)
 
         then:
-        Schema.count() == 0;
-        SchemaField.count() == 0;
+        Schema.count() == 0
+        SchemaField.count() == 0
     }
 }

@@ -10,7 +10,7 @@ class SchemaField {
     static belongsTo = [schema: Schema]
 
     static constraints = {
-        name(nullable: false, matches: "^\\w+\$");
-        fieldType(nullable: false, enumType: "string", inList: FieldType.values()*.getValue())
+        name(nullable: false, matches: "^\\w+\$", blank: false)
+        fieldType(nullable: false, inList: FieldType.values()*.getValue())
     }
 }
