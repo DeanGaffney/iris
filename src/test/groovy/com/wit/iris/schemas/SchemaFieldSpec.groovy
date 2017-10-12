@@ -6,7 +6,14 @@ import spock.lang.Specification
 
 class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaField> {
 
+    Schema schema
+
     def setup() {
+        schema = new Schema(name: "Performance")
+        schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue()))
+        schema.save(flush: true, failOnError: true)
+
+        assert Schema.count() == 1 && SchemaField.count() == 1
     }
 
     def cleanup() {
@@ -14,46 +21,30 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "create SchemaField"(){
         setup:
-        new SchemaField(name: "counter", fieldType: FieldType.INT.getValue()).save();
+        schema.addToSchemaFields(new SchemaField(name: "records", fieldType: FieldType.INT.getValue()))
+
+        and:
+        schema.save(flush: true, failOnError: true)
 
         expect:
-        SchemaField.count() == 1;
+        SchemaField.count() == 2
     }
 
-    void "delete SchemaField"(){
-        setup:
-        SchemaField schemaField = new SchemaField(name: "counter", fieldType:  FieldType.INT.getValue());
-        schemaField.save();
-
-        expect:
-        SchemaField.count() == 1;
-
-        when:
-        schemaField.delete();
-
-        then:
-        SchemaField.count() == 0;
-    }
 
     void "edit SchemaField"(){
         setup:
-        SchemaField schemaField = new SchemaField(name: "counter", fieldType: FieldType.INT.getValue());
-        schemaField.save();
-
-        expect:
-        SchemaField.count() == 1;
+        SchemaField schemaField = SchemaField.findByName("counter")
 
         and:
-        schemaField.name == "counter";
+        schemaField.name == "counter"
 
         when:
-        schemaField = SchemaField.findByName("counter");
-        schemaField.setName("newName");
+        schemaField.setName("newName")
 
         and:
-        schemaField.save();
+        schemaField.save(flush: true, failOnError: true)
 
         then:
-        SchemaField.findByName("newName") != null;
+        SchemaField.findByName("newName") != null
     }
 }

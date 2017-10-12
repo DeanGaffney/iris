@@ -2,12 +2,16 @@ package com.wit.iris.schemas
 
 class Schema {
 
-    String name;
+    String name
 
-    static hasMany = [schemaFields: SchemaField];
+    static hasMany = [schemaFields: SchemaField]
+
+    static mapping = {
+        schemaFields cascade: 'all-delete-orphan'
+    }
 
     static constraints = {
-        schemaFields(nullable: true);
+
     }
     
 }
