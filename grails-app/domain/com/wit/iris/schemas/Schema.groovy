@@ -4,7 +4,7 @@ class Schema {
 
     String name
     String esIndex
-    long refreshInterval
+    Long refreshInterval
 
     static hasMany = [schemaFields: SchemaField]
 
@@ -13,8 +13,9 @@ class Schema {
     }
 
     static constraints = {
-        name(nullable: false, blank: false, maxSize: 100)
-        esIndex(nullable: true, blank: false)
+        name(nullable: false, blank: false, maxSize: 100, unique: true, matches: "^[\\w\\s]+\$")
+        esIndex(nullable: false, blank: false, unique: true, matches: "^[\\w]+\$")
+        refreshInterval(nullable: false)
     }
     
 }
