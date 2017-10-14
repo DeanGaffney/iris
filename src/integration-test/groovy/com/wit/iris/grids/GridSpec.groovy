@@ -2,14 +2,15 @@ package com.wit.iris.grids
 
 import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
-
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
-import grails.testing.gorm.DataTest
-import grails.testing.gorm.DomainUnitTest
+import grails.testing.mixin.integration.Integration
+import grails.transaction.*
 import spock.lang.Specification
 
-class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
+@Integration
+@Rollback
+class GridSpec extends Specification {
 
     Grid grid
     GridCell gridCell
@@ -17,14 +18,9 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
     Schema schema
     Aggregation aggregation
 
-    @Override
-    Class[] getDomainClassesToMock() {
-        return [Grid, GridCell, Chart, Schema, Aggregation]
-    }
-
     def setupData(){
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        schema.save(flush: true, failOnError: true)
+        schema.save(flush: true)
         aggregation = new Aggregation(schema: schema)
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
         grid = new Grid(gridCellPositions: "[{some: json}]")
@@ -46,16 +42,30 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
     def cleanup() {
     }
 
-
-    void "test delete Grid"(){
+    void "test cascade delete Grid"(){
         setup:
         setupData()
 
         when: "I delete the grid"
         grid.delete(flush: true)
 
-        then: "Grid count is 0"
+        then: "Grid cells also get deleted"
         assert Grid.count() == 0
+        assert GridCell.count() == 0
     }
 
+    void "test cascade removeFrom Grid"(){
+        setup:
+        setupData()
+
+        when: "I delete a gridcell from a grid"
+        grid.removeFromGridCells(grid.gridCells[0])
+
+        and: "I save the grid"
+        grid.save(flush: true)
+
+        then: "Grid cells also get deleted"
+        assert Grid.count() == 1
+        assert GridCell.count() == 0
+    }
 }

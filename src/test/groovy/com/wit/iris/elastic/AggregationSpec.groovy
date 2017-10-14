@@ -11,8 +11,4 @@ class AggregationSpec extends Specification implements DomainUnitTest<Aggregatio
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

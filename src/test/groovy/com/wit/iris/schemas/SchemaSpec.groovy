@@ -1,18 +1,32 @@
 package com.wit.iris.schemas
 
-import com.wit.iris.enums.FieldType
+import com.wit.iris.schemas.enums.FieldType
+import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
+class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTest{
 
     Schema schema
+    SchemaField schemaField
 
-    def setup() {
+    @Override
+    Class[] getDomainClassesToMock() {
+        return [Schema, SchemaField]
+    }
+
+    def setupData(){
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
+        schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
+        schema.addToSchemaFields(schemaField)
         schema.save()
 
         assert Schema.count() == 1
+        assert SchemaField.count() == 1
+    }
+
+    def setup() {
+
     }
 
     def cleanup() {
@@ -20,6 +34,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
 
     void "test create Schema"(){
         setup: "I create a new Schema"
+        setupData()
         new Schema(name: "Other monitor", esIndex: "other_monitor", refreshInterval: 5000).save()
 
         expect: "The count to be 2"
@@ -28,6 +43,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
 
     void "test create Schema with SchemaFields"(){
         setup: "I add Schemafields to my Schema"
+        setupData()
         schema.addToSchemaFields(new SchemaField(name: "counter", fieldType: FieldType.INT.getValue()))
         schema.addToSchemaFields(new SchemaField(name: "writeTime", fieldType: FieldType.LONG.getValue()))
 
@@ -36,10 +52,13 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
 
         expect: "The SchemaFields to be saved with the Schema"
         Schema.count() == 1
-        SchemaField.count() == 2
+        SchemaField.count() == 3
     }
 
     void "test delete Schema"(){
+        setup:
+        setupData()
+
         when: "I delete a Schema"
         schema.delete(flush: true)
 
@@ -47,7 +66,24 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
         Schema.count() == 0
     }
 
+    void "test edit Schema"(){
+        setup:
+        setupData()
+
+        when: "I edit an existing Schema"
+        schema.name = "other monitor"
+
+        and: "I save the new edited schema"
+        schema.save()
+
+        then: "I can find the schema by its new name"
+        Schema.findByName("other monitor") != null
+    }
+
     void "test Schema name constraints"(){
+        setup:
+        setupData()
+
         when: "I change the name to null"
         schema.name = null
 
@@ -99,6 +135,9 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
     }
 
     void "test Schema esIndex constraints"(){
+        setup:
+        setupData()
+
         when: "I change the esIndex to be null"
         schema.esIndex = null
 
@@ -125,6 +164,9 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema> {
     }
 
     void "test Schema refreshInterval constraints"(){
+        setup:
+        setupData()
+
         when: "I change the refreshInterval to be null"
         schema.refreshInterval = null
 

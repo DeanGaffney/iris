@@ -11,8 +11,4 @@ class GridCellSpec extends Specification implements DomainUnitTest<GridCell> {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

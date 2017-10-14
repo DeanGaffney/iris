@@ -11,8 +11,4 @@ class ChartSpec extends Specification implements DomainUnitTest<Chart> {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

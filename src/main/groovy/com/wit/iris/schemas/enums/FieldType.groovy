@@ -1,4 +1,4 @@
-package com.wit.iris.enums
+package com.wit.iris.schemas.enums
 /**
  * Created by dean on 09/10/17.
  */

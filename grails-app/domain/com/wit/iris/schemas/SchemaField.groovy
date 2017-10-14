@@ -1,6 +1,6 @@
 package com.wit.iris.schemas;
 
-import com.wit.iris.enums.FieldType;
+import com.wit.iris.schemas.enums.FieldType;
 
 class SchemaField {
 

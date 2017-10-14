@@ -1,21 +1,31 @@
 package com.wit.iris.schemas
 
-import com.wit.iris.enums.FieldType
+import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
+import com.wit.iris.schemas.enums.FieldType
+import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaField> {
+class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaField> , DataTest{
 
     Schema schema
     SchemaField schemaField
 
-    def setup() {
-        schema = new Schema(name: "Performance")
-        schemaField = new SchemaField(name: "counter", fieldType: FieldType.INT.getValue())
-        schema.addToSchemaFields(schemaField)
+    @Override
+    Class[] getDomainClassesToMock() {
+        return [Schema, SchemaField]
+    }
+
+    def setupData(){
+        schema = DomainUtils.getSchemaWithSingleSchemaField()
+        schemaField = schema.schemaFields[0]
         schema.save(flush: true, failOnError: true)
 
         assert Schema.count() == 1 && SchemaField.count() == 1
+    }
+
+    def setup() {
+
     }
 
     def cleanup() {
@@ -23,6 +33,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test create SchemaField"(){
         setup:
+        setupData()
         schema.addToSchemaFields(new SchemaField(name: "records", fieldType: FieldType.INT.getValue()))
 
         and:
@@ -35,6 +46,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test edit SchemaField"(){
         setup:
+        setupData()
         assert schemaField.name == "counter"
 
         when: "I change the name"
@@ -49,6 +61,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test name matches constraint"(){
         setup:
+        setupData()
         assert schemaField.name == "counter"
 
         when: "I change the name to camel case"
@@ -78,6 +91,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test create SchemaField with non matching name"(){
         setup:
+        setupData()
         assert schemaField.name == "counter"
 
         when: "I change the name to symbols"
@@ -89,6 +103,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test create SchemaField with null name"(){
         setup:
+        setupData()
         assert schemaField.name == "counter"
 
         when: "I change the name to be null"
@@ -100,6 +115,7 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
 
     void "test create SchemaField with blank name"(){
         setup:
+        setupData()
         assert schemaField.name == "counter"
 
         when: "I change the name to be blank"

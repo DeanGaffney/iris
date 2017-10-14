@@ -5,4 +5,15 @@ package com.wit.iris.charts.enums
  */
 enum ChartType {
 
+    BAR("Bar"),
+    BUBBLE("Bubble"),
+    PIE("Pie");
+
+    private String value;
+
+    private ChartType(String value){
+        this.value = value;
+    }
+
+    String getValue(){ return this.value; }
 }
