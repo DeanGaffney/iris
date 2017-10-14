@@ -2,14 +2,15 @@ package com.wit.iris.grids
 
 import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
-
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
-import grails.testing.gorm.DataTest
-import grails.testing.gorm.DomainUnitTest
+import grails.testing.mixin.integration.Integration
+import grails.transaction.*
 import spock.lang.Specification
 
-class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
+@Integration
+@Rollback
+class GridCellSpec extends Specification {
 
     Grid grid
     GridCell gridCell
@@ -17,14 +18,9 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
     Schema schema
     Aggregation aggregation
 
-    @Override
-    Class[] getDomainClassesToMock() {
-        return [Grid, GridCell, Chart, Schema, Aggregation]
-    }
-
     def setupData(){
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        schema.save(flush: true, failOnError: true)
+        schema.save(flush: true)
         aggregation = new Aggregation(schema: schema)
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
         grid = new Grid(gridCellPositions: "[{some: json}]")
@@ -40,33 +36,24 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
     }
 
     def setup() {
-
     }
 
     def cleanup() {
     }
 
-
-    void "test delete Grid"(){
+    void "test deleting grid cell doesn't delete chart"(){
         setup:
         setupData()
 
-        when: "I delete the grid"
-        grid.delete(flush: true)
+        when: "I delete a grid cell"
+        grid.removeFromGridCells(gridCell)
 
-        then: "Grid count is 0"
-        assert Grid.count() == 0
-    }
+        and: "I save the update"
+        grid.save(flush: true)
 
-    void "test Grid gridPositions constraints"(){
-        setup:
-        setupData()
-
-        when: "I change a gridCellPositions to be null"
-        grid.gridCellPositions = null
-
-        then: "It is not valid"
-        !grid.validate()
+        then: "the chart still exists"
+        assert GridCell.count() == 0
+        assert Chart.count() == 1
     }
 
 }

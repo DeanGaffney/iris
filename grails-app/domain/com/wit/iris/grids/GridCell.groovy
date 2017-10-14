@@ -11,6 +11,6 @@ class GridCell {
 
     static constraints = {
         chart(nullable: false)
-        gridPosition(nullable: false)
+        gridPosition(nullable: false, min: 0)
     }
 }

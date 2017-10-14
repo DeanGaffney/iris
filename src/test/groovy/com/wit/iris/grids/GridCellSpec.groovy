@@ -1,14 +1,88 @@
 package com.wit.iris.grids
 
+import com.wit.iris.charts.Chart
+import com.wit.iris.charts.enums.ChartType
+import com.wit.iris.elastic.Aggregation
+import com.wit.iris.schemas.Schema
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
 class GridCellSpec extends Specification implements DomainUnitTest<GridCell> {
 
+    Grid grid
+    GridCell gridCell
+    Chart chart
+    Schema schema
+    Aggregation aggregation
+
+    @Override
+    Class[] getDomainClassesToMock() {
+        return [Grid, GridCell, Chart, Schema, Aggregation]
+    }
+
+    def setupData(){
+        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        schema.save(flush: true, failOnError: true)
+        aggregation = new Aggregation(schema: schema)
+        chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
+        grid = new Grid(gridCellPositions: "[{some: json}]")
+        gridCell = new GridCell(gridPosition: 0, chart: chart)
+        grid.addToGridCells(gridCell)
+        grid.save(flush: true, failOnError: true)
+
+        assert Grid.count() == 1
+        assert GridCell.count() == 1
+        assert Chart.count() == 1
+        assert Schema.count() == 1
+        assert Aggregation.count() == 1
+    }
+
     def setup() {
     }
 
     def cleanup() {
+    }
+
+    void "test delete GridCell"(){
+        setup:
+        setupData()
+
+        when: "I delete a grid cell"
+        gridCell.delete(flush: true)
+
+        then:
+        GridCell.count() == 0
+    }
+
+    void "test edit a grid cell"(){
+        setup:
+        setupData()
+
+        when: "I edit a grid cell"
+        gridCell.gridPosition = 1
+
+        and: "I save the change"
+        gridCell.save(flush: true)
+
+        then: "I can find the grid cell by its position"
+        GridCell.findByGridPosition(1) != null
+    }
+
+    void "test gridPosition constraints"(){
+        setup:
+        setupData()
+
+        when: "I change th grid position to be null"
+        gridCell.gridPosition = null
+
+        then: "It is not valid"
+        !gridCell.validate()
+
+        when: "I change the grid cell to have negative position"
+        gridCell.gridPosition = -1
+
+        then: "It is not valid"
+        !gridCell.validate()
     }
 
 }
