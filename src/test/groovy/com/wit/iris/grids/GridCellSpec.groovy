@@ -4,10 +4,11 @@ import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
+import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class GridCellSpec extends Specification implements DomainUnitTest<GridCell> {
+class GridCellSpec extends Specification implements DomainUnitTest<GridCell>, DataTest{
 
     Grid grid
     GridCell gridCell
