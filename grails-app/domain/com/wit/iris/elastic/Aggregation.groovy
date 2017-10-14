@@ -1,11 +1,12 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.schemas.Schema
-
 class Aggregation {
 
-    transient Schema schema
+    String esIndex
+    String json
 
     static constraints = {
+        esIndex(nullable: false, blank: false)
+        json(nullable: false, blank: false)
     }
 }

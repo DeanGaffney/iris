@@ -9,5 +9,6 @@ class Dashboard {
 
     static constraints = {
         name(nullable: false, blank: false)
+        grid(nullable: false)
     }
 }

@@ -18,7 +18,7 @@ class ChartSpec extends Specification {
     def setupData(){
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         schema.save(flush: true)
-        aggregation = new Aggregation(schema: schema)
+        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(), aggregation: aggregation)
         chart.save(flush: true)
 

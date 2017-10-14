@@ -24,7 +24,7 @@ class GridCellSpec extends Specification implements DomainUnitTest<GridCell>, Da
     def setupData(){
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         schema.save(flush: true, failOnError: true)
-        aggregation = new Aggregation(schema: schema)
+        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
         grid = new Grid(gridCellPositions: "[{some: json}]")
         gridCell = new GridCell(gridPosition: 0, chart: chart)

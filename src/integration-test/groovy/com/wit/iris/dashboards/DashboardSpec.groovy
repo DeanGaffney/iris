@@ -1,8 +1,10 @@
-package com.wit.iris.grids
+package com.wit.iris.dashboards
 
 import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
+import com.wit.iris.grids.Grid
+import com.wit.iris.grids.GridCell
 import com.wit.iris.schemas.Schema
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
@@ -10,8 +12,9 @@ import spock.lang.Specification
 
 @Integration
 @Rollback
-class GridSpec extends Specification {
+class DashboardSpec extends Specification {
 
+    Dashboard dashboard
     Grid grid
     GridCell gridCell
     Chart chart
@@ -26,8 +29,10 @@ class GridSpec extends Specification {
         grid = new Grid(gridCellPositions: "[{some: json}]")
         gridCell = new GridCell(gridPosition: 0, chart: chart)
         grid.addToGridCells(gridCell)
-        grid.save(flush: true, failOnError: true)
+        dashboard = new Dashboard(name: "JVM Dashboard", grid: grid)
+        dashboard.save(flush: true)
 
+        Dashboard.count() == 1
         assert Grid.count() == 1
         assert GridCell.count() == 1
         assert Chart.count() == 1
@@ -36,36 +41,22 @@ class GridSpec extends Specification {
     }
 
     def setup() {
-
     }
 
     def cleanup() {
     }
 
-    void "test cascade delete Grid"(){
+    void "test delete Dashboard"(){
         setup:
         setupData()
 
-        when: "I delete the grid"
-        grid.delete(flush: true)
+        when: "I delete a Dashboard"
+        dashboard.delete(flush: true)
 
-        then: "Grid cells also get deleted"
-        assert Grid.count() == 0
-        assert GridCell.count() == 0
-    }
-
-    void "test cascade removeFrom Grid"(){
-        setup:
-        setupData()
-
-        when: "I delete a gridcell from a grid"
-        grid.removeFromGridCells(grid.gridCells[0])
-
-        and: "I save the grid"
-        grid.save(flush: true)
-
-        then: "Grid cells also get deleted"
+        then: "The grid should still exist"
+        assert Dashboard.count() == 0
         assert Grid.count() == 1
-        assert GridCell.count() == 0
     }
+
+
 }
