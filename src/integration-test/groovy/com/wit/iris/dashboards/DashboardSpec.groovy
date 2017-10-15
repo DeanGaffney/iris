@@ -60,7 +60,7 @@ class DashboardSpec extends Specification {
         user.removeFromDashboards(dashboard)
 
         and: "I save the user"
-        user.save(flush: true)
+        user.save(flush: true )
 
         then: "The grid should still exist"
         assert Dashboard.count() == 0

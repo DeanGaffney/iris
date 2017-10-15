@@ -8,14 +8,21 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        Role role = new Role(authority: 'USER_ROLE').save(flush: true)
-        User user = new User(username: "deangaffney", password: "password").save(flush: true)
-        UserRole.create(user, role)
+        environments {
 
-        UserRole.withSession{
-            it.flush()
-            it.clear()
+            development {
+                Role role = new Role(authority: 'USER_ROLE').save(flush: true)
+                User user = new User(username: "admin", password: "password").save(flush: true)
+                UserRole.create(user, role)
+
+                UserRole.withSession{
+                    it.flush()
+                    it.clear()
+                }
+            }
+            
         }
+
     }
     def destroy = {
     }
