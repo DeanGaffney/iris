@@ -20,7 +20,7 @@ class BootStrap {
                     it.clear()
                 }
             }
-            
+
         }
 
     }
