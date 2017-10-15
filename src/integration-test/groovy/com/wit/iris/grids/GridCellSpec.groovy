@@ -56,4 +56,18 @@ class GridCellSpec extends Specification {
         assert Chart.count() == 1
     }
 
+    void "test update cascade of Chart on GridCell save"(){
+        setup:
+        setupData()
+
+        when: "I edit a chart"
+        chart.chartType = ChartType.BUBBLE.getValue()
+
+        and: "I save the grid cell"
+        gridCell.save(flush: true)
+
+        then: "the grid cell update is saved too"
+        assert Chart.findByChartType("Bubble") != null
+    }
+
 }

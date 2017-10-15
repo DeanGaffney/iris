@@ -43,4 +43,18 @@ class ChartSpec extends Specification {
         Chart.count() == 0
         Aggregation.count() == 1
     }
+
+    void "test update of Aggregation on Chart save"(){
+        setup:
+        setupData()
+
+        when: "I edit an aggregation object"
+        aggregation.esIndex = "some/other/index"
+
+        and: "I save the chart"
+        chart.save(flush: true)
+
+        then: "the aggregation update is saved too"
+        assert Aggregation.findByEsIndex("some/other/index") != null
+    }
 }

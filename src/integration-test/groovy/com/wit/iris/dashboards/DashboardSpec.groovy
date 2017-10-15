@@ -58,5 +58,19 @@ class DashboardSpec extends Specification {
         assert Grid.count() == 1
     }
 
+    void "test cascade update on Grid on Dashboard save"(){
+        setup:
+        setupData()
+
+        when: "I edit a Grid"
+        grid.gridCellPositions = "{some different json}"
+
+        and: "I save the dashboard"
+        dashboard.save(flush: true)
+
+        then: "the update for the grid is saved too"
+        assert Grid.findByGridCellPositions("{some different json}") != null
+    }
+
 
 }

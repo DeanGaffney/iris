@@ -64,7 +64,21 @@ class SchemaSpec extends Specification {
         schemaField.save()
 
         then: "I can find the child by its new name from the parent"
-        schema.schemaFields.find {it.name == "readSpeed"} != null
+        assert schema.schemaFields.find {it.name == "readSpeed"} != null
+    }
+
+    void "test cascade update of SchemaField on Schema save"(){
+        setup:
+        setupData()
+
+        when: "I edit a Schema Field"
+        schemaField.name = "readSpeed"
+
+        and: "I save the Schema"
+        schema.save(flush: true)
+
+        then: "The update to the schema field is saved too"
+        assert SchemaField.findByName("readSpeed") != null
     }
 
 }

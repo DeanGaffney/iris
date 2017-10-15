@@ -68,4 +68,18 @@ class GridSpec extends Specification {
         assert Grid.count() == 1
         assert GridCell.count() == 0
     }
+
+    void "test cascade update of GridCell on Grid save"(){
+        setup:
+        setupData()
+
+        when: "I update a grid cell"
+        gridCell.gridPosition = 1
+
+        and: "I save the grid"
+        grid.save(flush: true)
+
+        then: "The GridCell update is saved too"
+        assert GridCell.findByGridPosition(1) != null
+    }
 }
