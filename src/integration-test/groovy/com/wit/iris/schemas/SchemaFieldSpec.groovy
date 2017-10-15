@@ -1,5 +1,6 @@
 package com.wit.iris.schemas
 
+import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.Specification
@@ -10,16 +11,20 @@ import com.wit.iris.schemas.enums.FieldType
 @Rollback
 class SchemaFieldSpec extends Specification {
 
+    User user
     Schema schema
     SchemaField schemaField
 
     def setupData(){
-        schema = schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        user = new User(username: "deangaffney", password: "password")
+        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
-        schema.save(flush: true)
+        user.addToSchemas(schema)
+        user.save(flush: true)
 
         assert Schema.count() == 1 && SchemaField.count() == 1
+        assert User.count() == 1
     }
 
     def setup() {

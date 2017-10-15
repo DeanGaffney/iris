@@ -3,28 +3,34 @@ package com.wit.iris.charts
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
+import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
 class ChartSpec extends Specification implements DomainUnitTest<Chart>, DataTest{
 
+    User user
     Chart chart
     Schema schema
     Aggregation aggregation
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [Chart, Schema, Aggregation]
+        return [User, Chart, Schema, Aggregation]
     }
 
     def setupData(){
+        user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        schema.save(flush: true)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(), aggregation: aggregation)
         chart.save(flush: true)
+        user.addToSchemas(schema)
 
+        user.save(flush: true)
+
+        assert User.count() == 1
         assert Chart.count() == 1
         assert Aggregation.count() == 1
         assert Schema.count() == 1

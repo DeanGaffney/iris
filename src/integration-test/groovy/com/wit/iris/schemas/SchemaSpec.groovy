@@ -1,6 +1,7 @@
 package com.wit.iris.schemas
 
 import com.wit.iris.schemas.enums.FieldType
+import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.Specification
@@ -9,16 +10,21 @@ import spock.lang.Specification
 @Rollback
 class SchemaSpec extends Specification {
 
+    User user
     Schema schema
     SchemaField schemaField
 
     def setupData(){
-        schema = schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        user = new User(username: "deangaffney", password: "password")
+        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
-        schema.save(flush: true)
+        user.addToSchemas(schema)
+        user.save(flush:true)
 
-        assert Schema.count() == 1 && SchemaField.count() == 1
+        assert User.count() == 1
+        assert Schema.count() == 1
+        assert SchemaField.count() == 1
     }
 
     def cleanup() {
@@ -30,11 +36,15 @@ class SchemaSpec extends Specification {
         setupData()
 
         when: "I delete the schema object"
-        schema.delete(flush: true)
+        user.removeFromSchemas(schema)
+
+        and: "I save the user"
+        user.save(flush: true)
 
         then: "The SchemaField child is also deleted"
         assert Schema.count() == 0
         assert SchemaField.count() == 0
+        assert user.schemas.size() == 0
     }
 
     void "test cascade delete on Schema children"(){

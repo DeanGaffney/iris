@@ -2,26 +2,33 @@ package com.wit.iris.schemas
 
 import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
 import com.wit.iris.schemas.enums.FieldType
+import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
 class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaField> , DataTest{
 
+    User user
     Schema schema
     SchemaField schemaField
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [Schema, SchemaField]
+        return [User, Schema, SchemaField]
     }
 
     def setupData(){
-        schema = DomainUtils.getSchemaWithSingleSchemaField()
-        schemaField = schema.schemaFields[0]
-        schema.save(flush: true, failOnError: true)
+        user = new User(username: "deangaffney", password: "password")
+        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
+        schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
+        schema.addToSchemaFields(schemaField)
+        user.addToSchemas(schema)
+        user.save(flush:true)
 
-        assert Schema.count() == 1 && SchemaField.count() == 1
+        assert User.count() == 1
+        assert Schema.count() == 1
+        assert SchemaField.count() == 1
     }
 
     def setup() {
@@ -47,7 +54,6 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
     void "test edit SchemaField"(){
         setup:
         setupData()
-        assert schemaField.name == "counter"
 
         when: "I change the name"
         schemaField.setName("newName")
@@ -62,7 +68,6 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
     void "test name matches constraint"(){
         setup:
         setupData()
-        assert schemaField.name == "counter"
 
         when: "I change the name to camel case"
         schemaField.setName("someCounter")
@@ -92,7 +97,6 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
     void "test create SchemaField with non matching name"(){
         setup:
         setupData()
-        assert schemaField.name == "counter"
 
         when: "I change the name to symbols"
         schemaField.setName("!@\$^#%*(){}[],;.")
@@ -104,7 +108,6 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
     void "test create SchemaField with null name"(){
         setup:
         setupData()
-        assert schemaField.name == "counter"
 
         when: "I change the name to be null"
         schemaField.setName(null)
@@ -116,7 +119,6 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
     void "test create SchemaField with blank name"(){
         setup:
         setupData()
-        assert schemaField.name == "counter"
 
         when: "I change the name to be blank"
         schemaField.setName("")

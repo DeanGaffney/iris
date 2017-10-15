@@ -1,26 +1,31 @@
 package com.wit.iris.schemas
 
 import com.wit.iris.schemas.enums.FieldType
+import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
 class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTest{
 
+    User user
     Schema schema
     SchemaField schemaField
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [Schema, SchemaField]
+        return [User, Schema, SchemaField]
     }
 
     def setupData(){
+        user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
-        schema.save()
+        user.addToSchemas(schema)
+        user.save(flush:true)
 
+        assert User.count() == 1
         assert Schema.count() == 1
         assert SchemaField.count() == 1
     }
@@ -35,7 +40,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
     void "test create Schema"(){
         setup: "I create a new Schema"
         setupData()
-        new Schema(name: "Other monitor", esIndex: "other_monitor", refreshInterval: 5000).save()
+        user.addToSchemas(new Schema(name: "Other monitor", esIndex: "other_monitor", refreshInterval: 5000)).save()
 
         expect: "The count to be 2"
         Schema.count() == 2

@@ -3,6 +3,7 @@ package com.wit.iris.charts
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
+import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.Specification
@@ -11,17 +12,22 @@ import spock.lang.Specification
 @Rollback
 class ChartSpec extends Specification {
 
+    User user
     Chart chart
     Schema schema
     Aggregation aggregation
 
     def setupData(){
+        user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        schema.save(flush: true)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(), aggregation: aggregation)
         chart.save(flush: true)
 
+        user.addToSchemas(schema)
+        user.save(flush: true)
+
+        assert User.count() == 1
         assert Chart.count() == 1
         assert Aggregation.count() == 1
         assert Schema.count() == 1

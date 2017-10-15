@@ -1,5 +1,7 @@
 package com.wit.iris.schemas
 
+import com.wit.iris.users.User
+
 class Schema {
 
     String name
@@ -7,6 +9,7 @@ class Schema {
     Long refreshInterval
 
     static hasMany = [schemaFields: SchemaField]
+    static belongsTo = [user: User]
 
     static mapping = {
         schemaFields cascade: 'all-delete-orphan'

@@ -5,12 +5,14 @@ import com.wit.iris.charts.enums.ChartType
 
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.schemas.Schema
+import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
 class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
 
+    User user
     Grid grid
     GridCell gridCell
     Chart chart
@@ -19,12 +21,12 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [Grid, GridCell, Chart, Schema, Aggregation]
+        return [User, Grid, GridCell, Chart, Schema, Aggregation]
     }
 
     def setupData(){
+        user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        schema.save(flush: true, failOnError: true)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
         grid = new Grid(gridCellPositions: "[{some: json}]")
@@ -32,6 +34,10 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
         grid.addToGridCells(gridCell)
         grid.save(flush: true, failOnError: true)
 
+        user.addToSchemas(schema)
+        user.save(flush: true)
+
+        assert User.count() == 1
         assert Grid.count() == 1
         assert GridCell.count() == 1
         assert Chart.count() == 1

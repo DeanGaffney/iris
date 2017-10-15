@@ -1,21 +1,22 @@
-package com.wit.iris.dashboards
+package com.wit.iris.users
 
 import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
+import com.wit.iris.dashboards.Dashboard
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
 import com.wit.iris.grids.GridCell
 import com.wit.iris.schemas.Schema
-import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.Specification
 
 @Integration
 @Rollback
-class DashboardSpec extends Specification {
+class UserSpec extends Specification {
 
     User user
+
     Dashboard dashboard
     Grid grid
     GridCell gridCell
@@ -32,13 +33,13 @@ class DashboardSpec extends Specification {
         gridCell = new GridCell(gridPosition: 0, chart: chart)
         grid.addToGridCells(gridCell)
         dashboard = new Dashboard(name: "JVM Dashboard", grid: grid)
-
         user.addToSchemas(schema)
         user.addToDashboards(dashboard)
+
         user.save(flush: true)
 
-        assert User.count() == 1
-        assert Dashboard.count() == 1
+        User.count() == 1
+        Dashboard.count() == 1
         assert Grid.count() == 1
         assert GridCell.count() == 1
         assert Chart.count() == 1
@@ -52,34 +53,57 @@ class DashboardSpec extends Specification {
     def cleanup() {
     }
 
-    void "test delete Dashboard"(){
+    void "test editing user"(){
         setup:
         setupData()
 
-        when: "I delete a Dashboard"
+        when: "I change the users username"
+        user.username = "DeanGaffney"
+
+        and: "I save the user"
+        user.save(flush: true)
+
+        then: "I can find the user by the new username"
+        assert User.findByUsername("DeanGaffney") != null
+    }
+
+    void "test deleting the user"(){
+        setup:
+        setupData()
+
+        when: "I delete the user"
+        user.delete(flush: true)
+
+        then: "The user no longer exists"
+        assert User.count() == 0
+    }
+
+    void "test cascade delete of Schema on user"(){
+        setup:
+        setupData()
+
+        when: "I remove a schema from the users collection"
+        user.removeFromSchemas(schema)
+
+        and: "I save the user"
+        user.save(flush: true)
+
+        then: "The schema is deleted"
+        Schema.count() == 0
+    }
+
+    void "test cascade delete of Dashboard on user"(){
+        setup:
+        setupData()
+
+        when: "I remove a dashboard from the users collection"
         user.removeFromDashboards(dashboard)
 
         and: "I save the user"
         user.save(flush: true)
 
-        then: "The grid should still exist"
-        assert Dashboard.count() == 0
-        assert Grid.count() == 1
+        then: "The dashboard is deleted"
+        Dashboard.count() == 0
     }
-
-    void "test cascade update on Grid on Dashboard save"(){
-        setup:
-        setupData()
-
-        when: "I edit a Grid"
-        grid.gridCellPositions = "{some different json}"
-
-        and: "I save the dashboard"
-        dashboard.save(flush: true)
-
-        then: "the update for the grid is saved too"
-        assert Grid.findByGridCellPositions("{some different json}") != null
-    }
-
 
 }
