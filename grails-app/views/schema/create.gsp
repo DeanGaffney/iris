@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta name="layout" content="main" />
+        <asset:javascript src="application.js"/>
+        <asset:stylesheet src="application.css"/>
         <g:set var="entityName" value="${message(code: 'schema.label', default: 'Schema')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
@@ -25,17 +27,19 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form id="schema-form" resource="${this.schema}" method="POST">
-                <f:field property="name" />
-                <f:field property="refreshInterval"/>
+            <g:form id="schema-form" resource="${this.schema}" action="save" method="POST">
+                <fieldset class="form">
+                    <f:all bean="${this.schema}" except="esIndex, schemaFields, user"/>
+                    <div id="schema-fields-container"></div>
+                </fieldset>
                 <div id="add-field-btn" class="btn">Add Field</div>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
                 </fieldset>
             </g:form>
         </div>
-    <script type="text/javascript">
-        $("#add-field-btn").click(function(){
+    <g:javascript>
+        $("#add-field-btn").on( "click", function(){
             const URL = "${createLink(controller: 'schemaField', action: 'form')}";
             var numOfSchemaFieldForms = $(".schemaField-form").length ;
             var schemaFieldIndex = (numOfSchemaFieldForms - 1 < 0) ? 0 : numOfSchemaFieldForms - 1;
@@ -45,10 +49,10 @@
                dataType: "text",
                data: {index: schemaFieldIndex},
                success: function(data){
-                   $("#schema-form").append(data);
+                   $("#schema-fields-container").append(data);
                }
            });
         });
-    </script>
+    </g:javascript>
     </body>
 </html>

@@ -4,8 +4,9 @@ class SchemaController {
 
     static scaffold = Schema
 
-    def create(){
-        println(params)
+    def save(){
+         println(params)
+        response : "Hello"
     }
 
 }
