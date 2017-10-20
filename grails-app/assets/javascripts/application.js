@@ -6,7 +6,9 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery/jquery-3.2.1.min
+//= require bootstrap/tether.min
 //= require bootstrap/bootstrap.min
+//= require flash-messages/flash.js
 //= require_tree .
 //= require_self
 

@@ -37,6 +37,8 @@
     </div>
 </div>
 
+<div id="flash-message"></div>
+
 <g:layoutBody/>
 
 <div class="footer" role="contentinfo"></div>

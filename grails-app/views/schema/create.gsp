@@ -28,7 +28,7 @@
             </ul>
             </g:hasErrors>
 
-            <div id="row" class="schema-form">
+            <div class="schema-form">
                 <h2>Schema</h2>
                 <div class="form-group">
                     <label class="col-2 col-form-label">Name</label>
@@ -40,8 +40,8 @@
                         <input class="form-control" id="schema-refresh" required="" type="number" value="" >
                     </div>
                 </div>
+                <div id="schema-field-container"></div>
             </div>
-            <div id="schema-field-container"></div>
             <button type="button" id="add-schema-field-btn" class="btn btn-primary">Add field</button>
             <button type="button" id="save-schema-btn" class="btn btn-primary">Save</button>
 
@@ -59,10 +59,8 @@
             this.fieldType = fieldType;
         }
 
-
         $("#add-schema-field-btn").on( "click", function(){
             const URL = "${createLink(controller: 'schemaField', action: 'form')}";
-            console.log("clicked add field button");
            $.ajax({
                url: URL,
                type: "post",
@@ -79,12 +77,21 @@
             var schemaObj = new schema($("#schema-name").val(), $("#schema-refresh").val());
             $(".schema-field-form").each(function(){
                 var schemaFieldObj = new schemaField($(this).find(".schema-field-name").val(), $(this).find(".schema-field-type").val());
-                console.log("Schema Field:" + JSON.stringify(schemaFieldObj,null, 4));
                 //add this obj to schema array
                 schemaObj.schemaFields.push(schemaFieldObj);
             });
-            console.log("Schema:" + JSON.stringify(schemaObj, null, 4));
+
             //send schema obj to save action in schema controller
+            $.ajax({
+                url: URL,
+                type: "post",
+                data: JSON.stringify(schemaObj),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    displayFlashMessage(data.flashType, data.message);
+                }
+            });
         });
     </g:javascript>
     </body>
