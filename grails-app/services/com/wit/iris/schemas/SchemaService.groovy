@@ -9,7 +9,7 @@ class SchemaService {
     def springSecurityService
 
     Schema createSchema(JSONObject schemaJson){
-        String esIndex = schemaJson.get("name").toLowerCase().replaceAll(" ", "_")
+        String esIndex = getEsIndexFromName(schemaJson.get("name"))
         Schema schema = new Schema(name: schemaJson.get("name"), refreshInterval: schemaJson.get("refreshInterval"),
                                    esIndex: esIndex, user: springSecurityService.getCurrentUser(),
                                    schemaFields: schemaJson.get("schemaFields"))
@@ -17,6 +17,14 @@ class SchemaService {
             println(schema.errors)
         }
         return schema
+    }
+
+    String getEsIndexFromName(String name){
+        return name.toLowerCase().replaceAll(" ", "_")
+    }
+
+    Schema editSchema(){
+
     }
 
 }
