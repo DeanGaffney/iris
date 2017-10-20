@@ -27,31 +27,64 @@
                 </g:eachError>
             </ul>
             </g:hasErrors>
-            <g:form id="schema-form" resource="${this.schema}" action="save" method="POST">
-                <fieldset class="form">
-                    <f:all bean="${this.schema}" except="esIndex, schemaFields, user"/>
-                    <div id="schema-fields-container"></div>
-                </fieldset>
-                <div id="add-field-btn" class="btn">Add Field</div>
-                <fieldset class="buttons">
-                    <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                </fieldset>
-            </g:form>
+
+            <div id="row" class="schema-form">
+                <h2>Schema</h2>
+                <div class="form-group">
+                    <label class="col-2 col-form-label">Name</label>
+                    <div class="col-6">
+                        <input class="form-control" id="schema-name" required="" type="text" value="" >
+                    </div>
+                    <label class="col-2 col-form-label">Refresh Interval</label>
+                    <div class="col-6">
+                        <input class="form-control" id="schema-refresh" required="" type="number" value="" >
+                    </div>
+                </div>
+            </div>
+            <div id="schema-field-container"></div>
+            <button type="button" id="add-schema-field-btn" class="btn btn-primary">Add field</button>
+            <button type="button" id="save-schema-btn" class="btn btn-primary">Save</button>
+
         </div>
     <g:javascript>
-        $("#add-field-btn").on( "click", function(){
+
+        var schema = function(name, refreshInterval){
+            this.name = name;
+            this.refreshInterval = refreshInterval;
+            this.schemaFields = [];
+        }
+
+        var schemaField = function(name, fieldType){
+            this.name = name;
+            this.fieldType = fieldType;
+        }
+
+
+        $("#add-schema-field-btn").on( "click", function(){
             const URL = "${createLink(controller: 'schemaField', action: 'form')}";
-            var numOfSchemaFieldForms = $(".schemaField-form").length ;
-            var schemaFieldIndex = (numOfSchemaFieldForms - 1 < 0) ? 0 : numOfSchemaFieldForms - 1;
+            console.log("clicked add field button");
            $.ajax({
                url: URL,
                type: "post",
                dataType: "text",
-               data: {index: schemaFieldIndex},
                success: function(data){
-                   $("#schema-fields-container").append(data);
+                   $("#schema-field-container").append(data);
                }
            });
+        });
+
+        $("#save-schema-btn").on("click", function(){
+            const URL = "${createLink(controller: 'schema', action: 'save')}";
+            //create schema object from name and refresh interval
+            var schemaObj = new schema($("#schema-name").val(), $("#schema-refresh").val());
+            $(".schema-field-form").each(function(){
+                var schemaFieldObj = new schemaField($(this).find(".schema-field-name").val(), $(this).find(".schema-field-type").val());
+                console.log("Schema Field:" + JSON.stringify(schemaFieldObj,null, 4));
+                //add this obj to schema array
+                schemaObj.schemaFields.push(schemaFieldObj);
+            });
+            console.log("Schema:" + JSON.stringify(schemaObj, null, 4));
+            //send schema obj to save action in schema controller
         });
     </g:javascript>
     </body>
