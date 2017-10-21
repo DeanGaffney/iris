@@ -28,14 +28,17 @@ class SchemaService {
     }
 
     Schema updateSchema(JSONObject schemaJson){
-        def result = JSON.parse(schemaJson.toString())
-        println(result)
-        //Object result = parser.parse(schemaJson)
+        Object result = parser.parse(schemaJson)
         Schema schema = Schema.get(result.id as Long)
         schema.name = result.name as String
         schema.esIndex = getEsIndexFromName(schema.name)
         schema.refreshInterval = result.refreshInterval as Long
-        schema.schemaFields = result.schemaFields as List
+        schema.schemaFields = result.schemaFields.collect{
+            println(it)
+            println(it.name)
+            println(it.fieldType)
+            return new SchemaField(name: it.name, fieldType: it.fieldType, schema: schema)
+        }
 
         if(!(schema.validate() && schema.save(flush: true))){
             println(schema.errors)
