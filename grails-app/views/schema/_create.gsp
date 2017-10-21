@@ -31,7 +31,7 @@
 
     $("#add-schema-field-btn").on( "click", function(){
         const URL = $(this).attr("href");
-        updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-field-container");
+        appendContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-field-container");
     });
 
     $("#save-schema-btn").on("click", function(){
