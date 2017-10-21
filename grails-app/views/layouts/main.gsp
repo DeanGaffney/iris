@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <asset:stylesheet src="application.css"/>
+    <asset:javascript src="application.js"/>
 
     <g:layoutHead/>
 </head>
@@ -38,7 +39,6 @@
 </div>
 
 <div id="flash-message"></div>
-
 <g:layoutBody/>
 
 <div class="footer" role="contentinfo"></div>
@@ -47,7 +47,6 @@
     <g:message code="spinner.alt" default="Loading&hellip;"/>
 </div>
 
-<asset:javascript src="application.js"/>
 
 </body>
 </html>

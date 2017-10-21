@@ -21,3 +21,36 @@ if (typeof jQuery !== 'undefined') {
         });
     })(jQuery);
 }
+
+var REST = {
+    method:{
+        get: "get",
+        post: "post",
+        put: "put"
+    },
+    dataType:{
+        json: "json",
+        html: "html",
+        text: "text"
+    },
+    contentType:{
+        json:"application/json; charset=utf-8"
+    }
+};
+
+
+function updateContainerHtml(controllerUrl, methodType, contentType, data, successContainer){
+    $.ajax({
+        url: controllerUrl,
+        type: methodType,
+        dataType: REST.dataType.html,
+        contentType: contentType,
+        data: JSON.stringify(data),
+        success: function(data){
+            $(successContainer).html(data);
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}

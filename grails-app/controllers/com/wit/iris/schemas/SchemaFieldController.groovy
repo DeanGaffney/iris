@@ -8,4 +8,8 @@ class SchemaFieldController {
         render(template: 'form')
     }
 
+    def edit(){
+        render(template: "edit", model: [schemaField: schemaField])
+    }
+
 }

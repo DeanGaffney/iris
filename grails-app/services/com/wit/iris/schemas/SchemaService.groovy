@@ -23,8 +23,15 @@ class SchemaService {
         return name.toLowerCase().replaceAll(" ", "_")
     }
 
-    Schema editSchema(){
-
+    Schema updateSchema(JSONObject schemaJson){
+        String esIndex = getEsIndexFromName(schemaJson.get("name"))
+        Schema schema = new Schema(name: schemaJson.get("name"), refreshInterval: schemaJson.get("refreshInterval"),
+                esIndex: esIndex, user: springSecurityService.getCurrentUser(),
+                schemaFields: schemaJson.get("schemaFields"))
+        if(!(schema.validate() && schema.save(flush: true))){
+            println(schema.errors)
+        }
+        return schema
     }
 
 }
