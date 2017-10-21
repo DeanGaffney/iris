@@ -24,8 +24,6 @@ class SchemaController {
     }
 
     def update(){
-        //called form edit view, take in object and edit it,
-        //return the showw view then off he newly edited object
         JSONObject schemaJson = request.JSON
         Schema schema = schemaService.updateSchema(schemaJson)
         render(template: "show", model: [schmea: schema])
