@@ -1,6 +1,5 @@
 package com.wit.iris.schemas
 
-import org.grails.web.json.JSONObject
 
 class SchemaController {
 
@@ -12,10 +11,9 @@ class SchemaController {
         render(template: "create")
     }
 
-    def save(){
-        JSONObject schemaJson = request.JSON
-        Schema schema = schemaService.createSchema(schemaJson)
-        render(template: "show", model: [schema: schema])
+    def save(Schema schema){
+        Schema savedSchema = schemaService.createSchema(schema)
+        render(template: "show", model: [schema: savedSchema])
     }
 
     def edit(){
@@ -23,10 +21,9 @@ class SchemaController {
         render(template: "edit", model: [schema: schema])
     }
 
-    def update(){
-        JSONObject schemaJson = request.JSON
-        Schema schema = schemaService.updateSchema(schemaJson)
-        render(template: "show", model: [schmea: schema])
+    def update(Schema schema){
+        Schema updatedSchema = schemaService.updateSchema(schema)
+        render(template: "show", model: [schema: updatedSchema])
     }
 
     def show(){

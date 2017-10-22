@@ -4,7 +4,7 @@
         <div class="form-group">
             <label class="col-2 col-form-label">Name</label>
             <div class="col-6">
-                <input class="form-control" id="schema-name" required="" type="text" value="${schema.name}" >
+                <input readonly class="form-control" id="schema-name" required="" type="text" value="${schema.name}" >
             </div>
             <label class="col-2 col-form-label">Refresh Interval</label>
             <div class="col-6">
@@ -45,7 +45,6 @@
             //add this obj to schema array
             schemaObj.schemaFields.push(schemaFieldObj);
         });
-        schemaObj.id = ${schema.id}
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, schemaObj,"#schema-main-container");
     });
 </g:javascript>
