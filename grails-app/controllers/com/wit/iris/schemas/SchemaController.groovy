@@ -26,6 +26,12 @@ class SchemaController {
         render(template: "show", model: [schema: updatedSchema])
     }
 
+    def delete(){
+        Schema schema = Schema.get(params.id)
+        schemaService.deleteSchema(schema)
+        redirect(view: "index")
+    }
+
     def show(){
         render(view: "show", model: [schema: Schema.get(params.id)])
     }

@@ -29,4 +29,8 @@ class SchemaService {
         return updatedSchema
     }
 
+    void deleteSchema(Schema schema){
+        schema.delete(flush: true)
+    }
+
 }

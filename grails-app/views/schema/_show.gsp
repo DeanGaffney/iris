@@ -26,7 +26,12 @@
             </div>
         </div>
     </div>
-    <button id="edit-schema-btn" type="button" class="btn btn-primary" href="${createLink(controller: 'schema', action: 'edit')}">Edit</button>
+    <div class="row">
+        <button id="edit-schema-btn" type="button" class="btn btn-primary" href="${createLink(controller: 'schema', action: 'edit')}">Edit</button>
+        <g:link action="delete" params="${[id: schema.id]}">
+            <button id="delete-schema-btn" type="button" class="btn btn-primary">Delete</button>
+        </g:link>
+    </div>
 </div>
 
 <g:javascript>
@@ -34,4 +39,9 @@
         const URL = $(this).attr('href');
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");
     });
+
+    %{--$("#delete-schema-btn").on("click", function(){--}%
+        %{--const URL = $(this).attr('href');--}%
+        %{--updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");--}%
+    %{--});--}%
 </g:javascript>
