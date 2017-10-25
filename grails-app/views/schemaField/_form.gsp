@@ -7,15 +7,7 @@
         </div>
         <label class="col-2 col-form-label">Field Type</label>
         <div class="col-6">
-            <select class="form-control schema-field-type" type="text" value="">
-                <option value="int">int</option>
-                <option value="long">long</option>
-                <option value="double">double</option>
-                <option value="float">float</option>
-                <option value="boolean">boolean</option>
-                <option value="String">String</option>
-                <option value="Double">Date</option>
-            </select>
+            <g:select name="schema-field-select" from="${fieldTypes}" class="form-control schema-field-type" type="text" value="" />
         </div>
     </div>
 </div>

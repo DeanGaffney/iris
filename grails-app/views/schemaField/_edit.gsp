@@ -7,8 +7,8 @@
         </div>
         <label class="col-2 col-form-label">Field Type</label>
         <div class="col-6">
-            <select class="form-control schema-field-type" type="text" value="${schemaField.fieldType}">
-                <option value="int">int</option>
+            <select class="form-control schema-field-type" type="text" selected="${schemaField.fieldType}" value="${schemaField.fieldType}">
+                <option value="integer">integer</option>
                 <option value="long">long</option>
                 <option value="double">double</option>
                 <option value="float">float</option>

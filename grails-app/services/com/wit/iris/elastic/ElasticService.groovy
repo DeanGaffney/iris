@@ -4,6 +4,7 @@ import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
+import groovy.json.JsonOutput
 
 @Transactional
 class ElasticService {
@@ -15,52 +16,36 @@ class ElasticService {
 
     /**
      * Creates an Elasticsearch index
-     * @param schema
+     * @param schema - the schema to create the index for
      */
     void createIndex(Schema schema){
         //create index and mapping at the same time in one call
         resp = rest.put("$endpoint/$schema.esIndex"){
             contentType "application/json"
-            json createMapping()
+            json createMapping(schema)
         }
-
+        println("Status code : $resp.statusCodeValue")
+        println("Json response: ${resp.json.toString()}")
         //TODO see if the status is ok from elasticsearch, or else throw an exception
     }
 
     /**
-     * Creates a mapping for schema, json format is specified below
-     * PUT indexName
-     {
-        "mappings": {
-            "schema": {
-                "properties": {
-                    "name": {
-                        "type": "text"
-                    },
-                    "fieldType":{
-                        "type" : "text"
-                    }
-                }
-            }
-        }
-     }
+     * Creates a mapping for schema
+     * @return json formatted string representing the mapping for the schema
      */
-    String createMapping(){
-        return "{\n" +
-                "        \"mappings\": {\n" +
-                "            \"schema\": {\n" +
-                "                \"properties\": {\n" +
-                "                    \"name\": {\n" +
-                "                        \"type\": \"text\"\n" +
-                "                    },\n" +
-                "                    \"fieldType\":{\n" +
-                "                        \"type\" : \"text\"\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            }\n" +
-                "        }\n" +
-                "     }"
+    String createMapping(Schema schema){
+        Map mapping = ["mappings" : ["schema" : ["properties" : [:]]]]
+        Map properties = [:]
+        schema.schemaFields.each{
+            //strings are now type 'text' in Elasticsearch
+            String fieldType = it.fieldType == "String" ? "keyword" :  it.fieldType
+            properties += [(it.name) : ["type": fieldType]]
+        }
+        mapping.mappings.schema.properties = properties
+        return JsonOutput.toJson(mapping)
     }
+
+
 
     /**
      * Deletes a schemas elasticsearch index
@@ -68,6 +53,8 @@ class ElasticService {
      */
     void deleteIndex(Schema schema){
         resp = rest.delete("$endpoint/$schema.esIndex")
+        println("Status code : $resp.statusCodeValue")
+        println("Json response: ${resp.json.toString()}")
     }
 
     /**

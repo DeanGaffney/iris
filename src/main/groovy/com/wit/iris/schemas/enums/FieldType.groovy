@@ -4,7 +4,7 @@ package com.wit.iris.schemas.enums
  */
 
 enum FieldType {
-    INT("int"),
+    INT("integer"),
     LONG("long"),
     DOUBLE("double"),
     FLOAT("float"),
