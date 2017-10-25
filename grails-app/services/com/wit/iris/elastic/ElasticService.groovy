@@ -45,14 +45,19 @@ class ElasticService {
         return JsonOutput.toJson(mapping)
     }
 
-
+    String updateMapping(String esIndex, List legacyFields, List updatedFields){
+        //compare the legacy and new lists
+        //grab the new items
+        //update the mapping with only the new fields
+        
+    }
 
     /**
      * Deletes a schemas elasticsearch index
      * @param schema, the schemas index to delete
      */
-    void deleteIndex(Schema schema){
-        resp = rest.delete("$endpoint/$schema.esIndex")
+    void deleteIndex(String esIndex){
+        resp = rest.delete("$endpoint/$esIndex")
         println("Status code : $resp.statusCodeValue")
         println("Json response: ${resp.json.toString()}")
     }

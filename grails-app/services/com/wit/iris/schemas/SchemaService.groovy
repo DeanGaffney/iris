@@ -18,8 +18,9 @@ class SchemaService {
         schema.user = springSecurityService.getCurrentUser()
         if(!(schema.validate() && schema.save(flush: true))){
             println(schema.errors)
+        }else{
+            elasticService.createIndex(schema)     //create elastic search index and mapping
         }
-        elasticService.createIndex(schema)     //create elastic search index and mapping
         return schema
     }
 
@@ -31,8 +32,12 @@ class SchemaService {
     Schema updateSchema(Schema schema){
         Schema updatedSchema = Schema.findByName(schema.name)
         updatedSchema.properties = schema.properties
+
         if(!(updatedSchema.validate() && updatedSchema.save(flush: true))){
             println(updatedSchema.errors)
+        }else{
+            //update the mapping
+            elasticService.updateMapping(schema.esIndex, )
         }
         return updatedSchema
     }
@@ -42,9 +47,11 @@ class SchemaService {
      * @param schema, the schema to delete
      */
     void deleteSchema(Schema schema){
-        elasticService.deleteIndex(schema)      //delete the elasticsearch index
+        String esIndexName = schema.esIndex
         if(!schema.delete(flush: true)){
             println(schema.errors)
+        }else{
+            elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
         }
     }
 
