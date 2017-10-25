@@ -54,7 +54,7 @@ class SchemaService {
      * @param schema, the schema to delete
      */
     void deleteSchema(Schema schema){
-        String esIndexName = schema.esIndex
+        String esIndexName = schema.esIndex     //when I add an if statement to see if it has been deleted it doesnt work as expected //TODO look into this
         schema.delete(flush: true)
         elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
     }
