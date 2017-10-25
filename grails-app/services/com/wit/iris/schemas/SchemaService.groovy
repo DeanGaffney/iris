@@ -55,12 +55,8 @@ class SchemaService {
      */
     void deleteSchema(Schema schema){
         String esIndexName = schema.esIndex
-        if(!schema.delete(flush: true)){
-            println(schema.errors)
-        }else{
-            println("should have deleted index")
-            elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
-        }
+        schema.delete(flush: true)
+        elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
     }
 
 }
