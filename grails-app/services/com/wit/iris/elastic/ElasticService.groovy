@@ -14,7 +14,7 @@ class ElasticService {
     RestResponse resp
 
     /**
-     * Creates an Elasticsearch inde
+     * Creates an Elasticsearch index
      * @param schema
      */
     void createIndex(Schema schema){
