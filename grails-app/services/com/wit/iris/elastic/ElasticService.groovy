@@ -1,6 +1,7 @@
 package com.wit.iris.elastic
 
 import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.SchemaField
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
@@ -13,6 +14,8 @@ class ElasticService {
 
     RestBuilder rest = new RestBuilder()
     RestResponse resp
+
+    final String ES_INDEX_TYPE = "schema"
 
     /**
      * Creates an Elasticsearch index
@@ -37,19 +40,43 @@ class ElasticService {
         Map mapping = ["mappings" : ["schema" : ["properties" : [:]]]]
         Map properties = [:]
         schema.schemaFields.each{
-            //strings are now type 'text' in Elasticsearch
-            String fieldType = it.fieldType == "String" ? "keyword" :  it.fieldType
-            properties += [(it.name) : ["type": fieldType]]
+            properties += [(it.name) : ["type": convertDataType(it.fieldType)]]
         }
         mapping.mappings.schema.properties = properties
         return JsonOutput.toJson(mapping)
     }
 
-    String updateMapping(String esIndex, List legacyFields, List updatedFields){
-        //compare the legacy and new lists
-        //grab the new items
-        //update the mapping with only the new fields
-        
+    /**
+     * Updates an Elasticsearch mapping with new fields
+     * @param esIndex - the name of the index to update the mapping for
+     * @param legacyFields - the previous Schema versions SchemaFields
+     * @param updatedFields - the updated Schema versions SchemaFields
+     */
+    void updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
+        List<SchemaField> difference = updatedFields - legacyFields     // the remainder will be the new schema fields added by the user
+        println(difference)
+        if(!difference.isEmpty()){
+            Map mapping = ["properties" : [:]]
+            difference.each{
+                mapping.properties += [(it.name) : ["type" : convertDataType(it.fieldType)]]
+            }
+            resp = rest.put("$endpoint/$esIndex/_mapping/$ES_INDEX_TYPE"){
+                contentType "application/json"
+                json JsonOutput.toJson(mapping)
+            }
+            println("Status code : $resp.statusCodeValue")
+            println("Json response: ${resp.json.toString()}")
+        }
+    }
+
+    /**
+     * Converts data type inputted by user to the correct elastic search data type
+     * if the field type is a String, it is replaced with keyword due to Elasticsearch needing keyword for aggregations
+     * @param fieldType - the fieldType selected by the user
+     * @return The fieldType to be used for the Elasticsearch mapping
+     */
+    String convertDataType(String fieldType){
+        return fieldType == "String" ? "keyword" : fieldType
     }
 
     /**

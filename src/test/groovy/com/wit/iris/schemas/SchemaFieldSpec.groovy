@@ -127,4 +127,16 @@ class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaFiel
         !schemaField.validate()
     }
 
+
+    void "test comparable with list"(){
+        when: "I create a list of SchemaFields"
+        List<SchemaField> schemaFields1 = [new SchemaField(name: "readSpeed", fieldType: FieldType.INT.getValue())]
+
+        and: "I create a new list of schema fields"
+        List<SchemaField> schemaFields2 = [new SchemaField(name: "readSpeed", fieldType: FieldType.INT.getValue()), new SchemaField(name: "flushSpeed", fieldType: FieldType.INT.getValue())]
+
+        then: "I can get the difference of the list with subtraction"
+        assert [new SchemaField(name: "flushSpeed", fieldType: FieldType.INT.getValue())] == schemaFields2 - schemaFields1
+
+    }
 }

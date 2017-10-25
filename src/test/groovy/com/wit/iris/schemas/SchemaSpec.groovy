@@ -178,4 +178,5 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         then: "It is not valid"
         !schema.validate()
     }
+
 }

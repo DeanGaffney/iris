@@ -30,16 +30,23 @@ class SchemaService {
      * @return The updated version of the schema
      */
     Schema updateSchema(Schema schema){
-        Schema updatedSchema = Schema.findByName(schema.name)
-        updatedSchema.properties = schema.properties
+        Schema legacySchema = Schema.findByName(schema.name)
+        //get list before clearing
+        List<SchemaField> legacyFields = legacySchema.schemaFields.toList()
+        List<SchemaField> updatedFields = schema.schemaFields.toList()
 
-        if(!(updatedSchema.validate() && updatedSchema.save(flush: true))){
-            println(updatedSchema.errors)
+        //clear fields and new updated fields
+        legacySchema.schemaFields.clear()
+        schema.schemaFields.each{legacySchema.addToSchemaFields(it)}
+
+
+        if(!(legacySchema.validate() && legacySchema.save(flush: true))){
+            println(legacySchema.errors)
         }else{
             //update the mapping
-            elasticService.updateMapping(schema.esIndex, )
+            elasticService.updateMapping(legacySchema.esIndex, legacyFields, updatedFields)
         }
-        return updatedSchema
+        return legacySchema
     }
 
     /**
@@ -51,6 +58,7 @@ class SchemaService {
         if(!schema.delete(flush: true)){
             println(schema.errors)
         }else{
+            println("should have deleted index")
             elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
         }
     }
