@@ -10,10 +10,9 @@ import groovy.json.JsonOutput
 @Transactional
 class ElasticService {
 
-    final String endpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
+    def restService
 
-    RestBuilder rest = new RestBuilder()
-    RestResponse resp
+    final String endpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
 
     final String ES_INDEX_TYPE = "schema"
 
@@ -22,14 +21,10 @@ class ElasticService {
      * @param schema - the schema to create the index for
      */
     void createIndex(Schema schema){
-        //create index and mapping at the same time in one call
-        resp = rest.put("$endpoint/$schema.esIndex"){
-            contentType "application/json"
-            json createMapping(schema)
+        int status = restService.put("$endpoint/$schema.esIndex", createMapping(schema))
+        if(status != 200){
+            //TODO see if the status is ok from elasticsearch, or else throw an exception
         }
-        println("Status code : $resp.statusCodeValue")
-        println("Json response: ${resp.json.toString()}")
-        //TODO see if the status is ok from elasticsearch, or else throw an exception
     }
 
     /**
@@ -60,12 +55,10 @@ class ElasticService {
             difference.each{
                 mapping.properties += [(it.name) : ["type" : convertDataType(it.fieldType)]]
             }
-            resp = rest.put("$endpoint/$esIndex/_mapping/$ES_INDEX_TYPE"){
-                contentType "application/json"
-                json JsonOutput.toJson(mapping)
+            int status = restService.put("$endpoint/$esIndex/_mapping/$ES_INDEX_TYPE", JsonOutput.toJson(mapping))
+            if(status != 200){
+                //TODO see if the status is ok from elasticsearch, or else throw an exception
             }
-            println("Status code : $resp.statusCodeValue")
-            println("Json response: ${resp.json.toString()}")
         }
     }
 
@@ -84,9 +77,10 @@ class ElasticService {
      * @param schema, the schemas index to delete
      */
     void deleteIndex(String esIndex){
-        resp = rest.delete("$endpoint/$esIndex")
-        println("Status code : $resp.statusCodeValue")
-        println("Json response: ${resp.json.toString()}")
+        int status = restService.delete("$endpoint/$esIndex")
+        if(status != 200){
+            //TODO handle error
+        }
     }
 
     /**
