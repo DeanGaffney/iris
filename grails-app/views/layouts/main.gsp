@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <title>
         <g:layoutTitle default="Grails"/>
     </title>
@@ -15,38 +16,12 @@
 </head>
 <body>
 
-<div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/#">
-                <i class="fa grails-icon">
-                    <asset:image src="grails-cupsonly-logo-white.svg"/>
-                </i> Grails
-            </a>
-        </div>
-        <div class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
-            <ul class="nav navbar-nav navbar-right">
-                <g:pageProperty name="page.nav" />
-            </ul>
-        </div>
-    </div>
-</div>
+<nav class="navbar py-0 py-md-0 py-lg-0 ">
+    <img class="img-fluid" src="${assetPath(src: 'iris/iris_logo_white.png')}">
+</nav>
 
 <div id="flash-message"></div>
 <g:layoutBody/>
-
-<div class="footer" role="contentinfo"></div>
-
-<div id="spinner" class="spinner" style="display:none;">
-    <g:message code="spinner.alt" default="Loading&hellip;"/>
-</div>
-
 
 </body>
 </html>

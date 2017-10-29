@@ -1,0 +1,141 @@
+$font-stack: Montserrat, sans-serif;
+$primary-color: #af4bff;
+$background-color: #262626;
+$darker-bg-color: #212121;
+$text-color: #fff;
+$letter-spacing: 5px;
+
+//================================
+//           BUTTONS
+//================================
+.btn, .btn:focus, .btn:active{
+  background-color: $primary-color !important;
+  outline-color: $primary-color !important;
+  color: $text-color;
+  border-radius: 25px;
+  width: 15%;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+//================================
+//           NAVBAR
+//================================
+nav, .navbar-brand{
+  color: $text-color;
+  background-color: $primary-color;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+nav > img{
+  width: 10%;
+  height: 3%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}
+
+//================================
+//           JUMBOTRON
+//================================
+
+.jumbotron-fluid{
+  background-color: $background-color;
+  color: $text-color;
+}
+
+.jumbotron-fluid > .container-fluid > img{
+  width: 20%;
+  height: 10%;
+}
+
+.display-3{
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+.jumbotron-fluid > *{
+  padding-left: 10%;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+//================================
+//           BODY
+//================================
+body{
+  background-color: $background-color;
+  color : $text-color;
+}
+
+//================================
+//           SCHEMAS LIST
+//================================
+$schema-list-padding: percentage(0.03);
+
+#schemas-wrapper{
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+}
+
+#schema-list-header{
+  background-color: $primary-color;
+  color: $text-color;
+  font-family: $font-stack;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: $schema-list-padding;
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin-bottom: 2%;
+  letter-spacing: $letter-spacing;
+}
+
+.schema-row{
+  background-color: $darker-bg-color;
+  color: $text-color;
+  padding-top: $schema-list-padding;
+  padding-bottom: $schema-list-padding;
+  padding-left: $schema-list-padding;
+  border-top: 0;
+  border-bottom: solid;
+  border-bottom-color: $primary-color;
+  border-bottom-width: thin;
+  margin-bottom: 2%;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+.schema-li-name{
+  font-family: $font-stack;
+  font-weight: normal;
+  color: $text-color;
+}
+
+.schema-li-num{
+  font-family: $font-stack;
+  font-weight: bolder;
+  color: $primary-color;
+  text-transform: uppercase;
+}
+
+//================================
+//           LAYOUT UTILS
+//================================
+.tab{
+  margin-right: 1%;
+}
+
+
+

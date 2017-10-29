@@ -15,8 +15,8 @@
              <g:render template="/schemaField/edit" collection="${schema?.schemaFields}"/>
         </div>
     </div>
-    <button type="button" id="add-schema-field-btn" class="btn btn-primary" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
-    <button type="button" id="update-schema-btn" class="btn btn-primary" href="${createLink(controller: 'schema', action: 'update')}">Update</button>
+    <button type="button" id="add-schema-field-btn" class="btn" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
+    <button type="button" id="update-schema-btn" class="btn" href="${createLink(controller: 'schema', action: 'update')}">Update</button>
 </div>
 <g:javascript>
 

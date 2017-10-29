@@ -7,6 +7,11 @@ class SchemaController {
 
     def schemaService
 
+    def index(){
+        List<Schema> schemas = Schema.list()
+        render(view: "index", model:[schemas: schemas])
+    }
+
     def create(){
         render(template: "create")
     }

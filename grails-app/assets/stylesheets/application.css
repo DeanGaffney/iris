@@ -12,4 +12,6 @@
 *= require main
 *= require mobile
 *= require_self
+*= iris.scss
+
 */

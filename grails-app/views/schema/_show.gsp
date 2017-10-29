@@ -1,6 +1,6 @@
 <div id="show-schema-container">
     ${schema.name}
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="schema-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="card" style="width: 20rem;">
@@ -27,9 +27,9 @@
         </div>
     </div>
     <div class="row">
-        <button id="edit-schema-btn" type="button" class="btn btn-primary" href="${createLink(controller: 'schema', action: 'edit')}">Edit</button>
+        <button id="edit-schema-btn" type="button" class="btn" href="${createLink(controller: 'schema', action: 'edit')}">Edit</button>
         <g:link action="delete" params="${[id: schema.id]}">
-            <button id="delete-schema-btn" type="button" class="btn btn-primary">Delete</button>
+            <button id="delete-schema-btn" type="button" class="btn">Delete</button>
         </g:link>
     </div>
 </div>
@@ -40,8 +40,8 @@
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");
     });
 
-    %{--$("#delete-schema-btn").on("click", function(){--}%
-        %{--const URL = $(this).attr('href');--}%
-        %{--updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");--}%
-    %{--});--}%
+    $("#schema-modal").modal({
+       show: true,
+       backdrop: true
+    });
 </g:javascript>
