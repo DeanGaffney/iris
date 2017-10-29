@@ -2,16 +2,17 @@ $font-stack: Montserrat, sans-serif;
 $primary-color: #af4bff;
 $background-color: #262626;
 $darker-bg-color: #212121;
-$text-color: #fff;
+$secondary-color: #fff;
 $letter-spacing: 5px;
+$hover-color: #ca73ff;
 
 //================================
 //           BUTTONS
 //================================
-.btn, .btn:focus, .btn:active{
-  background-color: $primary-color !important;
-  outline-color: $primary-color !important;
-  color: $text-color;
+.btn{
+  background-color: $primary-color;
+  outline-color: $primary-color;
+  color: $secondary-color;
   border-radius: 25px;
   width: 15%;
   text-align: center;
@@ -21,11 +22,16 @@ $letter-spacing: 5px;
   letter-spacing: $letter-spacing;
 }
 
+.btn:hover{
+  background-color: $hover-color;
+  outline-color: $hover-color;
+}
+
 //================================
 //           NAVBAR
 //================================
 nav, .navbar-brand{
-  color: $text-color;
+  color: $secondary-color;
   background-color: $primary-color;
   text-transform: uppercase;
   font-family: $font-stack;
@@ -46,7 +52,7 @@ nav > img{
 
 .jumbotron-fluid{
   background-color: $background-color;
-  color: $text-color;
+  color: $secondary-color;
 }
 
 .jumbotron-fluid > .container-fluid > img{
@@ -74,7 +80,7 @@ nav > img{
 //================================
 body{
   background-color: $background-color;
-  color : $text-color;
+  color : $secondary-color;
 }
 
 //================================
@@ -90,7 +96,7 @@ $schema-list-padding: percentage(0.03);
 
 #schema-list-header{
   background-color: $primary-color;
-  color: $text-color;
+  color: $secondary-color;
   font-family: $font-stack;
   padding-top: 1%;
   padding-bottom: 1%;
@@ -103,7 +109,7 @@ $schema-list-padding: percentage(0.03);
 
 .schema-row{
   background-color: $darker-bg-color;
-  color: $text-color;
+  color: $secondary-color;
   padding-top: $schema-list-padding;
   padding-bottom: $schema-list-padding;
   padding-left: $schema-list-padding;
@@ -120,7 +126,7 @@ $schema-list-padding: percentage(0.03);
 .schema-li-name{
   font-family: $font-stack;
   font-weight: normal;
-  color: $text-color;
+  color: $secondary-color;
 }
 
 .schema-li-num{
@@ -136,6 +142,40 @@ $schema-list-padding: percentage(0.03);
 .tab{
   margin-right: 1%;
 }
+
+//================================
+//           FOOTER
+//================================
+#iris-footer{
+  background-color: $secondary-color;
+  color: $darker-bg-color;
+  padding-left: 10%;
+  padding-top: 4%;
+  padding-bottom: 4%;
+}
+
+#iris-footer .col-4 {
+  border-left: 1px;
+  border-left-style: solid;
+  border-left-color: $primary-color;
+}
+
+.footer-header{
+  color: $primary-color;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+  padding-left: 5.5%;
+}
+
+#iris-footer .list-group > .list-group-item{
+  border-color: transparent;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: $darker-bg-color;
+  font-family: $font-stack;
+}
+
 
 
 
