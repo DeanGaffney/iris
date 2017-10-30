@@ -3,16 +3,12 @@ package com.wit.iris.elastic
 import com.wit.iris.schemas.Schema
 import com.wit.iris.schemas.SchemaField
 import grails.gorm.transactions.Transactional
-import grails.plugins.rest.client.RestBuilder
-import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
 
 @Transactional
 class ElasticService {
 
     def restService
-
-    final String endpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
 
     final String ES_INDEX_TYPE = "schema"
 
@@ -21,7 +17,7 @@ class ElasticService {
      * @param schema - the schema to create the index for
      */
     void createIndex(Schema schema){
-        int status = restService.put("$endpoint/$schema.esIndex", createMapping(schema))
+        int status = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
         if(status != 200){
             //TODO see if the status is ok from elasticsearch, or else throw an exception
         }
@@ -49,16 +45,22 @@ class ElasticService {
      */
     void updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
         List<SchemaField> difference = updatedFields - legacyFields     // the remainder will be the new schema fields added by the user
-        println(difference)
         if(!difference.isEmpty()){
             Map mapping = ["properties" : [:]]
             difference.each{
                 mapping.properties += [(it.name) : ["type" : convertDataType(it.fieldType)]]
             }
-            int status = restService.put("$endpoint/$esIndex/_mapping/$ES_INDEX_TYPE", JsonOutput.toJson(mapping))
+            int status = restService.put("${getElasticEndpointUrl()}/$esIndex/_mapping/$ES_INDEX_TYPE", mapping)
             if(status != 200){
                 //TODO see if the status is ok from elasticsearch, or else throw an exception
             }
+        }
+    }
+
+    void insert(String esIndex, Map data){
+       int status = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
+        if(status != 200){
+            //TODO throw exception
         }
     }
 
@@ -77,7 +79,7 @@ class ElasticService {
      * @param schema, the schemas index to delete
      */
     void deleteIndex(String esIndex){
-        int status = restService.delete("$endpoint/$esIndex")
+        int status = restService.delete("${getElasticEndpointUrl()}/$esIndex")
         if(status != 200){
             //TODO handle error
         }
@@ -90,5 +92,15 @@ class ElasticService {
      */
     String getIndexFromName(String schemaName){
         return schemaName.toLowerCase().replaceAll(" ", "_")
+    }
+
+    /**
+     * Gets the Active Elasticsearch url endpoint
+     * @return Elasticsearch endpoint url
+     */
+    String getElasticEndpointUrl(){
+        String url = ElasticEndpoint.findByActive(true).url
+        //remove a trailing slash if present
+        return (url.endsWith("/")) ? url.substring(0, url.length() - 1) : url
     }
 }

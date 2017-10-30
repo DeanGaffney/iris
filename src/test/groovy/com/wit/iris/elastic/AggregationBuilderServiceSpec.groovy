@@ -11,8 +11,4 @@ class AggregationBuilderServiceSpec extends Specification implements ServiceUnit
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }
