@@ -16,7 +16,7 @@ class AggregationBuilderService {
      * {@link #buildAggregation(ArrayList<com.wit.iris.elastic.aggregations.AggregationObject>) buildAggregation} method.
      * @return nextAggregation, which now contains the currentAggregation aggregation map within it's own map (nested)
      */
-    AggregationObject nestAggregation(AggregationObject currentAggregation, AggregationObject nextAggregation){
+    private AggregationObject nestAggregation(AggregationObject currentAggregation, AggregationObject nextAggregation){
         //nextAgg agg map should nest the current aggregation inside itself
         Map nestedMap = nextAggregation.aggMap["aggregations"][nextAggregation.name] + currentAggregation.aggMap
         //get correct ordering for the map
@@ -35,7 +35,7 @@ class AggregationBuilderService {
      * {@link #buildAggregation(ArrayList<com.wit.iris.elastic.aggregations.AggregationObject>) buildAggregation} method.
      * @return nestMap, the original nestedMap with the correct order statement
      */
-    Map getEmbeddedOrderMap(AggregationObject currentAggregation, AggregationObject nextAggregation, Map nestedMap){
+    private Map getEmbeddedOrderMap(AggregationObject currentAggregation, AggregationObject nextAggregation, Map nestedMap){
         //if the order exists in this map
         if(nestedMap[nextAggregation.aggType.type]["order"]){
             String key,value
@@ -67,7 +67,7 @@ class AggregationBuilderService {
      * {@link #buildAggregation(ArrayList<com.wit.iris.elastic.aggregations.AggregationObject>) buildAggregation} method.
      * @return an aggregation object with an aggregtionMap containing the full ES aggregation
      */
-    AggregationObject getAggregation(ArrayList<AggregationObject> aggregations){
+    AggregationObject getAggregation(List<AggregationObject> aggregations){
         //if list size is 1 just return that, else return result from builtAggregation()
         AggregationObject agg = (aggregations.size() == 1) ? aggregations[0] : buildAggregation(aggregations)
         //add this to map to avoid sending back documents,we only want results
@@ -84,7 +84,7 @@ class AggregationBuilderService {
      * @param aggregations, a list of com.wit.iris.elastic.aggregations.AggregationObject objects
      * @return agg, com.wit.iris.elastic.aggregations.AggregationObject object containing the full com.wit.iris.elastic.aggregations.AggregationObject query as it's aggMap
      */
-    AggregationObject buildAggregation(ArrayList<AggregationObject> aggregations){
+    private AggregationObject buildAggregation(List<AggregationObject> aggregations){
         AggregationObject agg
         for (int i = aggregations.size() - 1; i >=1; i--) {
             agg = aggregations[i-1] = nestAggregation(aggregations[i],aggregations[i-1])
