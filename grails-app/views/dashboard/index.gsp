@@ -4,7 +4,6 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'dashboard.label', default: 'Dashboard')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
-        <asset:javascript src="jquery/jquery-ui.min.js"/>
         <asset:javascript src="lodash/lodash.min.js"/>
         <asset:javascript src="gridstack/gridstack.js"/>
         <asset:javascript src="gridstack/gridstack.jQueryUI.js"/>

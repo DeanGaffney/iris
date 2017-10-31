@@ -51,7 +51,7 @@ class AggregationBuilderServiceSpec extends Specification {
     void "test aggregation builder with 2 aggregations"(){
         when: "I get an aggregation from the builder service"
         AggregationObject agg = aggregationBuilderService.getAggregation(aggs.subList(0, 2))
-
+        println agg.prettyPrint()
         then: "The aggregation map will look like the following"
         agg.toString() == '{"aggregations":{"agg1":{"avg":{"field":"grade"},"aggregations":{"agg3":{"sum":{"field":"score"}}}}},"size":0}'
     }
