@@ -14,5 +14,6 @@
 *= require mobile
 *= require_self
 *= iris.scss
+*= gridstack/gridstack.scss
 
 */
