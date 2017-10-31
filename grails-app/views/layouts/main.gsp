@@ -15,9 +15,21 @@
     <g:layoutHead/>
 </head>
 <body>
-
-<nav class="navbar py-0 py-md-0 py-lg-0 ">
-    <img class="img-fluid" src="${assetPath(src: 'iris/iris_logo_white.png')}">
+%{--NAVBAR--}%
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+            </li>
+            <li class="nav-item">
+                <a href="${createLink(controller:'schema', action:'index')}">Schemas</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <div id="flash-message"></div>

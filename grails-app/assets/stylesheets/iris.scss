@@ -30,21 +30,21 @@ $hover-color: #ca73ff;
 //================================
 //           NAVBAR
 //================================
-nav, .navbar-brand{
-  color: $secondary-color;
+nav.navbar{
+  color: $secondary-color !important;
   background-color: $primary-color;
   text-transform: uppercase;
   font-family: $font-stack;
   font-weight: bolder;
   letter-spacing: $letter-spacing;
 }
-
-nav > img{
-  width: 10%;
-  height: 3%;
-  padding-bottom: 1%;
-  padding-top: 1%;
+.nav-item:hover{
+  color: $darker-bg-color;
 }
+//================================
+//           SIDEBAR
+//================================
+
 
 //================================
 //           JUMBOTRON
