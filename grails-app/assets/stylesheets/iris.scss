@@ -14,7 +14,7 @@ $hover-color: #ca73ff;
   outline-color: $primary-color;
   color: $secondary-color;
   border-radius: 25px;
-  width: 15%;
+  //width: 15%;
   text-align: center;
   text-transform: uppercase;
   font-family: $font-stack;
@@ -45,6 +45,12 @@ nav.navbar{
 //           SIDEBAR
 //================================
 
+//================================
+//           SCHEMA CARD
+//================================
+.schema-form > .card{
+  background-color: $darker-bg-color;
+}
 
 //================================
 //           JUMBOTRON

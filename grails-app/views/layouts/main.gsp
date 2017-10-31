@@ -34,7 +34,7 @@
 
 <div id="flash-message"></div>
 <g:layoutBody/>
-<footer id="iris-footer">
+<footer class="mt-2" id="iris-footer">
     <div class="row">
         <div class="col-4">
             <h1 class="footer-header">Dev Info</h1>
