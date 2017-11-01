@@ -6,15 +6,20 @@ class AggregationController {
 
     static scaffold = Aggregation
 
+    def aggregationService
+
     def create(){
         List schemas = Schema.list()
         render(template: "create", model: [schemas : schemas])
     }
 
-    def getAvgTemplate(){
+    def getMetricTemplate(){
+        //grab the selected schema
         Schema schema = Schema.get(request.JSON.schemaId)
-        List schemaFields = schema.schemaFields.findAll{it.fieldType != "String" && it.fieldType != "boolean" && it.fieldType != "Date"} as List
-        render(template: "/aggregation/metric/avg", model:[schemaFields: schemaFields*.name])
+        String aggType = request.JSON.aggType as String
+        String template = aggregationService.getMetricTemplate(aggType)
+        List schemaFields = aggregationService.getMetricFields(schema)
+        render(template: template, model:[schemaFields: schemaFields*.name, hiddenValue: aggType])
     }
 
 }

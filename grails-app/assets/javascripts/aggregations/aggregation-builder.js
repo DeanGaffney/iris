@@ -1,7 +1,8 @@
 /**
  * Created by dean on 31/10/17.
  */
-var aggregation;
+var aggregation;       // the root aggregation object
+var aggCounter = 1;
 
 //==================================
 //      AGGREGATION BUILDING
@@ -15,7 +16,10 @@ var aggregations = [];
  * @constructor
  */
 function AggregationObj(aggType){
-    this.aggs = aggType;
+    this.name = "aggs_" + aggCounter;
+    this.aggs = {
+        [this.name] : aggType
+    }
 }
 
 /**
@@ -61,10 +65,61 @@ var AGG_TYPES = {
  * adds extra attributes to an aggregation object
  * @param type
  */
-function addAttributes(type){
-    if(type == AGG_TYPES.Metric.avg){
+function addAttributes(aggType){
+    if(isCommonMetric(aggType)){
         //check for missing value
         var missing = $("#agg-template-container").find("#metric-missing-input").val();
-        console.log(missing);
+        if(missing.length > 0){
+            aggType[Object.keys(aggType)[0]].missing = missing;
+        }
     }
+    return aggType;
+}
+
+function isCommonMetric(aggType){
+    return aggType.hasOwnProperty(AGG_TYPES.Metric.avg)             ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.cardinality)     ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.extended_stats)  ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.max)             ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.min)             ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.stats)           ||
+           aggType.hasOwnProperty(AGG_TYPES.Metric.sum)
+}
+
+/**
+ * Adds an aggregation object to the aggregations list
+ */
+function addAggregation(){
+    //create an aggregation object based off the type
+    var templateContainer = $("#agg-template-container");
+    var aggType = new AggregationType(templateContainer.find("#hidden-input").val(),
+        templateContainer.find("#agg-field-select").val());   //create agg type from inputs
+    aggType = addAttributes(aggType);       //add any extra attributes
+    var agg = new AggregationObj(aggType);  //wrap the type in an agg object
+    aggregations.push(agg);                 //add this to the array
+    $("#aggs-list").append("<div id='row'><div class='col-6' id='agg-item'>" + JSON.stringify(agg) + "</div></div>");
+    $("#agg-template-container").empty();       //clear out template container
+    aggCounter++;
+}
+
+function buildAggregation(){
+    var agg;
+    for (var i = aggregations.length - 1; i >= 1; i--) {
+        aggregations[i-1] = nestAggregations(aggregations[i],aggregations[i-1]);
+        agg = aggregations[i-1];
+    }
+    return agg
+}
+
+function getRootAggregation(){
+    //if list size is 1 just return that, else return result from builtAggregation()
+    var agg = (aggregations.length == 1) ? aggregations[0] : buildAggregation(aggregations);
+    //add this to map to avoid sending back documents,we only want results
+    agg.aggs["size"] = 0;
+    return agg;
+}
+
+function nestAggregations(nextAggregation, currentAggregation){
+    currentAggregation.aggs[currentAggregation.name]["aggs"] = nextAggregation.aggs;
+    return currentAggregation;
 }
