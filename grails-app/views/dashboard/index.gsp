@@ -62,6 +62,21 @@
                     }
                 });
 
+                grid.resize(
+                        $('.grid-stack-item')[0],
+                        $($('.grid-stack-item')[0]).attr('data-gs-width'),
+                        Math.ceil(($('.grid-stack-item-content')[0].scrollHeight + $('.grid-stack').data('gridstack').opts.verticalMargin) / ($('.grid-stack').data('gridstack').cellHeight() + $('.grid-stack').data('gridstack').opts.verticalMargin))
+                );
+
+                setInterval(function() {
+                    chart.load({
+                        columns:[
+                            ["data1",  Math.floor(Math.random() * 20)],
+                            ["data2",  Math.floor(Math.random() * 20)]
+                        ]
+                    });
+                }, 5000);
+
             });
         </g:javascript>
     </body>
