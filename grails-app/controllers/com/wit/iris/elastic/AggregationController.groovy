@@ -22,4 +22,12 @@ class AggregationController {
         render(template: template, model:[schemaFields: schemaFields*.name, hiddenValue: aggType])
     }
 
+    def getBucketTemplate(){
+        Schema schema = Schema.get(request.JSON.schemaId)
+        String aggType = request.JSON.aggType as String
+        String template = aggregationService.getBucketTemplate(aggType)
+        List schemaFields = aggregationService.getBucketFields(schema, aggType)
+        render(template: template, model:[schemaFields: schemaFields*.name, hiddenValue: aggType])
+    }
+
 }

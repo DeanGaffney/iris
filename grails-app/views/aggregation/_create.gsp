@@ -12,6 +12,7 @@
                     <button id="stats-btn" type="button" class="btn" href="${createLink(controller: 'aggregation', action: 'getMetricTemplate')}">Stats</button>
                     <button id="sum-btn" type="button" class="btn" href="${createLink(controller: 'aggregation', action: 'getMetricTemplate')}">Sum</button>
                     <button id="value_count-btn" type="button" class="btn" href="${createLink(controller: 'aggregation', action: 'getMetricTemplate')}">Value Count</button>
+                    <button id="terms-btn" type="button" class="btn" href="${createLink(controller: 'aggregation', action: 'getBucketTemplate')}">Terms</button>
                 </div>
             </div>
         </div>
@@ -44,7 +45,7 @@
     //on click average button
     $("#agg-buttons > button").on("click", function(){
         const URL = $(this).attr("href");
-        var aggType = $(this).attr("id").replace("-btn", "");       //remove btn on id
+        var aggType = $(this).attr("id").replace("-btn", "");       //remove btn on id, used in backend
         updateContainerHtml(URL, REST.method.post, REST.contentType.json,
            {schemaId: aggregation.schemaId, aggType : aggType}, "#agg-template-container");
     });

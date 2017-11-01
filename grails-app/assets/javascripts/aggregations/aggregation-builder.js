@@ -102,24 +102,40 @@ function addAggregation(){
     aggCounter++;
 }
 
+/**
+ * Builds up a single Aggregation by nesting all sub aggregations into a single aggregation
+ * @returns Root aggregation with sub aggregations inside it
+ */
 function buildAggregation(){
     var agg;
     for (var i = aggregations.length - 1; i >= 1; i--) {
-        aggregations[i-1] = nestAggregations(aggregations[i],aggregations[i-1]);
+        aggregations[i-1] = nestAggregations(aggregations[i-1], aggregations[i]);
         agg = aggregations[i-1];
     }
     return agg
 }
 
+/**
+ * Gets the root aggregation for performing queries
+ * @returns Root aggregation
+ */
 function getRootAggregation(){
     //if list size is 1 just return that, else return result from builtAggregation()
     var agg = (aggregations.length == 1) ? aggregations[0] : buildAggregation(aggregations);
     //add this to map to avoid sending back documents,we only want results
     agg.aggs["size"] = 0;
+    //remove name from the agg, not needed for backend
+    delete agg.name;
     return agg;
 }
 
-function nestAggregations(nextAggregation, currentAggregation){
-    currentAggregation.aggs[currentAggregation.name]["aggs"] = nextAggregation.aggs;
+/**
+ * Embeds the sub aggregation inside the current aggregation
+ * @param subAggregation - a sub aggregation to go under the current aggregation
+ * @param currentAggregation - the aggregation to nest the sub aggregation
+ * @returns the current aggregation with the sub aggregation inside it
+ */
+function nestAggregations(currentAggregation, subAggregation){
+    currentAggregation.aggs[currentAggregation.name]["aggs"] = subAggregation.aggs;
     return currentAggregation;
 }
