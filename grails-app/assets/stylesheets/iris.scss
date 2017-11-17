@@ -1,0 +1,196 @@
+$font-stack: Montserrat, sans-serif;
+$primary-color: #af4bff;
+$background-color: #262626;
+$darker-bg-color: #212121;
+$secondary-color: #fff;
+$letter-spacing: 5px;
+$hover-color: #ca73ff;
+
+//================================
+//           BUTTONS
+//================================
+.btn{
+  background-color: $primary-color;
+  outline-color: $primary-color;
+  color: $secondary-color;
+  border-radius: 25px;
+  //width: 15%;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+.btn:hover{
+  background-color: $hover-color;
+  outline-color: $hover-color;
+}
+
+//================================
+//           NAVBAR
+//================================
+nav.navbar{
+  color: $secondary-color !important;
+  background-color: $primary-color;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+.nav-item:hover{
+  color: $darker-bg-color;
+}
+//================================
+//           SIDEBAR
+//================================
+
+//================================
+//           SCHEMA CARD
+//================================
+.schema-form > .card{
+  background-color: $darker-bg-color;
+}
+
+//================================
+//           JUMBOTRON
+//================================
+
+.jumbotron-fluid{
+  background-color: $background-color;
+  color: $secondary-color;
+}
+
+.jumbotron-fluid > .container-fluid > img{
+  width: 20%;
+  height: 10%;
+}
+
+.display-3{
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+.jumbotron-fluid > *{
+  padding-left: 10%;
+  text-transform: uppercase;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+//================================
+//           BODY
+//================================
+body{
+  background-color: $background-color;
+  color : $secondary-color;
+}
+
+//================================
+//           SCHEMAS LIST
+//================================
+$schema-list-padding: percentage(0.03);
+
+#schemas-wrapper{
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+}
+
+#schema-list-header{
+  background-color: $primary-color;
+  color: $secondary-color;
+  font-family: $font-stack;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: $schema-list-padding;
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin-bottom: 2%;
+  letter-spacing: $letter-spacing;
+}
+
+.schema-row{
+  background-color: $darker-bg-color;
+  color: $secondary-color;
+  padding-top: $schema-list-padding;
+  padding-bottom: $schema-list-padding;
+  padding-left: $schema-list-padding;
+  border-top: 0;
+  border-bottom: solid;
+  border-bottom-color: $primary-color;
+  border-bottom-width: thin;
+  margin-bottom: 2%;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+
+.schema-li-name{
+  font-family: $font-stack;
+  font-weight: normal;
+  color: $secondary-color;
+}
+
+.schema-li-num{
+  font-family: $font-stack;
+  font-weight: bolder;
+  color: $primary-color;
+  text-transform: uppercase;
+}
+
+//================================
+//           LAYOUT UTILS
+//================================
+.tab{
+  margin-right: 1%;
+}
+
+//================================
+//           FOOTER
+//================================
+#iris-footer{
+  background-color: $secondary-color;
+  color: $darker-bg-color;
+  padding-left: 10%;
+  padding-top: 4%;
+  padding-bottom: 4%;
+}
+
+#iris-footer .col-4 {
+  border-left: 1px;
+  border-left-style: solid;
+  border-left-color: $primary-color;
+}
+
+.footer-header{
+  color: $primary-color;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+  padding-left: 5.5%;
+}
+
+#iris-footer .list-group > .list-group-item{
+  border-color: transparent;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  color: $darker-bg-color;
+  font-family: $font-stack;
+}
+
+//================================
+//           DASHBOARDS
+//================================
+.chart-container{
+  background-color: pink;
+}
+
+
+
+
+
+

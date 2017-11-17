@@ -11,8 +11,4 @@ class RestServiceSpec extends Specification implements ServiceUnitTest<RestServi
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

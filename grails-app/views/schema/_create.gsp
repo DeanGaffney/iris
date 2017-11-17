@@ -1,20 +1,26 @@
 <div id="create-schema-container">
     <div class="schema-form">
-        <h2>Schema</h2>
-        <div class="form-group">
-            <label class="col-2 col-form-label">Name</label>
-            <div class="col-6">
-                <input class="form-control" id="schema-name" required="" type="text" value="" >
+        <div class="card">
+            <div class="card-block">
+                <h2>Schema</h2>
+                <div class="form-group">
+                    <label class="col-2 col-form-label">Name</label>
+                    <div class="col-6">
+                        <input class="form-control" id="schema-name" required="" type="text" value="" >
+                    </div>
+                    <label class="col-2 col-form-label">Refresh Interval</label>
+                    <div class="col-6">
+                        <input class="form-control" id="schema-refresh" required="" type="number" value="" >
+                    </div>
+                </div>
+                <div id="schema-field-container"></div>
             </div>
-            <label class="col-2 col-form-label">Refresh Interval</label>
-            <div class="col-6">
-                <input class="form-control" id="schema-refresh" required="" type="number" value="" >
-            </div>
+            <footer>
+                <button type="button" id="add-schema-field-btn" class="btn" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
+                <button type="button" id="save-schema-btn" class="btn ml-1" href="${createLink(controller: 'schema', action: 'save')}">Save</button>
+            </footer>
         </div>
-        <div id="schema-field-container"></div>
     </div>
-    <button type="button" id="add-schema-field-btn" class="btn btn-primary" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
-    <button type="button" id="save-schema-btn" class="btn btn-primary" href="${createLink(controller: 'schema', action: 'save')}">Save</button>
 </div>
 <g:javascript>
 

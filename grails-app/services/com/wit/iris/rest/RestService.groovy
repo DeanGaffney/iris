@@ -3,12 +3,28 @@ package com.wit.iris.rest
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
+import groovy.json.JsonOutput
 
 @Transactional
 class RestService {
 
     RestBuilder rest = new RestBuilder()
     RestResponse resp
+
+    /**
+     * REST PUT method, this method converts a map to a json string
+     * @param url - the url to act on
+     * @param jsonData - the json data in Map format to send to the url
+     * @return status code of the response
+     */
+    int put(String url, Map jsonData){
+        resp = rest.put(url){
+            contentType "application/json"
+            json JsonOutput.toJson(jsonData)
+        }
+        logResponse()
+        return resp.statusCodeValue
+    }
 
     /**
      * REST PUT method

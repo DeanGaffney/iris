@@ -8,8 +8,10 @@
 * compiled file, but it's generally better to create a new file per style scope.
 *
 *= require bootstrap/bootstrap.min
+*= require font-awesome/css/font-awesome.min
 *= require grails
 *= require main
 *= require mobile
 *= require_self
+*= require iris.scss
 */

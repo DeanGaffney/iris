@@ -1,11 +1,19 @@
 package com.wit.iris.schemas
 
+import grails.converters.JSON
+
 
 class SchemaController {
 
     static scaffold = Schema
 
     def schemaService
+    def routeService
+
+    def index(){
+        List<Schema> schemas = Schema.list()
+        render(view: "index", model:[schemas: schemas])
+    }
 
     def create(){
         render(template: "create")
@@ -34,5 +42,20 @@ class SchemaController {
 
     def show(){
         render(view: "show", model: [schema: Schema.get(params.id)])
+    }
+
+    /**
+     * Takes in data to transform and routing to elasticsearch
+     */
+    def route(){
+        Map resp = ["status": 200, "message": "data inserted"]
+        Schema schema = Schema.get(request.JSON.schema.id)
+        if(schema == null){
+            resp.status = 500
+            resp.message = "schema with id $request.JSON.schema.id does not exsist"
+        }else{
+            routeService.route(schema, request.JSON)
+        }
+        render resp as JSON
     }
 }
