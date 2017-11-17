@@ -1,9 +1,9 @@
-package com.wit.iris.elastic
+package com.wit.iris.charts
 
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class AggregationServiceSpec extends Specification implements ServiceUnitTest<AggregationService>{
+class ChartServiceSpec extends Specification implements ServiceUnitTest<ChartService>{
 
     def setup() {
     }

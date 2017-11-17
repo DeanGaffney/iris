@@ -1,9 +1,9 @@
-package com.wit.iris.elastic
+package com.wit.iris.sockets
 
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class AggregationServiceSpec extends Specification implements ServiceUnitTest<AggregationService>{
+class SocketsServiceSpec extends Specification implements ServiceUnitTest<SocketService>{
 
     def setup() {
     }

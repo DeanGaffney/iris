@@ -26,10 +26,9 @@ class BootStrap {
                     it.clear()
                 }
             }
-
         }
-
     }
+
     def destroy = {
     }
 }
