@@ -1,5 +1,6 @@
 package com.wit.iris.schemas
 
+import com.wit.iris.charts.Chart
 import grails.converters.JSON
 
 
@@ -55,6 +56,7 @@ class SchemaController {
             resp.message = "schema with id $request.JSON.schema.id does not exsist"
         }else{
             routeService.route(schema, request.JSON)
+            Chart.findAllBy
         }
         render resp as JSON
     }

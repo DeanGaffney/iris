@@ -1,41 +1,19 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
-import com.wit.iris.schemas.Schema
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
-import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
 @Integration
 @Rollback
 class ElasticServiceSpec extends Specification {
 
-    @Autowired
     ElasticService elasticService
 
-    String esEndpoint
-    String esIndex
-
-    Schema schema
-
     def setup() {
-        esEndpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
-        esIndex = "shakespeare"
-        schema = DomainUtils.getSchemaWithSingleSchemaField()
     }
 
     def cleanup() {
-        Map resp = elasticService.deleteIndex(schema.esIndex)
-        assert resp.statusCodeValue == 200
-    }
-
-    void "test creating index" (){
-        when: "I create an elasticsearch index"
-        Map resp = elasticService.createIndex(schema)
-
-        then: "the response is 200"
-        assert resp.statusCodeValue == 200
     }
 
     void "test getEsIndexFromName"(){
