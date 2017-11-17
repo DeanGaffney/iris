@@ -24,14 +24,16 @@ class GridSpec extends Specification {
         user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
-        chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(), aggregation: aggregation)
+        chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
+                aggregation: aggregation, schema: schema)
         grid = new Grid(gridCellPositions: "[{some: json}]")
         gridCell = new GridCell(gridPosition: 0, chart: chart)
         grid.addToGridCells(gridCell)
-        grid.save(flush: true, failOnError: true)
 
         user.addToSchemas(schema)
         user.save(flush: true)
+
+        grid.save(flush: true, failOnError: true)
 
         assert User.count() == 1
         assert Grid.count() == 1

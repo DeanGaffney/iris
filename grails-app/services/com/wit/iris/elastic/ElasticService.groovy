@@ -11,16 +11,20 @@ class ElasticService {
     def restService
 
     final String ES_INDEX_TYPE = "schema"
+    final String ES_INDEX_SEARCH = "_search"
 
     /**
      * Creates an Elasticsearch index
      * @param schema - the schema to create the index for
+     * @return response from the endpoint
      */
-    void createIndex(Schema schema){
-        int status = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
-        if(status != 200){
-            //TODO see if the status is ok from elasticsearch, or else throw an exception
+    Map createIndex(Schema schema){
+        Map resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
+        if(resp.statusCodeValue != 200){
+            //TODO throw exception
+            resp = [:]
         }
+        return resp
     }
 
     /**
@@ -43,26 +47,52 @@ class ElasticService {
      * @param legacyFields - the previous Schema versions SchemaFields
      * @param updatedFields - the updated Schema versions SchemaFields
      */
-    void updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
+    Map updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
         List<SchemaField> difference = updatedFields - legacyFields     // the remainder will be the new schema fields added by the user
+        Map resp = [:]
         if(!difference.isEmpty()){
             Map mapping = ["properties" : [:]]
             difference.each{
                 mapping.properties += [(it.name) : ["type" : convertDataType(it.fieldType)]]
             }
-            int status = restService.put("${getElasticEndpointUrl()}/$esIndex/_mapping/$ES_INDEX_TYPE", mapping)
-            if(status != 200){
-                //TODO see if the status is ok from elasticsearch, or else throw an exception
+            resp = restService.put("${getElasticEndpointUrl()}/$esIndex/_mapping/$ES_INDEX_TYPE", mapping)
+            if(resp.statusCodeValue != 200){
+                //TODO throw exception
             }
         }
+        return resp
     }
 
-    void insert(String esIndex, Map data){
-       int status = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
-        if(status != 200){
+    /**
+     * Inserts data into elasticsearch at the specified index
+     * @param esIndex - the index to insert the data
+     * @param data - the data to insert
+     * @return response from the endpoint
+     */
+    Map insert(String esIndex, Map data){
+       Map resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
+        if(resp.statusCodeValue != 200){
             //TODO throw exception
+            resp = [:]
         }
+        return resp
     }
+
+    /**
+     * Executes an aggregation on an elasticsearch index
+     * @param esIndex - index to execute aggregation
+     * @param agg - the aggregation object to execute
+     * @return response from the endpoint containing aggregation results
+     */
+    Map executeAggregation(String esIndex, Aggregation agg){
+        Map resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
+        if(resp.statusCodeValue != 200){
+            //TODO throw exception
+            resp = [:]
+        }
+        return resp
+    }
+
 
     /**
      * Converts data type inputted by user to the correct elastic search data type
@@ -77,12 +107,15 @@ class ElasticService {
     /**
      * Deletes a schemas elasticsearch index
      * @param schema, the schemas index to delete
+     * @return response from the endpoint
      */
-    void deleteIndex(String esIndex){
-        int status = restService.delete("${getElasticEndpointUrl()}/$esIndex")
-        if(status != 200){
-            //TODO handle error
+    Map deleteIndex(String esIndex){
+        Map resp = restService.delete("${getElasticEndpointUrl()}/$esIndex")
+        if(resp.statusCodeValue != 200){
+            //TODO throw exception
+            resp = [:]
         }
+        return resp
     }
 
     /**
@@ -103,4 +136,5 @@ class ElasticService {
         //remove a trailing slash if present
         return (url.endsWith("/")) ? url.substring(0, url.length() - 1) : url
     }
+
 }

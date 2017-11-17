@@ -21,11 +21,11 @@ class ChartSpec extends Specification {
         user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
-        chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(), aggregation: aggregation)
-        chart.save(flush: true)
-
+        chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(),
+                aggregation: aggregation, schema: schema)
         user.addToSchemas(schema)
         user.save(flush: true)
+        chart.save(flush: true)
 
         assert User.count() == 1
         assert Chart.count() == 1

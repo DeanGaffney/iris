@@ -1,19 +1,48 @@
 package com.wit.iris.elastic
 
+import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
+import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.SchemaField
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
 @Integration
 @Rollback
 class ElasticServiceSpec extends Specification {
 
+    @Autowired
     ElasticService elasticService
 
+    String esEndpoint
+    String shakespeareIndex
+
+    Schema schema
+
     def setup() {
+        esEndpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
+        shakespeareIndex = "shakespeare"
+        schema = DomainUtils.getSchemaWithSingleSchemaField()
+        elasticService.elasticEndpointUrl = esEndpoint
     }
 
     def cleanup() {
+        Map resp = elasticService.deleteIndex(schema.esIndex)
+        assert resp.statusCodeValue == 200
+    }
+
+    void setupEsIndex(){
+        elasticService.createIndex(schema)
+    }
+
+    void "test creating elasticsearch index" (){
+        when: "I create an index"
+        Map resp = elasticService.createIndex(schema)
+
+        then: "the response code is 200"
+        println resp.statusCodeValue
+        assert resp.statusCodeValue == 200
     }
 
     void "test getEsIndexFromName"(){
@@ -53,4 +82,5 @@ class ElasticServiceSpec extends Specification {
         then: "The name will be all lower case with underscores instead of spaces"
         esIndex == "sql_monitor"
     }
+
 }

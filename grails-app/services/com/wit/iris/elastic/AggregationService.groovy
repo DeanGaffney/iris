@@ -7,6 +7,18 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class AggregationService {
 
+    def elasticService
+
+    /**
+     * Executes an aggregation on an elasticsearch index
+     * @param esIndex - index to execute aggregation
+     * @param agg - the aggregation object to execute
+     * @return aggregation result data from elasticsearch
+     */
+    Map execute(String esIndex, Aggregation agg){
+       return elasticService.executeAggregation(esIndex, agg)
+    }
+
     /**
      * Gets the template for the specific metric type
      * @param aggType - the type of metric aggregation i.e sum, avg , etc....

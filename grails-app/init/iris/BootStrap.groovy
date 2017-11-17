@@ -14,7 +14,7 @@ class BootStrap {
         environments {
 
             development {
-                new ElasticEndpoint(name: "aws", url: "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com", active: true).save(flush: true)
+                new ElasticEndpoint(name: "aws", url: "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com/", active: true).save(flush: true)
                 Role role = new Role(authority: 'USER_ROLE').save(flush: true)
                 User user = new User(username: "admin", password: "password").save(flush: true)
                 UserRole.create(user, role)

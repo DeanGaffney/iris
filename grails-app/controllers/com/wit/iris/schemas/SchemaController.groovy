@@ -10,6 +10,8 @@ class SchemaController {
 
     def schemaService
     def routeService
+    def aggregationService
+    def chartService
 
     def index(){
         List<Schema> schemas = Schema.list()
@@ -46,17 +48,23 @@ class SchemaController {
     }
 
     /**
-     * Takes in data to transform and routing to elasticsearch
+     * Takes in data for transformation and routing to elasticsearch
+     * data is also sent to any charts needing to be updated
      */
     def route(){
         Map resp = ["status": 200, "message": "data inserted"]
         Schema schema = Schema.get(request.JSON.schema.id)
         if(schema == null){
             resp.status = 500
-            resp.message = "schema with id $request.JSON.schema.id does not exsist"
+            resp.message = "schema with id $request.JSON.schema.id does not exist"
         }else{
-            routeService.route(schema, request.JSON)
-            Chart.findAllBy
+            routeService.route(schema, request.JSON)        //route and transform data
+            Chart.findAllWhere(schema: schema).each {
+                //loop over all charts related to schema and execute the aggregation
+                Map aggResultData = aggregationService.execute(it.schema.esIndex, it.aggregation)
+                //update chart with aggregation results
+                chartService.updateChart(it, aggResultData)
+            }
         }
         render resp as JSON
     }
