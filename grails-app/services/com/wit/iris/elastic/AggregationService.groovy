@@ -3,6 +3,7 @@ package com.wit.iris.elastic
 import com.wit.iris.elastic.aggregations.types.enums.MetricType
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
+import org.grails.web.json.JSONObject
 
 @Transactional
 class AggregationService {
@@ -15,7 +16,7 @@ class AggregationService {
      * @param agg - the aggregation object to execute
      * @return aggregation result data from elasticsearch
      */
-    Map execute(String esIndex, Aggregation agg){
+    JSONObject execute(String esIndex, Aggregation agg){
        return elasticService.executeAggregation(esIndex, agg)
     }
 

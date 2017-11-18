@@ -4,6 +4,7 @@ import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
+import org.grails.web.json.JSONObject
 
 @Transactional
 class RestService {
@@ -17,13 +18,13 @@ class RestService {
      * @param jsonData - the json data in Map format to send to the url
      * @return response from the endpoint
      */
-    Map put(String url, Map jsonData){
+    JSONObject put(String url, Map jsonData){
         resp = rest.put(url){
             contentType "application/json"
             json JsonOutput.toJson(jsonData)
         }
         logResponse()
-        return resp
+        return resp.json
     }
 
     /**
@@ -32,13 +33,13 @@ class RestService {
      * @param jsonData - the json data in string format to send to the url
      * @return response from the endpoint
      */
-    Map put(String url, String jsonData){
+    JSONObject put(String url, String jsonData){
         resp = rest.put(url){
             contentType "application/json"
             json jsonData
         }
         logResponse()
-        return resp
+        return resp.json
     }
 
     /**
@@ -47,13 +48,13 @@ class RestService {
      * @param jsonData - the json data in string format to send to the url
      * @return response from the endpoint
      */
-    Map post(String url, String jsonData){
+    JSONObject post(String url, String jsonData){
         resp = rest.post(url){
             contentType "application/json"
             json jsonData
         }
         logResponse()
-        return resp
+        return resp.json
     }
 
     /**
@@ -61,10 +62,10 @@ class RestService {
      * @param url - the url to act on
      * @return response from the endpoint
      */
-    Map delete(String url){
+    JSONObject delete(String url){
         resp = rest.delete(url)
         logResponse()
-        return resp
+        return resp.json
     }
 
     /**

@@ -1,30 +1,35 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
 import com.wit.iris.schemas.Schema
-import com.wit.iris.schemas.SchemaField
+import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
-import org.springframework.beans.factory.annotation.Autowired
+import org.grails.web.json.JSONObject
 import spock.lang.Specification
 
 @Integration
 @Rollback
 class ElasticServiceSpec extends Specification {
 
-    @Autowired
     ElasticService elasticService
 
-    String esEndpoint
+    ElasticEndpoint elasticEndpoint
     String shakespeareIndex
 
+    User user
     Schema schema
 
-    def setup() {
-        esEndpoint = "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com"
+    def setupData(){
+        elasticEndpoint = new ElasticEndpoint(name: "aws", url: "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com", active: true)
+        elasticEndpoint.save(flush: true)
         shakespeareIndex = "shakespeare"
-        schema = DomainUtils.getSchemaWithSingleSchemaField()
-        elasticService.elasticEndpointUrl = esEndpoint
+        user = new User(username: "dean", password: "password")
+        schema = new Schema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
+        user.addToSchemas(schema).save(flush: true)
+    }
+
+    def setup() {
+
     }
 
     def cleanup() {
@@ -37,8 +42,11 @@ class ElasticServiceSpec extends Specification {
     }
 
     void "test creating elasticsearch index" (){
+        setup:
+        setupData()
+
         when: "I create an index"
-        Map resp = elasticService.createIndex(schema)
+        JSONObject resp = elasticService.createIndex(schema)
 
         then: "the response code is 200"
         println resp.statusCodeValue

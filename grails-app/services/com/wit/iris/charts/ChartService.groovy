@@ -1,6 +1,7 @@
 package com.wit.iris.charts
 
 import grails.gorm.transactions.Transactional
+import org.grails.web.json.JSONObject
 
 @Transactional
 class ChartService {
@@ -12,7 +13,7 @@ class ChartService {
      * @param chart - the chart to update
      * @param data - the data to update the chart with
      */
-    void updateChart(Chart chart, Map data){
+    void updateChart(Chart chart, JSONObject data){
         //check what chart type it is
         Map formattedData = formatChartData(chart, data)
         log.debug("Formatted chart data ${formattedData.toString()}")
@@ -26,7 +27,7 @@ class ChartService {
      * @param data - the aggregation result data
      * @return formatted data for chart
      */
-    private Map formatChartData(Chart chart, Map data){
+    private Map formatChartData(Chart chart, JSONObject data){
 
     }
 }

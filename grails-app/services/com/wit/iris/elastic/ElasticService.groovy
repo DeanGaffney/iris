@@ -2,8 +2,10 @@ package com.wit.iris.elastic
 
 import com.wit.iris.schemas.Schema
 import com.wit.iris.schemas.SchemaField
+import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonOutput
+import org.grails.web.json.JSONObject
 
 @Transactional
 class ElasticService {
@@ -18,8 +20,9 @@ class ElasticService {
      * @param schema - the schema to create the index for
      * @return response from the endpoint
      */
-    Map createIndex(Schema schema){
-        Map resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
+    JSONObject createIndex(Schema schema){
+        JSONObject resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
+        log.debug("Create index response: $resp")
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
@@ -47,9 +50,9 @@ class ElasticService {
      * @param legacyFields - the previous Schema versions SchemaFields
      * @param updatedFields - the updated Schema versions SchemaFields
      */
-    Map updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
+    JSONObject updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
         List<SchemaField> difference = updatedFields - legacyFields     // the remainder will be the new schema fields added by the user
-        Map resp = [:]
+        JSONObject resp = [:]
         if(!difference.isEmpty()){
             Map mapping = ["properties" : [:]]
             difference.each{
@@ -69,8 +72,8 @@ class ElasticService {
      * @param data - the data to insert
      * @return response from the endpoint
      */
-    Map insert(String esIndex, Map data){
-       Map resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
+    JSONObject insert(String esIndex, Map data){
+       JSONObject resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
@@ -84,8 +87,8 @@ class ElasticService {
      * @param agg - the aggregation object to execute
      * @return response from the endpoint containing aggregation results
      */
-    Map executeAggregation(String esIndex, Aggregation agg){
-        Map resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
+    JSONObject executeAggregation(String esIndex, Aggregation agg){
+        JSONObject resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
@@ -109,8 +112,8 @@ class ElasticService {
      * @param schema, the schemas index to delete
      * @return response from the endpoint
      */
-    Map deleteIndex(String esIndex){
-        Map resp = restService.delete("${getElasticEndpointUrl()}/$esIndex")
+    JSONObject deleteIndex(String esIndex){
+        JSONObject resp = restService.delete("${getElasticEndpointUrl()}/$esIndex")
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
