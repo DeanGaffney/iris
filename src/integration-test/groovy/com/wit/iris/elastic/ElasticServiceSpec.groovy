@@ -2,6 +2,7 @@ package com.wit.iris.elastic
 
 import com.wit.iris.schemas.Schema
 import com.wit.iris.users.User
+import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import org.grails.web.json.JSONObject
@@ -18,6 +19,7 @@ class ElasticServiceSpec extends Specification {
 
     User user
     Schema schema
+    RestResponse resp
 
     def setupData(){
         elasticEndpoint = new ElasticEndpoint(name: "aws", url: "https://search-iris-ibwkuxcv4b2unly3c7d2d77v2a.eu-west-1.es.amazonaws.com", active: true)
@@ -26,6 +28,10 @@ class ElasticServiceSpec extends Specification {
         user = new User(username: "dean", password: "password")
         schema = new Schema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
         user.addToSchemas(schema).save(flush: true)
+
+        assert ElasticEndpoint.count() == 1
+        assert Schema.count() == 1
+        assert User.count() == 1
     }
 
     def setup() {
@@ -33,12 +39,27 @@ class ElasticServiceSpec extends Specification {
     }
 
     def cleanup() {
-        Map resp = elasticService.deleteIndex(schema.esIndex)
-        assert resp.statusCodeValue == 200
+
     }
 
-    void setupEsIndex(){
-        elasticService.createIndex(schema)
+    void cleanElasticsearch(){
+        if(elasticService.indexExists(schema.esIndex)){
+            resp = elasticService.deleteIndex(schema.esIndex)
+            assert resp.statusCodeValue == 200
+        }
+    }
+
+    void "test check if index exists"(){
+        setup:
+        setupData()
+
+        when: "I create a new index"
+        resp = elasticService.createIndex(schema)
+        assert resp.statusCodeValue == 200
+
+        then: "The index exists in elasticsearch"
+        assert elasticService.indexExists(schema.esIndex)
+        cleanElasticsearch()
     }
 
     void "test creating elasticsearch index" (){
@@ -46,15 +67,16 @@ class ElasticServiceSpec extends Specification {
         setupData()
 
         when: "I create an index"
-        JSONObject resp = elasticService.createIndex(schema)
+        resp = elasticService.createIndex(schema)
 
         then: "the response code is 200"
-        println resp.statusCodeValue
         assert resp.statusCodeValue == 200
+        cleanElasticsearch()
     }
 
     void "test getEsIndexFromName"(){
         setup:
+        setupData()
         String schemaName = "sql"
 
         when: "I get the es index "
@@ -89,6 +111,7 @@ class ElasticServiceSpec extends Specification {
 
         then: "The name will be all lower case with underscores instead of spaces"
         esIndex == "sql_monitor"
+        cleanElasticsearch()
     }
 
 }

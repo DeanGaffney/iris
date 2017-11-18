@@ -2,10 +2,9 @@ package com.wit.iris.elastic
 
 import com.wit.iris.schemas.Schema
 import com.wit.iris.schemas.SchemaField
-import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
-import org.grails.web.json.JSONObject
 
 @Transactional
 class ElasticService {
@@ -15,14 +14,16 @@ class ElasticService {
     final String ES_INDEX_TYPE = "schema"
     final String ES_INDEX_SEARCH = "_search"
 
+    RestResponse resp
+
     /**
      * Creates an Elasticsearch index
      * @param schema - the schema to create the index for
      * @return response from the endpoint
      */
-    JSONObject createIndex(Schema schema){
-        JSONObject resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
-        log.debug("Create index response: $resp")
+    RestResponse createIndex(Schema schema){
+        resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
+        log.debug("Create index response: $resp.json")
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
@@ -50,9 +51,8 @@ class ElasticService {
      * @param legacyFields - the previous Schema versions SchemaFields
      * @param updatedFields - the updated Schema versions SchemaFields
      */
-    JSONObject updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
+    RestResponse updateMapping(String esIndex, List<SchemaField> legacyFields, List<SchemaField> updatedFields){
         List<SchemaField> difference = updatedFields - legacyFields     // the remainder will be the new schema fields added by the user
-        JSONObject resp = [:]
         if(!difference.isEmpty()){
             Map mapping = ["properties" : [:]]
             difference.each{
@@ -72,8 +72,8 @@ class ElasticService {
      * @param data - the data to insert
      * @return response from the endpoint
      */
-    JSONObject insert(String esIndex, Map data){
-       JSONObject resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
+    RestResponse insert(String esIndex, Map data){
+       resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
@@ -87,15 +87,14 @@ class ElasticService {
      * @param agg - the aggregation object to execute
      * @return response from the endpoint containing aggregation results
      */
-    JSONObject executeAggregation(String esIndex, Aggregation agg){
-        JSONObject resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
+    RestResponse executeAggregation(String esIndex, Aggregation agg){
+        resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
         }
         return resp
     }
-
 
     /**
      * Converts data type inputted by user to the correct elastic search data type
@@ -112,13 +111,23 @@ class ElasticService {
      * @param schema, the schemas index to delete
      * @return response from the endpoint
      */
-    JSONObject deleteIndex(String esIndex){
-        JSONObject resp = restService.delete("${getElasticEndpointUrl()}/$esIndex")
+    RestResponse deleteIndex(String esIndex){
+        RestResponse resp = restService.delete("${getElasticEndpointUrl()}/$esIndex")
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]
         }
         return resp
+    }
+
+    /**
+     * Checks to see if an index exists in elasticsearch
+     * @param esIndex - the index to check
+     * @return true if the index exists, false otherwise
+     */
+    boolean indexExists(String esIndex){
+        return restService.head("${getElasticEndpointUrl()}/$esIndex")
+                          .statusCodeValue == 200
     }
 
     /**
@@ -136,8 +145,8 @@ class ElasticService {
      */
     String getElasticEndpointUrl(){
         String url = ElasticEndpoint.findByActive(true).url
+        log.debug("ES url: $url")
         //remove a trailing slash if present
         return (url.endsWith("/")) ? url.substring(0, url.length() - 1) : url
     }
-
 }

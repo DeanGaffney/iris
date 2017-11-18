@@ -18,13 +18,13 @@ class RestService {
      * @param jsonData - the json data in Map format to send to the url
      * @return response from the endpoint
      */
-    JSONObject put(String url, Map jsonData){
+    RestResponse put(String url, Map jsonData){
         resp = rest.put(url){
             contentType "application/json"
             json JsonOutput.toJson(jsonData)
         }
-        logResponse()
-        return resp.json
+        logResponse("PUT", url)
+        return resp
     }
 
     /**
@@ -33,13 +33,13 @@ class RestService {
      * @param jsonData - the json data in string format to send to the url
      * @return response from the endpoint
      */
-    JSONObject put(String url, String jsonData){
+    RestResponse put(String url, String jsonData){
         resp = rest.put(url){
             contentType "application/json"
             json jsonData
         }
-        logResponse()
-        return resp.json
+        logResponse("PUT", url)
+        return resp
     }
 
     /**
@@ -48,13 +48,13 @@ class RestService {
      * @param jsonData - the json data in string format to send to the url
      * @return response from the endpoint
      */
-    JSONObject post(String url, String jsonData){
+    RestResponse post(String url, String jsonData){
         resp = rest.post(url){
             contentType "application/json"
             json jsonData
         }
-        logResponse()
-        return resp.json
+        logResponse("POST", url)
+        return resp
     }
 
     /**
@@ -62,16 +62,27 @@ class RestService {
      * @param url - the url to act on
      * @return response from the endpoint
      */
-    JSONObject delete(String url){
+    RestResponse delete(String url){
         resp = rest.delete(url)
-        logResponse()
-        return resp.json
+        logResponse("DELETE", url)
+        return resp
+    }
+
+    /**
+     * REST HEAD method
+     * @param url - the url to act on
+     * @return response form the endpoint
+     */
+    RestResponse head(String url){
+        resp = rest.head(url)
+        logResponse("HEAD", url)
+        return resp
     }
 
     /**
      * Logs out the status code and json from the current response object
      */
-    void logResponse(){
-        log.debug("Status code : $resp.statusCodeValue\n Json response: ${resp.json.toString()}")
+    void logResponse(String restMethod, String url){
+        log.debug("$restMethod to $url\n Status code : $resp.statusCodeValue\n Json response: ${resp.json.toString()}")
     }
 }
