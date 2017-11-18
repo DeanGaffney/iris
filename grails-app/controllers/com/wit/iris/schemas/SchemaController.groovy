@@ -65,7 +65,7 @@ class SchemaController {
                 //loop over all charts related to schema and execute the aggregation
                 RestResponse aggResultData = aggregationService.execute(it.aggregation)
                 //update chart with aggregation results
-                chartService.updateChart(schema.esIndex, it, aggResultData.json, it.aggregation)
+                chartService.updateChart(schema.esIndex, it, aggResultData.json)
             }
         }
         render resp as JSON
