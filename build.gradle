@@ -28,8 +28,6 @@ test {
     testLogging.showStandardStreams = true
 }
 
-
-
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }

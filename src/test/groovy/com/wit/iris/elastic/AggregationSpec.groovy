@@ -8,7 +8,7 @@ class AggregationSpec extends Specification implements DomainUnitTest<Aggregatio
     Aggregation aggregation
 
     def setupData(){
-        aggregation = new Aggregation(esIndex: "some/index/es", json: "{json}")
+        aggregation = new Aggregation(esIndex: "some/index/es", json: "{json}", levels: 1)
         aggregation.save(flush: true)
 
         assert Aggregation.count() == 1

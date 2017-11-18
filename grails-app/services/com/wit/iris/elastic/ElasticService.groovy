@@ -87,8 +87,8 @@ class ElasticService {
      * @param agg - the aggregation object to execute
      * @return response from the endpoint containing aggregation results
      */
-    RestResponse executeAggregation(String esIndex, Aggregation agg){
-        resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_SEARCH", agg.json)
+    RestResponse executeAggregation(Aggregation agg){
+        resp = restService.post("${getElasticEndpointUrl()}/$agg.esIndex/$ES_INDEX_SEARCH", agg.json)
         if(resp.statusCodeValue != 200){
             //TODO throw exception
             resp = [:]

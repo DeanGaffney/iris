@@ -61,7 +61,7 @@ class AggregationBuilderServiceSpec extends Specification {
         AggregationObject agg = aggregationBuilderService.getAggregation(aggs.subList(0, 1))
 
         and: " I create an aggregation domain from the service"
-        Aggregation aggregation = new Aggregation(esIndex: "some/index", json: agg.toString())
+        Aggregation aggregation = new Aggregation(esIndex: "some/index", json: agg.toString(), levels: 1)
 
         then: "The aggregation is valid"
         assert aggregation.validate()

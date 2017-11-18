@@ -23,7 +23,7 @@ class ChartSpec extends Specification implements DomainUnitTest<Chart>, DataTest
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
+        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}", levels: 1)
         chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(),
                 aggregation: aggregation, schema: schema)
         user.addToSchemas(schema)

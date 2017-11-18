@@ -5,7 +5,6 @@ import com.wit.iris.users.User
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
-import org.grails.web.json.JSONObject
 import spock.lang.Specification
 
 @Integration
@@ -47,6 +46,31 @@ class ElasticServiceSpec extends Specification {
             resp = elasticService.deleteIndex(schema.esIndex)
             assert resp.statusCodeValue == 200
         }
+    }
+
+    void "test aggregation execution"(){
+        setup:
+        setupData()
+
+        when: "I execute an aggregation"
+        Aggregation agg = new Aggregation(esIndex: shakespeareIndex, json: "{\n" +
+                "\t\"aggs\":{\n" +
+                "\t\t\"agg1\":{\n" +
+                "\t\t\t\t\"terms\":{\"field\": \"play_name\"},\n" +
+                "\t\t\t\t\"aggs\":{\n" +
+                "\t\t\t\t\t\"agg2\":{\n" +
+                "\t\t\t\t\t\t\"sum\":{\"field\" : \"speech_number\"}\n" +
+                "\t\t\t\t\t}\n" +
+                "\t\t\t\t}\n" +
+                "\t\t}\n" +
+                "\t},\n" +
+                "\t\"size\": 0\n" +
+                "}")
+
+        resp = elasticService.executeAggregation(agg)
+
+        then: "the status code is 200"
+        assert resp.statusCodeValue == 200
     }
 
     void "test check if index exists"(){

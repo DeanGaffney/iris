@@ -29,7 +29,7 @@ class DashboardSpec extends Specification implements DomainUnitTest<Dashboard>, 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
-        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
+        aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}", levels: 1)
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
         grid = new Grid(gridCellPositions: "[{some: json}]")

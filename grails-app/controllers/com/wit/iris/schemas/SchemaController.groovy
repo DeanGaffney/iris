@@ -2,6 +2,7 @@ package com.wit.iris.schemas
 
 import com.wit.iris.charts.Chart
 import grails.converters.JSON
+import grails.plugins.rest.client.RestResponse
 import org.grails.web.json.JSONObject
 
 
@@ -62,9 +63,9 @@ class SchemaController {
             routeService.route(schema, request.JSON)        //route and transform data
             Chart.findAllWhere(schema: schema).each {
                 //loop over all charts related to schema and execute the aggregation
-                JSONObject aggResultData = aggregationService.execute(it.schema.esIndex, it.aggregation)
+                RestResponse aggResultData = aggregationService.execute(it.aggregation)
                 //update chart with aggregation results
-                chartService.updateChart(it, aggResultData)
+                chartService.updateChart(schema.esIndex, it, aggResultData.json, it.aggregation)
             }
         }
         render resp as JSON
