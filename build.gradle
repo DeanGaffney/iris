@@ -39,6 +39,7 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.2.0'
     compile 'org.grails:grails-datastore-rest-client:6.1.7.RELEASE'
     compile 'org.grails.plugins:grails-spring-websocket:2.3.0'
+    assets 'com.bertramlabs.plugins:sass-asset-pipeline:2.14.6'
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
