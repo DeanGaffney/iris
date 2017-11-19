@@ -3,8 +3,6 @@ package com.wit.iris.schemas
 import com.wit.iris.charts.Chart
 import grails.converters.JSON
 import grails.plugins.rest.client.RestResponse
-import org.grails.web.json.JSONObject
-
 
 class SchemaController {
 

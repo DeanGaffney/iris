@@ -33,20 +33,6 @@ class ChartServiceSpec extends Specification {
         shakespeareIndex = "shakespeare"
         user = new User(username: "dean", password: "password")
         schema = new Schema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
-        agg = new Aggregation(esIndex: shakespeareIndex, json: "{\n" +
-                "\t\"aggs\":{\n" +
-                "\t\t\"agg1\":{\n" +
-                "\t\t\t\t\"terms\":{\"field\": \"play_name\"},\n" +
-                "\t\t\t\t\"aggs\":{\n" +
-                "\t\t\t\t\t\"agg2\":{\n" +
-                "\t\t\t\t\t\t\"sum\":{\"field\" : \"speech_number\"}\n" +
-                "\t\t\t\t\t}\n" +
-                "\t\t\t\t}\n" +
-                "\t\t}\n" +
-                "\t},\n" +
-                "\t\"size\": 0\n" +
-                "}" , levels: 2)
-        chart = new Chart(chartType: ChartType.BAR.getValue(), name: "sql chart", aggregation: agg, schema: schema)
         user.addToSchemas(schema).save(flush: true)
 
         assert Schema.count() == 1
@@ -60,18 +46,46 @@ class ChartServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test formatting data for bar chart"() {
+    void "test formatting data for bar chart with aggregation level 1"(){
         setup:
         setupData()
+        agg = new Aggregation(esIndex: shakespeareIndex, json: '{"aggs":{"agg1":{"terms":{"field": "play_name"}}},"size": 0}',
+                levels: 1)
+        chart = new Chart(chartType: ChartType.BAR.getValue(),
+                name: "sql chart", aggregation: agg, schema: schema)
+
+
+        when: "I execute an aggregation"
+        resp = elasticService.executeAggregation(agg)
+        assert resp.statusCodeValue == 200
+
+        and: "I format the data"
+        Map chartData = chartService.formatChartData(chart, resp.json)
+
+        then:
+        assert chartData == [data:[columns:[['Hamlet', 4244], ['Coriolanus', 3992],
+                                             ['Cymbeline', 3958], ['Antony and Cleopatra', 3862], ['Henry VI Part 2', 3334], ['Henry IV', 3205],
+                                             ['Henry VI Part 3', 3138], ['Alls well that ends well', 3083], ['Henry V', 3077], ['Henry VI Part 1', 2983]]]]
+    }
+
+    void "test formatting data for bar chart with aggregation level 2"() {
+        setup:
+        setupData()
+        agg = new Aggregation(esIndex: shakespeareIndex, json: '{"aggs":{"agg1":{"terms":{"field": "play_name"},"aggs":{"agg2":{"sum":{"field" : "speech_number"}}}}},"size": 0}',
+                levels: 2)
+        chart = new Chart(chartType: ChartType.BAR.getValue(),
+                name: "sql chart", aggregation: agg, schema: schema)
 
         when: "I execute an aggregation"
         resp = elasticService.executeAggregation(agg)
         assert resp.statusCodeValue == 200
 
         and :" I format the data"
-        chartService.formatChartData(chart, resp.json)
+        Map chartData = chartService.formatChartData(chart, resp.json)
 
         then:
-        assert true
+        assert chartData == [data:[columns:[['Hamlet', 198107.0], ['Coriolanus', 135568.0],
+                                            ['Cymbeline', 130105.0], ['Antony and Cleopatra', 112274.0], ['Henry VI Part 2', 90021.0], ['Henry IV', 111754.0],
+                                            ['Henry VI Part 3', 73898.0], ['Alls well that ends well', 106670.0], ['Henry V', 60763.0], ['Henry VI Part 1', 49013.0]]]]
     }
 }

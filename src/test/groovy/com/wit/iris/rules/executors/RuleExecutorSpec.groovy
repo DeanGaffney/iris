@@ -2,10 +2,8 @@ package com.wit.iris.rules.executors
 
 import com.wit.iris.rules.Rule
 import com.wit.iris.schemas.Schema
-import com.wit.iris.schemas.SchemaField
 import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
-import groovy.json.JsonOutput
 import org.grails.testing.GrailsUnitTest
 import org.grails.web.json.JSONObject
 import spock.lang.Specification

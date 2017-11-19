@@ -1,6 +1,5 @@
 package com.wit.iris.routing
 
-import com.wit.iris.charts.Chart
 import com.wit.iris.rules.executors.RuleExecutor
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional

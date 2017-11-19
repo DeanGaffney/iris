@@ -4,7 +4,6 @@ import com.wit.iris.elastic.aggregations.types.enums.MetricType
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
-import org.grails.web.json.JSONObject
 
 @Transactional
 class AggregationService {

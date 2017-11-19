@@ -1,6 +1,5 @@
 package com.wit.iris.schemas
 
-import com.wit.iris.com.wit.tests.domains.utils.DomainUtils
 import com.wit.iris.schemas.enums.FieldType
 import com.wit.iris.users.User
 import grails.testing.gorm.DataTest

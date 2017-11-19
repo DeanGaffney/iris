@@ -84,8 +84,13 @@ class UserSpec extends Specification {
         setupData()
 
         when: "I remove a schema from the users collection"
+        List schemaCharts = Chart.findAllWhere(schema: schema)
+        println schemaCharts.toString()
+        
+        Chart.executeUpdate("DELETE Chart as c WHERE c.schema.id =:schemaId", [schemaId: schema.id])
+
+        GridCell.executeUpdate("DELETE GridCell as g WHERE g.chart in (:charts)", [charts: schemaCharts])
         user.removeFromSchemas(schema)
-        GridCell.executeUpdate("delete GridCell gridCell where gridCell.chart.schema.id = ${schema.id}")
 
         and: "I save the user"
         user.save(flush: true)

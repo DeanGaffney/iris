@@ -44,20 +44,21 @@ class ChartService {
      * @return A map of formatted data for a bar chart
      */
     Map formatDataForBar(JSONObject data, Aggregation agg){
-        Map formattedData = [:]
+        Map formattedData = [data:[:]]
+        List keys, values
+        String option = (agg.levels == 1) ? "doc_count" : "value"
+        keys = data.aggregations.agg1.buckets*.key
         if(agg.levels == 1){
-            // a terms was applied
-            data.aggregations.agg1.buckets*.key
-            // data.aggregations.agg1.buckets*.key
-            // data.aggregations.agg1.buckets*.doc_count
+            values = data.aggregations.agg1.buckets*."$option"
         }else{
-            log.debug("Sub agg bar chart format")
-            log.debug(data.aggregations.agg1.buckets*.key.toString())
-            log.debug(data.aggregations.agg1.buckets*.agg2*.value.toString())
-            // a terms with a metric was applied
-            // data.aggregations.agg1.buckets*.key
-            // data.aggregations.agg1.buckets*.agg2.value
+            values = data.aggregations.agg1.buckets*.agg2*."$option"
         }
+        log.debug("Chart keys: ${keys.toString()}")
+        log.debug("Chart values: ${values.toString()}")
+        List columns = []   //list of lists
+        keys.eachWithIndex{ele, indx -> columns[indx] = [ele,values[indx]]}
+        formattedData.data.columns = columns
+        log.debug("Formatted data for Chart: ${formattedData.toString()}")
         return formattedData
     }
 
