@@ -42,7 +42,7 @@ class ChartSpec extends Specification {
         setup:
         setupData()
 
-        when: "I delete a chart"
+        when: "I delete a dashboard.chart"
         chart.delete(flush: true)
 
         then:
@@ -57,7 +57,7 @@ class ChartSpec extends Specification {
         when: "I edit an aggregation object"
         aggregation.esIndex = "some/other/index"
 
-        and: "I save the chart"
+        and: "I save the dashboard.chart"
         chart.save(flush: true)
 
         then: "the aggregation update is saved too"

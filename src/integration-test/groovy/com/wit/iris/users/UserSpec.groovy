@@ -89,7 +89,7 @@ class UserSpec extends Specification {
         
         Chart.executeUpdate("DELETE Chart as c WHERE c.schema.id =:schemaId", [schemaId: schema.id])
 
-        GridCell.executeUpdate("DELETE GridCell as g WHERE g.chart in (:charts)", [charts: schemaCharts])
+        GridCell.executeUpdate("DELETE GridCell as g WHERE g.dashboard.chart in (:charts)", [charts: schemaCharts])
         user.removeFromSchemas(schema)
 
         and: "I save the user"

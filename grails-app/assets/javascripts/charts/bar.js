@@ -2,15 +2,23 @@
  * Created by dean on 01/11/17.
  */
 
-function bar(containerSelector){
-    var chart = bb.generate({
+function BarChart(containerSelector, data){
+    this.chart = bb.generate({
         bindto: containerSelector,
         data: {
             type: "bar",
-            columns: [
-                ["data1", 30, 200, 100, 170, 150, 250],
-                ["data2", 130, 100, 140, 35, 110, 50]
-            ]
+            columns: data
         }
     });
+
+    this.update = function(data){
+        data = [
+            ["data1",  Math.floor(Math.random() * 20)],
+            ["data2",  Math.floor(Math.random() * 20)]
+        ];
+        this.chart.flow({
+            columns: data,
+            length: 0
+        });
+    }
 }

@@ -62,7 +62,7 @@ class SchemaController {
             Chart.findAllWhere(schema: schema).each {
                 //loop over all charts related to schema and execute the aggregation
                 RestResponse aggResultData = aggregationService.execute(it.aggregation)
-                //update chart with aggregation results
+                //update dashboard.chart with aggregation results
                 chartService.updateChart(schema.esIndex, it, aggResultData.json)
             }
         }

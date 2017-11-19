@@ -5,9 +5,9 @@ import com.wit.iris.charts.Chart
 class GridCell {
 
     Integer gridPosition
+    Chart chart
 
     static belongsTo = [grid: Grid]
-    static hasOne = [chart: Chart]
 
     static constraints = {
         chart(nullable: false, unique: true)

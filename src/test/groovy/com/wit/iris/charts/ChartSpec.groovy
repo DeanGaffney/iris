@@ -47,7 +47,7 @@ class ChartSpec extends Specification implements DomainUnitTest<Chart>, DataTest
         setup:
         setupData()
 
-        when: "I delete a chart"
+        when: "I delete a dashboard.chart"
         chart.delete(flush: true)
 
         then: "It is deleted"
@@ -99,17 +99,17 @@ class ChartSpec extends Specification implements DomainUnitTest<Chart>, DataTest
         !chart.validate()
     }
 
-    void "test editing chart"(){
+    void "test editing dashboard.chart"(){
         setup:
         setupData()
 
-        when: "I edit the chart name"
+        when: "I edit the dashboard.chart name"
         chart.name = "New Chart"
 
         and: "I save the update"
         chart.save(flush: true)
 
-        then: "I can find the chart by its new name"
+        then: "I can find the dashboard.chart by its new name"
         assert Chart.findByName("New Chart") != null
     }
 

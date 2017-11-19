@@ -11,24 +11,24 @@ class ChartService {
     def socketService
 
     /**
-     * Updates a chart with new aggregation result data
-     * @param chart - the chart to update
-     * @param data - the data to update the chart with
+     * Updates a dashboard.chart with new aggregation result data
+     * @param chart - the dashboard.chart to update
+     * @param data - the data to update the dashboard.chart with
      * @param agg - the aggregation that was used to get the data
      */
     void updateChart(String esIndex, Chart chart, JSONObject data){
-        //check what chart type it is
+        //check what dashboard.chart type it is
         Map formattedData = formatChartData(chart, data)
-        log.debug("Formatted chart data ${formattedData.toString()}")
-        //use socket service to send data to chart
+        log.debug("Formatted dashboard.chart data ${formattedData.toString()}")
+        //use socket service to send data to dashboard.chart
         socketService.sendDataToClient(esIndex, chart.chartType, formattedData)
     }
 
     /**
-     * Format aggregation result data to suit specified chart
-     * @param chart - the chart to format the data for
+     * Format aggregation result data to suit specified dashboard.chart
+     * @param chart - the dashboard.chart to format the data for
      * @param data - the aggregation result data
-     * @return formatted data for chart
+     * @return formatted data for dashboard.chart
      */
     Map formatChartData(Chart chart, JSONObject data){
         Map formattedData = [:]
@@ -39,9 +39,9 @@ class ChartService {
     }
 
     /**
-     * Format data for a bar chart
+     * Format data for a bar dashboard.chart
      * @param data - the data to format
-     * @return A map of formatted data for a bar chart
+     * @return A map of formatted data for a bar dashboard.chart
      */
     Map formatDataForBar(JSONObject data, Aggregation agg){
         Map formattedData = [data:[:]]

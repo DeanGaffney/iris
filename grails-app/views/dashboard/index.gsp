@@ -9,6 +9,7 @@
         <asset:javascript src="gridstack/gridstack.jQueryUI.js"/>
         <asset:javascript src="d3/d3.min.js"/>
         <asset:javascript src="billboard/billboard.min.js"/>
+        <asset:javascript src="charts/bar.js"/>
         <asset:stylesheet src="billboard/billboard.min.css"/>
         <asset:stylesheet src="gridstack/gridstack.css" />
     </head>
@@ -32,10 +33,12 @@
                 </div>
 
             </div>
+            <button id="add-widget">Add Widget</button>
         </div>
 
         <g:javascript>
             $(function(){
+                var itemNum = 3;
                 //gridstack stuff
                 $('.grid-stack').gridstack({
                     resizable: {
@@ -50,17 +53,12 @@
                     grid.makeWidget($(this));
                 });
 
-                //billboard stuff
-                var chart = bb.generate({
-                    bindto: "#chart",
-                    data: {
-                        type: "bar",
-                        columns: [
-                            ["data1", 30, 200, 100, 170, 150, 250],
-                            ["data2", 130, 100, 140, 35, 110, 50]
-                        ]
-                    }
-                });
+                var initChartData = [
+                    ["data1", 30, 200, 100, 170, 150, 250],
+                    ["data2", 130, 100, 140, 35, 110, 50]
+                ];
+
+                var chart = new BarChart("#chart", initChartData);
 
                 grid.resize(
                         $('.grid-stack-item')[0],
@@ -69,13 +67,15 @@
                 );
 
                 setInterval(function() {
-                    chart.load({
-                        columns:[
-                            ["data1",  Math.floor(Math.random() * 20)],
-                            ["data2",  Math.floor(Math.random() * 20)]
-                        ]
-                    });
+                    chart.update([]);
                 }, 5000);
+
+                //add new element to dashboard
+                $("#add-widget").on("click", function(){
+                    var elem = '<div class="chart-container"><div class="grid-stack-item-content">ITEM ' + itemNum + '</div>'
+                    grid.addWidget(elem, 0, 0 , 3, 3, true);
+                    itemNum++;
+                });
 
             });
         </g:javascript>

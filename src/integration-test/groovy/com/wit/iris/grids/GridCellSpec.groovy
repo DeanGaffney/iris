@@ -50,7 +50,7 @@ class GridCellSpec extends Specification {
     def cleanup() {
     }
 
-    void "test deleting grid cell doesn't delete chart"(){
+    void "test deleting grid cell doesn't delete dashboard.chart"(){
         setup:
         setupData()
 
@@ -60,7 +60,7 @@ class GridCellSpec extends Specification {
         and: "I save the update"
         grid.save(flush: true)
 
-        then: "the chart still exists"
+        then: "the dashboard.chart still exists"
         assert GridCell.count() == 0
         assert Chart.count() == 1
     }
@@ -69,7 +69,7 @@ class GridCellSpec extends Specification {
         setup:
         setupData()
 
-        when: "I edit a chart"
+        when: "I edit a dashboard.chart"
         chart.chartType = ChartType.BUBBLE.getValue()
 
         and: "I save the grid cell"

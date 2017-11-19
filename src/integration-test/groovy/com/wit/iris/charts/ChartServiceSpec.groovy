@@ -46,13 +46,13 @@ class ChartServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test formatting data for bar chart with aggregation level 1"(){
+    void "test formatting data for bar dashboard.chart with aggregation level 1"(){
         setup:
         setupData()
         agg = new Aggregation(esIndex: shakespeareIndex, json: '{"aggs":{"agg1":{"terms":{"field": "play_name"}}},"size": 0}',
                 levels: 1)
         chart = new Chart(chartType: ChartType.BAR.getValue(),
-                name: "sql chart", aggregation: agg, schema: schema)
+                name: "sql dashboard.chart", aggregation: agg, schema: schema)
 
 
         when: "I execute an aggregation"
@@ -68,13 +68,13 @@ class ChartServiceSpec extends Specification {
                                              ['Henry VI Part 3', 3138], ['Alls well that ends well', 3083], ['Henry V', 3077], ['Henry VI Part 1', 2983]]]]
     }
 
-    void "test formatting data for bar chart with aggregation level 2"() {
+    void "test formatting data for bar dashboard.chart with aggregation level 2"() {
         setup:
         setupData()
         agg = new Aggregation(esIndex: shakespeareIndex, json: '{"aggs":{"agg1":{"terms":{"field": "play_name"},"aggs":{"agg2":{"sum":{"field" : "speech_number"}}}}},"size": 0}',
                 levels: 2)
         chart = new Chart(chartType: ChartType.BAR.getValue(),
-                name: "sql chart", aggregation: agg, schema: schema)
+                name: "sql dashboard.chart", aggregation: agg, schema: schema)
 
         when: "I execute an aggregation"
         resp = elasticService.executeAggregation(agg)
