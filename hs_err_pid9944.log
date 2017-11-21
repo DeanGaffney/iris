@@ -1,0 +1,463 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x66db6e8d, pid=9944, tid=0x000021bc
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_144-b01) (build 1.8.0_144-b01)
+# Java VM: Java HotSpot(TM) Client VM (25.144-b01 mixed mode windows-x86 )
+# Problematic frame:
+# V  [jvm.dll+0xd6e8d]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x491b5c00):  JavaThread "pool-1-thread-1" [_thread_in_vm, id=8636, stack(0x4a790000,0x4a7e0000)]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x4474656b
+
+Registers:
+EAX=0x621c76cb, EBX=0x491b5c00, ECX=0x44746567, EDX=0x491b5d40
+ESP=0x4a7de8b0, EBP=0x4a7de8cc, ESI=0x491b5d40, EDI=0x491b5c00
+EIP=0x66db6e8d, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x4a7de8b0)
+0x4a7de8b0:   491b5c00 4b713168 4b713170 491b5c00
+0x4a7de8c0:   00000000 4a265af0 4a7de8ec 4a7de90c
+0x4a7de8d0:   621c1786 491b5d40 621c76cb 00000000
+0x4a7de8e0:   0000000c 0d811ac4 00000003 4a7de90c
+0x4a7de8f0:   768172c0 004a0000 00000000 0000000c
+0x4a7de900:   491b5c00 4b713170 4b713168 4a7de940
+0x4a7de910:   621c3d8f 491b5d40 621c76cb 621c76cb
+0x4a7de920:   621c769c 4983d088 491c7ad8 00000002 
+
+Instructions: (pc=0x66db6e8d)
+0x66db6e6d:   83 c4 08 83 7b 04 00 89 5d f0 c7 45 f4 00 00 00
+0x66db6e7d:   00 74 08 8d 4d f0 e8 88 13 0d 00 8b 45 0c 8b 08
+0x66db6e8d:   8b 51 04 8b 42 38 50 56 e8 e6 4f 08 00 83 c4 08
+0x66db6e9d:   83 7d f4 00 89 45 08 74 08 8d 4d f0 e8 a2 13 0d 
+
+
+Register to memory mapping:
+
+EAX=0x621c76cb is an unknown value
+EBX=0x491b5c00 is a thread
+ECX=0x44746567 is an unknown value
+EDX=0x491b5d40 is an unknown value
+ESP=0x4a7de8b0 is pointing into the stack for thread: 0x491b5c00
+EBP=0x4a7de8cc is pointing into the stack for thread: 0x491b5c00
+ESI=0x491b5d40 is an unknown value
+EDI=0x491b5c00 is a thread
+
+
+Stack: [0x4a790000,0x4a7e0000],  sp=0x4a7de8b0,  free space=314k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0xd6e8d]
+C  [libjsass.dll+0x1786]
+C  [libjsass.dll+0x3d8f]
+C  [libjsass.dll+0x416a]
+C  [libjsass.dll+0x4602]
+j  io.bit3.jsass.adapter.NativeAdapter.compileString(Lio/bit3/jsass/adapter/NativeStringContext;)Lio/bit3/jsass/Output;+0
+j  io.bit3.jsass.adapter.NativeAdapter.compile(Lio/bit3/jsass/context/StringContext;Lio/bit3/jsass/context/ImportStack;)Lio/bit3/jsass/Output;+8
+j  io.bit3.jsass.Compiler.compile(Lio/bit3/jsass/context/StringContext;)Lio/bit3/jsass/Output;+14
+j  io.bit3.jsass.Compiler.compileString(Ljava/lang/String;Ljava/net/URI;Ljava/net/URI;Lio/bit3/jsass/Options;)Lio/bit3/jsass/Output;+17
+j  io.bit3.jsass.Compiler$compileString$1.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+37
+J 4142 C1 org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (7 bytes) @ 0x0248da58 [0x0248da10+0x48]
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+46
+j  asset.pipeline.jsass.SassProcessor.process(Ljava/lang/String;Lasset/pipeline/AssetFile;)Ljava/lang/String;+211
+j  asset.pipeline.Processor$process.call(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+22
+j  asset.pipeline.AbstractAssetFile.processedStream(Lasset/pipeline/AssetCompiler;Ljava/lang/Boolean;)Ljava/lang/String;+1065
+j  asset.pipeline.AbstractAssetFile.processedStream(Lasset/pipeline/AssetCompiler;)Ljava/lang/String;+10
+j  asset.pipeline.DirectiveProcessor.fileContents(Lasset/pipeline/AssetFile;)Ljava/lang/String;+5
+j  asset.pipeline.DirectiveProcessor$fileContents$2.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  asset.pipeline.DirectiveProcessor$fileContents$2.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+27
+j  asset.pipeline.DirectiveProcessor.loadContentsForTree(Ljava/util/Map;Ljava/lang/StringBuilder;)V+369
+j  sun.reflect.GeneratedMethodAccessor183.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+48
+J 385 C1 sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (10 bytes) @ 0x024b7840 [0x024b7810+0x30]
+J 384 C1 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x024b7554 [0x024b7480+0xd4]
+J 4089 C1 org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (37 bytes) @ 0x02a65d1c [0x02a65cf0+0x2c]
+J 4088 C1 org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object; (29 bytes) @ 0x02510424 [0x02510390+0x94]
+J 4125 C1 org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (42 bytes) @ 0x024fcd94 [0x024fcbf0+0x1a4]
+j  asset.pipeline.DirectiveProcessor.loadContentsForTree(Ljava/util/Map;Ljava/lang/StringBuilder;)V+316
+j  asset.pipeline.DirectiveProcessor.compile(Lasset/pipeline/AssetFile;)Ljava/lang/Object;+89
+j  asset.pipeline.DirectiveProcessor$compile$1.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+J 4143 C1 org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (14 bytes) @ 0x024f6d88 [0x024f6d50+0x38]
+j  asset.pipeline.DirectiveProcessor$compile$1.call(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+27
+j  asset.pipeline.AssetCompiler$_compile_closure3.doCall()Ljava/lang/Object;+499
+j  sun.reflect.GeneratedMethodAccessor134.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+36
+J 385 C1 sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (10 bytes) @ 0x024b7840 [0x024b7810+0x30]
+J 384 C1 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x024b7554 [0x024b7480+0xd4]
+J 1950 C1 org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (70 bytes) @ 0x027f27bc [0x027f2790+0x2c]
+J 2942 C1 groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (22 bytes) @ 0x02966e3c [0x02966df0+0x4c]
+J 2291 C1 org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object; (892 bytes) @ 0x0284ec6c [0x0284dd80+0xeec]
+J 2570 C1 groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object; (14 bytes) @ 0x028af620 [0x028af5d0+0x50]
+J 3886 C1 groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object; (30 bytes) @ 0x02a54c34 [0x02a54be0+0x54]
+j  groovy.lang.Closure.call()Ljava/lang/Object;+6
+j  groovy.lang.Closure.run()V+1
+j  java.util.concurrent.Executors$RunnableAdapter.call()Ljava/lang/Object;+4
+j  java.util.concurrent.FutureTask.run()V+42
+j  java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V+95
+j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x15af45]
+V  [jvm.dll+0x2213ae]
+V  [jvm.dll+0x15afde]
+V  [jvm.dll+0x15b166]
+V  [jvm.dll+0x15b1d7]
+V  [jvm.dll+0xff36f]
+V  [jvm.dll+0x17dc30]
+V  [jvm.dll+0x17e4aa]
+V  [jvm.dll+0x1c2ec6]
+C  [msvcr100.dll+0x5c556]
+C  [msvcr100.dll+0x5c600]
+C  [KERNEL32.DLL+0x18744]
+C  [ntdll.dll+0x6582d]
+C  [ntdll.dll+0x657fd]
+C  0x00000000
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  io.bit3.jsass.adapter.NativeAdapter.compileString(Lio/bit3/jsass/adapter/NativeStringContext;)Lio/bit3/jsass/Output;+0
+j  io.bit3.jsass.adapter.NativeAdapter.compile(Lio/bit3/jsass/context/StringContext;Lio/bit3/jsass/context/ImportStack;)Lio/bit3/jsass/Output;+8
+j  io.bit3.jsass.Compiler.compile(Lio/bit3/jsass/context/StringContext;)Lio/bit3/jsass/Output;+14
+j  io.bit3.jsass.Compiler.compileString(Ljava/lang/String;Ljava/net/URI;Ljava/net/URI;Lio/bit3/jsass/Options;)Lio/bit3/jsass/Output;+17
+j  io.bit3.jsass.Compiler$compileString$1.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+37
+J 4142 C1 org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (7 bytes) @ 0x0248da58 [0x0248da10+0x48]
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+46
+j  asset.pipeline.jsass.SassProcessor.process(Ljava/lang/String;Lasset/pipeline/AssetFile;)Ljava/lang/String;+211
+j  asset.pipeline.Processor$process.call(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+22
+j  asset.pipeline.AbstractAssetFile.processedStream(Lasset/pipeline/AssetCompiler;Ljava/lang/Boolean;)Ljava/lang/String;+1065
+j  asset.pipeline.AbstractAssetFile.processedStream(Lasset/pipeline/AssetCompiler;)Ljava/lang/String;+10
+j  asset.pipeline.DirectiveProcessor.fileContents(Lasset/pipeline/AssetFile;)Ljava/lang/String;+5
+j  asset.pipeline.DirectiveProcessor$fileContents$2.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  asset.pipeline.DirectiveProcessor$fileContents$2.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+27
+j  asset.pipeline.DirectiveProcessor.loadContentsForTree(Ljava/util/Map;Ljava/lang/StringBuilder;)V+369
+j  sun.reflect.GeneratedMethodAccessor183.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+48
+J 385 C1 sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (10 bytes) @ 0x024b7840 [0x024b7810+0x30]
+J 384 C1 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x024b7554 [0x024b7480+0xd4]
+J 4089 C1 org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (37 bytes) @ 0x02a65d1c [0x02a65cf0+0x2c]
+J 4088 C1 org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object; (29 bytes) @ 0x02510424 [0x02510390+0x94]
+J 4125 C1 org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; (42 bytes) @ 0x024fcd94 [0x024fcbf0+0x1a4]
+j  asset.pipeline.DirectiveProcessor.loadContentsForTree(Ljava/util/Map;Ljava/lang/StringBuilder;)V+316
+j  asset.pipeline.DirectiveProcessor.compile(Lasset/pipeline/AssetFile;)Ljava/lang/Object;+89
+j  asset.pipeline.DirectiveProcessor$compile$1.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+J 4143 C1 org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (14 bytes) @ 0x024f6d88 [0x024f6d50+0x38]
+j  asset.pipeline.DirectiveProcessor$compile$1.call(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+27
+j  asset.pipeline.AssetCompiler$_compile_closure3.doCall()Ljava/lang/Object;+499
+j  sun.reflect.GeneratedMethodAccessor134.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+36
+J 385 C1 sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (10 bytes) @ 0x024b7840 [0x024b7810+0x30]
+J 384 C1 java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (62 bytes) @ 0x024b7554 [0x024b7480+0xd4]
+J 1950 C1 org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (70 bytes) @ 0x027f27bc [0x027f2790+0x2c]
+J 2942 C1 groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object; (22 bytes) @ 0x02966e3c [0x02966df0+0x4c]
+J 2291 C1 org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object; (892 bytes) @ 0x0284ec6c [0x0284dd80+0xeec]
+J 2570 C1 groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object; (14 bytes) @ 0x028af620 [0x028af5d0+0x50]
+J 3886 C1 groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object; (30 bytes) @ 0x02a54c34 [0x02a54be0+0x54]
+j  groovy.lang.Closure.call()Ljava/lang/Object;+6
+j  groovy.lang.Closure.run()V+1
+j  java.util.concurrent.Executors$RunnableAdapter.call()Ljava/lang/Object;+4
+j  java.util.concurrent.FutureTask.run()V+42
+j  java.util.concurrent.ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V+95
+j  java.util.concurrent.ThreadPoolExecutor$Worker.run()V+5
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x49b33000 JavaThread "jscompiler" daemon [_thread_blocked, id=11268, stack(0x4b420000,0x4b620000)]
+  0x491b3c00 JavaThread "jscompiler" daemon [_thread_blocked, id=10980, stack(0x4b1e0000,0x4b3e0000)]
+  0x491b3400 JavaThread "Thread-34" [_thread_blocked, id=2260, stack(0x4b150000,0x4b1a0000)]
+  0x491b3000 JavaThread "jscompiler" daemon [_thread_blocked, id=11456, stack(0x4ae10000,0x4b010000)]
+  0x491b2800 JavaThread "jscompiler" daemon [_thread_blocked, id=5532, stack(0x4abd0000,0x4add0000)]
+  0x491b1000 JavaThread "pool-1-thread-4" [_thread_in_vm, id=6140, stack(0x4a940000,0x4a990000)]
+  0x491b6800 JavaThread "pool-1-thread-3" [_thread_in_vm, id=8700, stack(0x4a8b0000,0x4a900000)]
+  0x491b6000 JavaThread "pool-1-thread-2" [_thread_in_native, id=6408, stack(0x4a820000,0x4a870000)]
+=>0x491b5c00 JavaThread "pool-1-thread-1" [_thread_in_vm, id=8636, stack(0x4a790000,0x4a7e0000)]
+  0x491b6c00 JavaThread "/127.0.0.1:59579 to /127.0.0.1:59580 workers Thread 5" [_thread_in_native, id=8856, stack(0x4a700000,0x4a750000)]
+  0x491b0800 JavaThread "/127.0.0.1:59579 to /127.0.0.1:59580 workers Thread 4" [_thread_blocked, id=444, stack(0x4a670000,0x4a6c0000)]
+  0x491b7400 JavaThread "/127.0.0.1:59579 to /127.0.0.1:59580 workers Thread 3" [_thread_blocked, id=8560, stack(0x4a5e0000,0x4a630000)]
+  0x491b4000 JavaThread "/127.0.0.1:59579 to /127.0.0.1:59580 workers Thread 2" [_thread_blocked, id=4856, stack(0x4a550000,0x4a5a0000)]
+  0x491b0400 JavaThread "/127.0.0.1:59579 to /127.0.0.1:59580 workers" [_thread_blocked, id=6892, stack(0x4a210000,0x4a260000)]
+  0x491b5400 JavaThread "Forward streams with process: Gradle Worker Daemon 1 Thread 3" [_thread_in_native, id=2380, stack(0x4a4c0000,0x4a510000)]
+  0x491b2000 JavaThread "Forward streams with process: Gradle Worker Daemon 1 Thread 2" [_thread_in_native, id=7544, stack(0x4a430000,0x4a480000)]
+  0x491b1400 JavaThread "Forward streams with process: Gradle Worker Daemon 1" [_thread_blocked, id=9192, stack(0x4a3a0000,0x4a3f0000)]
+  0x491b4800 JavaThread "Run Gradle Worker Daemon 1" [_thread_in_native, id=3356, stack(0x48fb0000,0x49000000)]
+  0x491b4c00 JavaThread "Incoming local TCP Connector on port 59579" [_thread_blocked, id=1208, stack(0x48e20000,0x48e70000)]
+  0x491b1c00 JavaThread "Cache worker for file content cache (C:\Users\Gaff_000\Documents\college\year_4_modules\fyp\iris\.gradle\3.5\fileContent)" [_thread_blocked, id=5560, stack(0x48890000,0x488e0000)]
+  0x46c9e800 JavaThread "Cache worker for task history cache (C:\Users\Gaff_000\Documents\college\year_4_modules\fyp\iris\.gradle\3.5\taskHistory)" [_thread_blocked, id=860, stack(0x46af0000,0x46b40000)]
+  0x46c9e400 JavaThread "Stdin handler" [_thread_blocked, id=6580, stack(0x46a60000,0x46ab0000)]
+  0x46ca0400 JavaThread "Asynchronous log dispatcher for DefaultDaemonConnection: socket connection from /127.0.0.1:59563 to /127.0.0.1:59574" [_thread_blocked, id=1588, stack(0x009a0000,0x009f0000)]
+  0x46c9f400 JavaThread "Cancel handler" [_thread_blocked, id=1468, stack(0x00910000,0x00960000)]
+  0x46ca0800 JavaThread "Handler for socket connection from /127.0.0.1:59563 to /127.0.0.1:59574" [_thread_in_native, id=6984, stack(0x00880000,0x008d0000)]
+  0x46c9dc00 JavaThread "Memory manager" [_thread_blocked, id=5880, stack(0x48400000,0x48450000)]
+  0x46c9fc00 JavaThread "Cache worker for Artifact transforms cache (C:\Users\Gaff_000\.gradle\caches\transforms-1)" [_thread_blocked, id=2616, stack(0x48370000,0x483c0000)]
+  0x46c9d000 JavaThread "File lock request listener" [_thread_in_native, id=2912, stack(0x47ce0000,0x47d30000)]
+  0x46c9d800 JavaThread "Cache worker for file hash cache (C:\Users\Gaff_000\.gradle\caches\3.5\fileHashes)" [_thread_blocked, id=5236, stack(0x47c50000,0x47ca0000)]
+  0x45eb1800 JavaThread "Daemon worker" [_thread_blocked, id=5468, stack(0x469d0000,0x46a20000)]
+  0x45e2d400 JavaThread "Daemon" [_thread_blocked, id=7976, stack(0x46820000,0x46870000)]
+  0x45e29400 JavaThread "Daemon periodic checks" [_thread_blocked, id=556, stack(0x46790000,0x467e0000)]
+  0x45dcdc00 JavaThread "Incoming local TCP Connector on port 59563" [_thread_in_native, id=8764, stack(0x46510000,0x46560000)]
+  0x45d76000 JavaThread "Daemon health stats" [_thread_blocked, id=108, stack(0x46480000,0x464d0000)]
+  0x44c0f400 JavaThread "Service Thread" daemon [_thread_blocked, id=11252, stack(0x45220000,0x45270000)]
+  0x44c15800 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=1284, stack(0x45190000,0x451e0000)]
+  0x44c14800 JavaThread "Attach Listener" daemon [_thread_blocked, id=9972, stack(0x45100000,0x45150000)]
+  0x44c10c00 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1160, stack(0x45070000,0x450c0000)]
+  0x44bee000 JavaThread "Finalizer" daemon [_thread_blocked, id=4460, stack(0x44ef0000,0x44f40000)]
+  0x44be8400 JavaThread "Reference Handler" daemon [_thread_blocked, id=1176, stack(0x44e60000,0x44eb0000)]
+  0x02292c00 JavaThread "main" [_thread_blocked, id=9536, stack(0x02240000,0x02290000)]
+
+Other Threads:
+  0x44bd3800 VMThread [stack: 0x44dd0000,0x44e20000] [id=5688]
+  0x44c0b400 WatcherThread [stack: 0x452b0000,0x45300000] [id=11684]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ def new generation   total 53376K, used 48044K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,  89% used [0x04400000, 0x06d7a658, 0x07260000)
+  from space 5888K,  94% used [0x07820000, 0x07d90c50, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 98057K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  82% used [0x19950000, 0x1f9125a0, 0x1f912600, 0x20ccb000)
+ Metaspace       used 33387K, capacity 34197K, committed 34304K, reserved 35200K
+
+Card table byte_map: [0x44400000,0x44610000] byte_map_base: 0x443de000
+
+Polling page: 0x00380000
+
+CodeCache: size=32768Kb used=11533Kb max_used=11789Kb free=21234Kb
+ bounds [0x02390000, 0x02f20000, 0x04390000]
+ total_blobs=5866 nmethods=5402 adapters=393
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 111.074 Thread 0x44c15800 7328             jdk.internal.org.objectweb.asm.Item::set (143 bytes)
+Event: 111.075 Thread 0x44c15800 nmethod 7328 0x024da608 code [0x024da750, 0x024da968]
+Event: 111.075 Thread 0x44c15800 7329             jdk.internal.org.objectweb.asm.ClassWriter::get (49 bytes)
+Event: 111.076 Thread 0x44c15800 nmethod 7329 0x0244c408 code [0x0244c510, 0x0244c63c]
+Event: 111.076 Thread 0x44c15800 7330             jdk.internal.org.objectweb.asm.ByteVector::putShort (52 bytes)
+Event: 111.076 Thread 0x44c15800 nmethod 7330 0x028098c8 code [0x028099d0, 0x02809adc]
+Event: 111.076 Thread 0x44c15800 7331             java.lang.invoke.MemberName::testFlags (16 bytes)
+Event: 111.076 Thread 0x44c15800 nmethod 7331 0x02800188 code [0x02800280, 0x02800320]
+Event: 111.076 Thread 0x44c15800 7332             jdk.internal.org.objectweb.asm.Item::<init> (66 bytes)
+Event: 111.078 Thread 0x44c15800 nmethod 7332 0x024b5748 code [0x024b5840, 0x024b5920]
+
+GC Heap History (10 events):
+Event: 108.530 GC heap before
+{Heap before GC invocations=132 (full 9):
+ def new generation   total 53376K, used 47488K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K, 100% used [0x04400000, 0x07260000, 0x07260000)
+  from space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+  to   space 5888K,   0% used [0x07820000, 0x07820000, 0x07de0000)
+ tenured generation   total 118252K, used 64046K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  54% used [0x19950000, 0x1d7db8b0, 0x1d7dba00, 0x20ccb000)
+ Metaspace       used 32394K, capacity 33068K, committed 33152K, reserved 33152K
+Event: 108.537 GC heap after
+Heap after GC invocations=133 (full 9):
+ def new generation   total 53376K, used 5888K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,   0% used [0x04400000, 0x04400000, 0x07260000)
+  from space 5888K, 100% used [0x07820000, 0x07de0000, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 76762K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  64% used [0x19950000, 0x1e446a90, 0x1e446c00, 0x20ccb000)
+ Metaspace       used 32394K, capacity 33068K, committed 33152K, reserved 33152K
+}
+Event: 109.244 GC heap before
+{Heap before GC invocations=133 (full 9):
+ def new generation   total 53376K, used 53376K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K, 100% used [0x04400000, 0x07260000, 0x07260000)
+  from space 5888K, 100% used [0x07820000, 0x07de0000, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 76762K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  64% used [0x19950000, 0x1e446a90, 0x1e446c00, 0x20ccb000)
+ Metaspace       used 33060K, capacity 33762K, committed 33792K, reserved 34176K
+Event: 109.286 GC heap after
+Heap after GC invocations=134 (full 9):
+ def new generation   total 53376K, used 4940K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,   0% used [0x04400000, 0x04400000, 0x07260000)
+  from space 5888K,  83% used [0x07260000, 0x07733068, 0x07820000)
+  to   space 5888K,   0% used [0x07820000, 0x07820000, 0x07de0000)
+ tenured generation   total 118252K, used 82639K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  69% used [0x19950000, 0x1ea03f60, 0x1ea04000, 0x20ccb000)
+ Metaspace       used 33060K, capacity 33762K, committed 33792K, reserved 34176K
+}
+Event: 109.543 GC heap before
+{Heap before GC invocations=134 (full 9):
+ def new generation   total 53376K, used 52428K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K, 100% used [0x04400000, 0x07260000, 0x07260000)
+  from space 5888K,  83% used [0x07260000, 0x07733068, 0x07820000)
+  to   space 5888K,   0% used [0x07820000, 0x07820000, 0x07de0000)
+ tenured generation   total 118252K, used 82639K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  69% used [0x19950000, 0x1ea03f60, 0x1ea04000, 0x20ccb000)
+ Metaspace       used 33087K, capacity 33804K, committed 33920K, reserved 34176K
+Event: 109.599 GC heap after
+Heap after GC invocations=135 (full 9):
+ def new generation   total 53376K, used 4722K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,   0% used [0x04400000, 0x04400000, 0x07260000)
+  from space 5888K,  80% used [0x07820000, 0x07cbcaa0, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 86373K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  73% used [0x19950000, 0x1eda9758, 0x1eda9800, 0x20ccb000)
+ Metaspace       used 33087K, capacity 33804K, committed 33920K, reserved 34176K
+}
+Event: 109.880 GC heap before
+{Heap before GC invocations=135 (full 9):
+ def new generation   total 53376K, used 52210K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K, 100% used [0x04400000, 0x07260000, 0x07260000)
+  from space 5888K,  80% used [0x07820000, 0x07cbcaa0, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 86373K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  73% used [0x19950000, 0x1eda9758, 0x1eda9800, 0x20ccb000)
+ Metaspace       used 33087K, capacity 33804K, committed 33920K, reserved 34176K
+Event: 109.939 GC heap after
+Heap after GC invocations=136 (full 9):
+ def new generation   total 53376K, used 5888K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,   0% used [0x04400000, 0x04400000, 0x07260000)
+  from space 5888K, 100% used [0x07260000, 0x07820000, 0x07820000)
+  to   space 5888K,   0% used [0x07820000, 0x07820000, 0x07de0000)
+ tenured generation   total 118252K, used 92781K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  78% used [0x19950000, 0x1f3eb750, 0x1f3eb800, 0x20ccb000)
+ Metaspace       used 33087K, capacity 33804K, committed 33920K, reserved 34176K
+}
+Event: 110.316 GC heap before
+{Heap before GC invocations=136 (full 9):
+ def new generation   total 53376K, used 53376K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K, 100% used [0x04400000, 0x07260000, 0x07260000)
+  from space 5888K, 100% used [0x07260000, 0x07820000, 0x07820000)
+  to   space 5888K,   0% used [0x07820000, 0x07820000, 0x07de0000)
+ tenured generation   total 118252K, used 92781K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  78% used [0x19950000, 0x1f3eb750, 0x1f3eb800, 0x20ccb000)
+ Metaspace       used 33135K, capacity 33839K, committed 33920K, reserved 34176K
+Event: 110.363 GC heap after
+Heap after GC invocations=137 (full 9):
+ def new generation   total 53376K, used 5571K [0x04400000, 0x07de0000, 0x19950000)
+  eden space 47488K,   0% used [0x04400000, 0x04400000, 0x07260000)
+  from space 5888K,  94% used [0x07820000, 0x07d90c50, 0x07de0000)
+  to   space 5888K,   0% used [0x07260000, 0x07260000, 0x07820000)
+ tenured generation   total 118252K, used 98057K [0x19950000, 0x20ccb000, 0x44400000)
+   the space 118252K,  82% used [0x19950000, 0x1f9125a0, 0x1f912600, 0x20ccb000)
+ Metaspace       used 33135K, capacity 33839K, committed 33920K, reserved 34176K
+}
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b0e6c0) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b0f080) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b0fb10) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b105a8) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b11008) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b11990) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.986 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b12318) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.987 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b12ca0) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.987 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b13628) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+Event: 110.987 Thread 0x491b6000 Exception <a 'java/lang/ArrayIndexOutOfBoundsException'> (0x06b14508) thrown at [C:\workspace\8-2-build-windows-i586-cygwin\jdk8u144\9417\hotspot\src\share\vm\runtime\sharedRuntime.cpp, line 605]
+
+Events (10 events):
+Event: 111.072 loading class io/bit3/jsass/adapter/NativeOptions
+Event: 111.072 loading class io/bit3/jsass/adapter/NativeOptions done
+Event: 111.074 loading class io/bit3/jsass/adapter/NativeStringContext
+Event: 111.074 loading class io/bit3/jsass/adapter/NativeStringContext done
+Event: 111.075 loading class io/bit3/jsass/adapter/AbstractNativeContext
+Event: 111.075 loading class io/bit3/jsass/adapter/AbstractNativeContext done
+Event: 111.075 loading class io/bit3/jsass/adapter/NativeContext
+Event: 111.075 loading class io/bit3/jsass/adapter/NativeContext done
+Event: 111.076 Executing VM operation: RevokeBias
+Event: 111.077 Executing VM operation: RevokeBias done
+
+
+Dynamic libraries:
+0x00bf0000 - 0x00c23000 	C:\Users\Gaff_000\Documents\tools\jdk\bin\java.exe
+0x77a50000 - 0x77bde000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x77490000 - 0x77560000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x76950000 - 0x76b12000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x719a0000 - 0x71a33000 	C:\WINDOWS\SYSTEM32\apphelp.dll
+0x74680000 - 0x746f7000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x767d0000 - 0x7688d000 	C:\WINDOWS\System32\msvcrt.dll
+0x74540000 - 0x74581000 	C:\WINDOWS\System32\sechost.dll
+0x76890000 - 0x76950000 	C:\WINDOWS\System32\RPCRT4.dll
+0x74520000 - 0x74540000 	C:\WINDOWS\System32\SspiCli.dll
+0x74510000 - 0x7451a000 	C:\WINDOWS\System32\CRYPTBASE.dll
+0x75070000 - 0x750c7000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x76e00000 - 0x76f3c000 	C:\WINDOWS\System32\USER32.dll
+0x77360000 - 0x77376000 	C:\WINDOWS\System32\win32u.dll
+0x77660000 - 0x77681000 	C:\WINDOWS\System32\GDI32.dll
+0x77690000 - 0x777e8000 	C:\WINDOWS\System32\gdi32full.dll
+0x77410000 - 0x77489000 	C:\WINDOWS\System32\msvcp_win.dll
+0x76ce0000 - 0x76df8000 	C:\WINDOWS\System32\ucrtbase.dll
+0x73720000 - 0x7392e000 	C:\WINDOWS\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.15063.483_none_6dad63fefc436da8\COMCTL32.dll
+0x76590000 - 0x767c8000 	C:\WINDOWS\System32\combase.dll
+0x750d0000 - 0x750f5000 	C:\WINDOWS\System32\IMM32.DLL
+0x6c8a0000 - 0x6c95f000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\msvcr100.dll
+0x66ce0000 - 0x670ae000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\client\jvm.dll
+0x77650000 - 0x77656000 	C:\WINDOWS\System32\PSAPI.DLL
+0x73540000 - 0x73548000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x72730000 - 0x72754000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x73be0000 - 0x73be8000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x77570000 - 0x775d7000 	C:\WINDOWS\System32\WS2_32.dll
+0x725f0000 - 0x72613000 	C:\WINDOWS\SYSTEM32\winmmbase.dll
+0x74620000 - 0x74659000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x6de50000 - 0x6de5c000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\verify.dll
+0x6c870000 - 0x6c891000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\java.dll
+0x6c850000 - 0x6c863000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\zip.dll
+0x751f0000 - 0x76538000 	C:\WINDOWS\System32\SHELL32.dll
+0x77380000 - 0x7740c000 	C:\WINDOWS\System32\shcore.dll
+0x74860000 - 0x74de7000 	C:\WINDOWS\System32\windows.storage.dll
+0x76540000 - 0x76585000 	C:\WINDOWS\System32\shlwapi.dll
+0x775e0000 - 0x775ee000 	C:\WINDOWS\System32\kernel.appcore.dll
+0x751a0000 - 0x751e5000 	C:\WINDOWS\System32\powrprof.dll
+0x75100000 - 0x75110000 	C:\WINDOWS\System32\profapi.dll
+0x6c830000 - 0x6c846000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\net.dll
+0x73aa0000 - 0x73aee000 	C:\WINDOWS\system32\mswsock.dll
+0x6db00000 - 0x6db0f000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\nio.dll
+0x6c800000 - 0x6c819000 	C:\Users\Gaff_000\.gradle\native\25\windows-i386\native-platform.dll
+0x71320000 - 0x71333000 	C:\WINDOWS\SYSTEM32\CRYPTSP.dll
+0x712f0000 - 0x7131f000 	C:\WINDOWS\system32\rsaenh.dll
+0x72190000 - 0x721a8000 	C:\WINDOWS\SYSTEM32\bcrypt.dll
+0x73ca0000 - 0x73cc2000 	C:\WINDOWS\SYSTEM32\USERENV.dll
+0x74480000 - 0x744af000 	C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL
+0x76c70000 - 0x76c77000 	C:\WINDOWS\System32\NSI.dll
+0x744e0000 - 0x744f3000 	C:\WINDOWS\SYSTEM32\dhcpcsvc6.DLL
+0x744c0000 - 0x744d4000 	C:\WINDOWS\SYSTEM32\dhcpcsvc.DLL
+0x6c7f0000 - 0x6c7fa000 	C:\Users\Gaff_000\Documents\tools\jdk\jre\bin\management.dll
+0x63680000 - 0x638cb000 	C:\Users\Gaff_000\AppData\Local\Temp\libjsass-5048591886386620793\libsass.dll
+0x621c0000 - 0x621df000 	C:\Users\Gaff_000\AppData\Local\Temp\libjsass-5048591886386620793\libjsass.dll
+0x71a40000 - 0x71b9d000 	C:\WINDOWS\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx1024m -Dfile.encoding=windows-1252 -Duser.country=US -Duser.language=en -Duser.variant 
+java_command: org.gradle.launcher.daemon.bootstrap.GradleDaemon 3.5
+java_class_path (initial): C:\Users\Gaff_000\.gradle\wrapper\dists\gradle-3.5-all\exhrs6ca08n232b14ue48lbye\gradle-3.5\lib\gradle-launcher-3.5.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Users\Gaff_000\Documents\tools\jdk
+PATH=C:\Users\Gaff_000\Documents\tools\cmder\bin;C:\Users\Gaff_000\Documents\tools\cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Users\Gaff_000\Documents\tools\cmder\bin;C:\Users\Gaff_000\Documents\tools\cmder\vendor\git-for-windows\cmd;C:\Users\Gaff_000\Documents\tools\cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Users\Gaff_000\Documents\tools\cmder\vendor\conemu-maximus5;C:\Users\Gaff_000\Documents\tools\cmder\vendor\conemu-maximus5\ConEmu;C:\Users\Gaff_000\Documents\tools\groovy\bin;C:\Users\Gaff_000\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Gaff_000\AppData\Roaming\npm;C:\Users\Gaff_000\AppData\Local\atom\bin;C:\Users\Gaff_000\Documents\tools\cmder\vendor\git-for-windows\usr\bin;C:\Users\Gaff_000\Documents\tools\cmder\vendor\git-for-windows\usr\share\vim\vim74;C:\Users\Gaff_000\Documents\tools\cmder\;C:\Users\Gaff_000\Documents\tools\jdk\bin;C:\Users\Gaff_000\Documents\tools\grails\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Users\Gaff_000\Documents\tools\gradle\bin;C:\Users\Gaff_000\Anaconda3;C:\Users\Gaff_000\Anaconda3\Library\mingw-w64\bin;C:\Users\Gaff_000\Anaconda3\Library\usr\bin;C:\Users\Gaff_000\Anaconda3\Library\bin;C:\Users\Gaff_000\Anaconda3\Scripts;C:\cocos_master;\templates;\tools\cocos2d-console\bin;\cocos-2dx\templates;C:\Users\Gaff_000\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Gaff_000\AppData\Roaming\npm;C:\Users\Gaff_000\AppData\Local\atom\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;C:\Users\Gaff_000\Documents\tools\cmder\vendor\git-for-windows\usr\bin;C:\Users\Gaff_000\Documents\tools\cmder\vendor\git-for-windows\usr\share\vim\vim74;C:\Users\Gaff_000\Documents\tools\cmder\
+USERNAME=Dean _Gaffney
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10.0 , 64 bit Build 15063 (10.0.15063.296)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2
+
+Memory: 4k page, physical 16692608k(10969584k free), swap 19182976k(13326212k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.144-b01) for windows-x86 JRE (1.8.0_144-b01), built on Jul 21 2017 21:58:05 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Tue Nov 21 14:50:56 2017
+elapsed time: 111 seconds (0d 0h 1m 51s)
+

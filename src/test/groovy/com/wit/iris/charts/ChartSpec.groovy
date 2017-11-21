@@ -43,6 +43,14 @@ class ChartSpec extends Specification implements DomainUnitTest<Chart>, DataTest
     def cleanup() {
     }
 
+    void "test archived property is false by default"(){
+        setup:
+        setupData()
+
+        expect:
+        assert !chart.archived
+    }
+
     void "test delete Chart"(){
         setup:
         setupData()

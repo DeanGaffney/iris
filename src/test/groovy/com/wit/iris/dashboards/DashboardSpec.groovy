@@ -53,6 +53,14 @@ class DashboardSpec extends Specification implements DomainUnitTest<Dashboard>, 
     def cleanup() {
     }
 
+    void "test archived property is false by default"(){
+        setup:
+        setupData()
+
+        expect:
+        assert !dashboard.archived
+    }
+
     void "test Dashboard name constraints"(){
         setup:
         setupData()

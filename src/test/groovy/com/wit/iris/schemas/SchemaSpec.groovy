@@ -46,6 +46,14 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         Schema.count() == 2
     }
 
+    void "test schema archived property is false by default"(){
+        setup:
+        setupData()
+
+        expect:
+        assert !schema.archived
+    }
+
     void "test create Schema with SchemaFields"(){
         setup: "I add Schemafields to my Schema"
         setupData()
