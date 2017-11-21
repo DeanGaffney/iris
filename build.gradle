@@ -10,10 +10,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.bertramlabs.asset-pipeline" version "2.14.6"
-}
-
 version "0.1"
 group "iris"
 
@@ -23,6 +19,7 @@ apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.grails-gsp"
 apply plugin:"java"
+apply plugin:"asset-pipeline"
 
 test {
     testLogging.showStandardStreams = true
@@ -38,7 +35,8 @@ dependencies {
     compile 'org.grails:grails-datastore-rest-client:6.1.7.RELEASE'
     compile 'org.grails.plugins:grails-spring-websocket:2.3.0'
     assets 'com.bertramlabs.plugins:sass-asset-pipeline:2.14.6'
-
+    assets 'com.bertramlabs.plugins:less-asset-pipeline:2.14.6'
+    compile 'com.bertramlabs.plugins:less-asset-pipeline:2.14.6'
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -64,6 +62,8 @@ dependencies {
     runtime "org.glassfish.web:el-impl:2.1.2-b03"
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
+    runtime 'com.bertramlabs.plugins:less-asset-pipeline:2.14.6'
+    runtime 'com.bertramlabs.plugins:sass-asset-pipeline:2.14.6'
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.6"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"

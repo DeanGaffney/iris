@@ -9,6 +9,7 @@ class Schema {
     String esIndex
     Long refreshInterval
     Rule rule
+    boolean archived = false
 
     static hasMany = [schemaFields: SchemaField]
     static belongsTo = [user: User]
@@ -22,6 +23,7 @@ class Schema {
         esIndex(nullable: false, blank: false, unique: true, matches: "^[\\w]+\$")
         refreshInterval(nullable: false)
         rule(nullable: true)
+        archived(nullable: true)
     }
     
 }
