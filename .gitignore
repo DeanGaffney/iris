@@ -1,12 +1,22 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
+
+#intellij
 *.iml
 *.ipr
 *.iws
 .idea
 
+#grails stuff
 .gradle
 .asscache
 build
 out
 logs
 classes
+
+#eclipse
+.settings/
+.classpath
+.project
+/.metadata/
+/bin/
