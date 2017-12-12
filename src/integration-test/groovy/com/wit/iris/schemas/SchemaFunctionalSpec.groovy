@@ -1,6 +1,5 @@
-package com.wit.iris.users
+package com.wit.iris.schemas
 
-import com.codeborne.selenide.WebDriverRunner
 import com.wit.iris.page.objects.login.LoginPage
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
@@ -13,21 +12,15 @@ import static com.codeborne.selenide.Selenide.open
 
 @Integration
 @Rollback
-class LoginSpec extends Specification {
+class SchemaFunctionalSpec extends Specification {
 
     def setup() {
     }
 
     def cleanup() {
-        WebDriverRunner.getWebDriver().close()
     }
 
-    void "test login"() {
-        expect:
-        assert login()
-    }
-
-    private boolean login(){
+    void "test schema functional"() {
 
         open("http://localhost:9000")
 
@@ -36,6 +29,10 @@ class LoginSpec extends Specification {
 
         new LoginPage().login()
 
-        return $("li > a[href='/schema/index']").waitUntil(exist, 10000).exists()
+        $("li > a[href='/schema/index']").waitUntil(visible, 10000).click()
+
+        SchemaPage
+
+        assert $("li > a[href='/schema/index']").waitUntil(exist, 10000).exists()
     }
 }

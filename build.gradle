@@ -33,6 +33,8 @@ repositories {
 dependencies {
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile 'org.seleniumhq.selenium:selenium-server:3.5.1'
+    compile 'com.codeborne:selenide:4.7'
     compile 'org.grails.plugins:spring-security-core:3.2.0'
     compile 'org.grails:grails-datastore-rest-client:6.1.7.RELEASE'
     compile 'org.grails.plugins:grails-spring-websocket:2.3.0'
@@ -65,8 +67,6 @@ dependencies {
     runtime "org.apache.tomcat:tomcat-jdbc"
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.6"
     testCompile "org.grails:grails-gorm-testing-support"
-    testCompile 'org.seleniumhq.selenium:selenium-server:3.5.1'
-    testCompile 'com.codeborne:selenide:4.0'
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
