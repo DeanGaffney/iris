@@ -16,5 +16,5 @@ class DriverFactory {
         System.setProperty("webdriver.gecko.driver", System.getenv(GECKO_ENV_NAME))
         WebDriverRunner.setWebDriver(new FirefoxDriver((caps)))
     }
-    
+
 }
