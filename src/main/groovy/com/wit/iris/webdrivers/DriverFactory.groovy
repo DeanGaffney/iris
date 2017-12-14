@@ -1,29 +1,20 @@
 package com.wit.iris.webdrivers
 
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
+import com.codeborne.selenide.WebDriverRunner
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.remote.DesiredCapabilities
+import com.codeborne.selenide.Configuration
 
 class DriverFactory {
 
-    static final String FIREFOX = "firefox"
-    static final String CHROME = "chrome"
+    static final String GECKO_ENV_NAME = "GECKO_DRIVER"
 
-
-    static WebDriver getDriver(String driverName){
-        WebDriver driver = null
-        if(driverName == FIREFOX){
-            DesiredCapabilities caps = DesiredCapabilities.firefox()
-            caps.setCapability("marionette", true)
-            driver = new FirefoxDriver(caps)
-        }else if(driverName == CHROME){
-            System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"))
-            System.setProperty("selenide.browser", "Chrome")
-
-            driver = new ChromeDriver()
-        }
-        return driver
+    static void setFirefoxDriver(){
+        Configuration.browser = "gecko"
+        DesiredCapabilities caps = DesiredCapabilities.firefox()
+        caps.setCapability("marionette", true)
+        System.setProperty("webdriver.gecko.driver", System.getenv(GECKO_ENV_NAME))
+        WebDriverRunner.setWebDriver(new FirefoxDriver((caps)))
     }
-
+    
 }

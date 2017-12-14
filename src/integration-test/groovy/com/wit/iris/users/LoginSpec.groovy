@@ -10,12 +10,15 @@ import static com.codeborne.selenide.Condition.exist
 import static com.codeborne.selenide.Condition.visible
 import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.open
+import com.codeborne.selenide.Configuration
+import com.wit.iris.webdrivers.DriverFactory
 
 @Integration
 @Rollback
 class LoginSpec extends Specification {
 
     def setup() {
+        DriverFactory.setFirefoxDriver()
     }
 
     def cleanup() {
