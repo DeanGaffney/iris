@@ -54,18 +54,18 @@ class SchemaController {
      */
     def route(long id){
         Map resp = ["status": 200, "message": "data inserted"]
-        Schema schema = Schema.get(id)  
+        Schema schema = Schema.get(id)
         if(schema == null){
             resp.status = 500
-            resp.message = "schema with id $request.JSON.schema.id does not exist"
+            resp.message = "schema with id $id does not exist"
         }else{
             routeService.route(schema, request.JSON)        //route and transform data
-            Chart.findAllWhere(schema: schema).each {
-                //loop over all charts related to schema and execute the aggregation
-                RestResponse aggResultData = aggregationService.execute(it.aggregation)
-                //update dashboard.chart with aggregation results
-                chartService.updateChart(schema.esIndex, it, aggResultData.json)
-            }
+//            Chart.findAllWhere(schema: schema).each {
+//                //loop over all charts related to schema and execute the aggregation
+//                RestResponse aggResultData = aggregationService.execute(it.aggregation)
+//                //update dashboard.chart with aggregation results
+//                chartService.updateChart(schema.esIndex, it, aggResultData.json)
+//            }
         }
         render resp as JSON
     }

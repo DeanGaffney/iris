@@ -18,7 +18,9 @@ $link-color: #C62E65;
 //================================
 //           COLLAPSE
 //================================
-
+*[data-toggle='collapse']{
+  cursor: pointer;
+}
 
 //================================
 //           BUTTONS
@@ -42,10 +44,17 @@ $link-color: #C62E65;
 }
 
 //================================
+//      FONT-AWESOME ICONS
+//================================
+
+.fa-clipboard:hover{
+  cursor: pointer;
+}
+
+//================================
 //           TABLES
 //================================
 table{
-
   tr, th{
     background-color: $darker-bg-color;
     color: $secondary-color;
@@ -70,10 +79,22 @@ h5{
 }
 
 //================================
-//           Paragraphs
+//           TEXT
 //================================
 p{
   color: $darker-bg-color;
+  font-family: $font-stack;
+}
+
+#schema-url{
+  @extend p;
+  letter-spacing: $letter-spacing;
+}
+
+strong{
+  color: $darker-bg-color;
+  font-family: $font-stack;
+  letter-spacing: $letter-spacing;
 }
 
 //================================

@@ -33,10 +33,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="schema-url" data-toggle="collapse" href="#schema-url-container" aria-expanded="false" aria-controls="schema-url-container">
+                <div id="schema-url-collapse">
                     <h5>URL</h5>
                     <div id="schema-url-container">
-                        <p><g:createLink controller="schema" action="route" params="[id: schema.id]" absolute="true"/></p>
+                        <p id="schema-url"><g:createLink controller="schema" action="route" params="[id: schema.id]" absolute="true"/></p>
                     </div>
                 </div>
                 <div class="modal-footer">
