@@ -52,9 +52,9 @@ class SchemaController {
      * Takes in data for transformation and routing to elasticsearch
      * data is also sent to any charts needing to be updated
      */
-    def route(){
+    def route(long id){
         Map resp = ["status": 200, "message": "data inserted"]
-        Schema schema = Schema.get(params.id)
+        Schema schema = Schema.get(id)  
         if(schema == null){
             resp.status = 500
             resp.message = "schema with id $request.JSON.schema.id does not exist"
