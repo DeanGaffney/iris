@@ -44,7 +44,8 @@ class SchemaController {
     }
 
     def show(){
-        render(view: "show", model: [schema: Schema.get(params.id)])
+        Schema schema = Schema.get(request.JSON.id as Long)
+        render(template: "show", model: [schema: schema])
     }
 
     /**
@@ -53,7 +54,7 @@ class SchemaController {
      */
     def route(){
         Map resp = ["status": 200, "message": "data inserted"]
-        Schema schema = Schema.get(request.JSON.schema.id)
+        Schema schema = Schema.get(params.id)
         if(schema == null){
             resp.status = 500
             resp.message = "schema with id $request.JSON.schema.id does not exist"

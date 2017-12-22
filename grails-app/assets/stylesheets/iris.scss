@@ -5,6 +5,20 @@ $darker-bg-color: #212121;
 $secondary-color: #fff;
 $letter-spacing: 5px;
 $hover-color: #ca73ff;
+$link-color: #C62E65;
+
+//================================
+//           LINKS
+//================================
+.schema-li-name:hover{
+    cursor: pointer;
+    color: $link-color;
+}
+
+//================================
+//           COLLAPSE
+//================================
+
 
 //================================
 //           BUTTONS
@@ -25,6 +39,41 @@ $hover-color: #ca73ff;
 .btn:hover{
   background-color: $hover-color;
   outline-color: $hover-color;
+}
+
+//================================
+//           TABLES
+//================================
+table{
+
+  tr, th{
+    background-color: $darker-bg-color;
+    color: $secondary-color;
+  }
+  thead tr th{
+    background-color: $darker-bg-color;
+  }
+}
+
+//================================
+//           HEADINGS
+//================================
+h1{
+  color: $primary-color;
+  font-family: $font-stack;
+  font-weight: bolder;
+  letter-spacing: $letter-spacing;
+}
+h5{
+  @extend h1;
+  font-size: small;
+}
+
+//================================
+//           Paragraphs
+//================================
+p{
+  color: $darker-bg-color;
 }
 
 //================================
@@ -135,7 +184,7 @@ $schema-list-padding: percentage(0.03);
   color: $secondary-color;
 }
 
-.schema-li-num{
+.schema-li-id, .schema-li-prefix{
   font-family: $font-stack;
   font-weight: bolder;
   color: $primary-color;
