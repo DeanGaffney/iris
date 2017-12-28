@@ -259,6 +259,14 @@ $schema-list-padding: percentage(0.03);
   background-color: pink;
 }
 
+//================================
+//       AGGREGATIONS PAGE
+//================================
+#agg-result-container > pre{
+  color: $secondary-color;
+  background-color: $darker-bg-color;
+}
+
 
 
 

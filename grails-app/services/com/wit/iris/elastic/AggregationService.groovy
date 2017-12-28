@@ -1,6 +1,8 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.elastic.aggregations.types.enums.MetricType
+import com.wit.iris.elastic.aggregations.types.enums.*
+import grails.converters.JSON
+import com.wit.iris.schemas.enums.FieldType
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
@@ -11,14 +13,26 @@ class AggregationService {
     def elasticService
 
     /**
+     * -------------------------------------------------------------------------
+     *                            AGGREGATIONS
+     *  -------------------------------------------------------------------------
+     */
+
+    /**
      * Executes an aggregation on an elasticsearch index
-     * @param esIndex - index to execute aggregation
      * @param agg - the aggregation object to execute
      * @return aggregation result data from elasticsearch
      */
-    RestResponse execute(String esIndex, Aggregation agg){
-       return elasticService.executeAggregation(esIndex, agg)
+    RestResponse execute(Aggregation agg){
+        log.debug("Aggregation Domain Executing:[${agg.properties as JSON}]")
+        return elasticService.executeAggregation(agg)
     }
+
+    /**
+     * -------------------------------------------------------------------------
+     *                            METRICS
+     *  -------------------------------------------------------------------------
+     */
 
     /**
      * Gets the template for the specific metric type
@@ -55,10 +69,16 @@ class AggregationService {
      * @return A List of schema fields which have fieldType that is numeric
      */
     List getMetricFields(Schema schema){
-        return schema.schemaFields.findAll{ it.fieldType != "String" &&
-                                            it.fieldType != "boolean" &&
-                                            it.fieldType != "Date"} as List
+        return schema.schemaFields.findAll{ it.fieldType != FieldType.STRING.getValue() &&
+                                            it.fieldType != FieldType.BOOLEAN.getValue() &&
+                                            it.fieldType != FieldType.DATE.getValue()} as List
     }
+
+    /**
+     * -------------------------------------------------------------------------
+     *                            BUCKETS
+     *  -------------------------------------------------------------------------
+     */
 
     /**
      * Gets the path to the template for the specific bucket aggregation type
@@ -67,14 +87,33 @@ class AggregationService {
      */
     String getBucketTemplate(String aggType){
         String template = ""
-        if(aggType == "terms"){
+        if(aggType == BucketType.TERMS.getValue()){
             template = "/aggregation/bucket/terms"
         }
-
         return template
     }
 
+    /**
+     * Get a list of all fields in schema suited for the aggregation type
+     * @param schema - the schema to get the fields from
+     * @param aggType - the type of aggregation (terms, date histogram etc.....)
+     * @return List of schema fields suited for the aggregation type
+     */
     List getBucketFields(Schema schema, aggType){
-
+        List fields = Collections.emptyList()
+        if(aggType == BucketType.TERMS.getValue()){
+            fields = getTermsFields(schema)
+        }
+        return fields
     }
+
+    /**
+     * Gets all SchemaFields from a Schema that are suited for the Terms aggregation
+     * @param schema - schema to get the fields from
+     * @return List of Schema Fields
+     */
+    List getTermsFields(Schema schema){
+        return schema.schemaFields.findAll{ it.fieldType == FieldType.STRING.getValue()} as List
+    }
+
 }

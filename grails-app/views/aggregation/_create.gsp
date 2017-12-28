@@ -30,8 +30,9 @@
     <div id="agg-template-container"></div>
     <button type="button" id="add-agg-btn" class="btn hidden">Add</button>
     <div id="aggs-list"></div>
-    <button id="build-agg-btn" type="button" class="btn">Build Aggregations</button>
-    <div id="built-agg"></div>
+    <button id="execute-agg-btn" type="button" class="btn" href="${createLink(controller: 'aggregation', action: 'getAggregationResult')}">Execute Aggregation</button>
+    <div id="agg-result-container"></div>
+    <button type="button" id="clear-agg-btn" class="btn">Clear<span class="fa fa-trash"></span></button>
 </div>
 
 <g:javascript>
@@ -55,8 +56,24 @@
         addAggregation();
     });
 
-    $("#build-agg-btn").on("click", function(){
-       console.log(JSON.stringify(getRootAggregation(), null, 4));
+    $("#execute-agg-btn").on("click", function(){
+        const URL = $(this).attr("href");
+        aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
+        var agg = {
+            schemaId: aggregation.schemaId,
+            aggJson: aggregation.json,
+            aggLevels: aggregation.levels
+        }
+        prettyPrintJsonResponse(URL, REST.method.post, REST.contentType.json, agg, "#agg-result-container");
+    });
+
+    $("#clear-agg-btn").on("click", function(){
+       //reset aggregation object
+        aggregation.init();
+
+        //clear results area
+        $("#agg-result-container").html("");
+        $("#aggs-list").html("");
     });
 </g:javascript>
 

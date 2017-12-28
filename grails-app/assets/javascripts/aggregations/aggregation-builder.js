@@ -2,7 +2,7 @@
  * Created by dean on 31/10/17.
  */
 var aggregation;       // the root aggregation object
-var aggCounter = 1;
+var aggCounter = 0;
 
 //==================================
 //      AGGREGATION BUILDING
@@ -16,7 +16,7 @@ var aggregations = [];
  * @constructor
  */
 function AggregationObj(aggType){
-    this.name = "aggs_" + aggCounter;
+    this.name = "aggs_" + aggregation.levels;
     this.aggs = {
         [this.name] : aggType
     }
@@ -63,7 +63,7 @@ var AGG_TYPES = {
 
 /**
  * adds extra attributes to an aggregation object
- * @param type
+ * @param type - the aggregation type
  */
 function addAttributes(aggType){
     if(isCommonMetric(aggType)){
@@ -96,10 +96,10 @@ function addAggregation(){
         templateContainer.find("#agg-field-select").val());   //create agg type from inputs
     aggType = addAttributes(aggType);       //add any extra attributes
     var agg = new AggregationObj(aggType);  //wrap the type in an agg object
-    aggregations.push(agg);                 //add this to the array
+    aggregation.aggregations.push(agg);                 //add this to the array
     $("#aggs-list").append("<div id='row'><div class='col-6' id='agg-item'>" + JSON.stringify(agg) + "</div></div>");
     $("#agg-template-container").empty();       //clear out template container
-    aggCounter++;
+    aggregation.levels++;
 }
 
 /**
@@ -108,9 +108,9 @@ function addAggregation(){
  */
 function buildAggregation(){
     var agg;
-    for (var i = aggregations.length - 1; i >= 1; i--) {
-        aggregations[i-1] = nestAggregations(aggregations[i-1], aggregations[i]);
-        agg = aggregations[i-1];
+    for (var i = aggregation.aggregations.length - 1; i >= 1; i--) {
+        aggregation.aggregations[i-1] = nestAggregations(aggregation.aggregations[i-1], aggregation.aggregations[i]);
+        agg = aggregation.aggregations[i-1];
     }
     return agg
 }
@@ -121,9 +121,9 @@ function buildAggregation(){
  */
 function getRootAggregation(){
     //if list size is 1 just return that, else return result from builtAggregation()
-    var agg = (aggregations.length == 1) ? aggregations[0] : buildAggregation(aggregations);
+    var agg = (aggregation.aggregations.length == 1) ? aggregation.aggregations[0] : buildAggregation(aggregation.aggregations);
     //add this to map to avoid sending back documents,we only want results
-    agg.aggs["size"] = 0;
+    agg["size"] = 0;
     //remove name from the agg, not needed for backend
     delete agg.name;
     return agg;

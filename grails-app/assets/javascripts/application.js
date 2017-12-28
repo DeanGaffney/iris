@@ -39,6 +39,21 @@ var REST = {
     }
 };
 
+function prettyPrintJsonResponse(controllerUrl, methodType, contentType, data, successContainer){
+    $.ajax({
+        url: controllerUrl,
+        type: methodType,
+        dataType: REST.dataType.html,
+        contentType: contentType,
+        data: JSON.stringify(data),
+        success: function(data){
+            $(successContainer).html("<h1>Result</h1><pre>" + JSON.stringify(JSON.parse(data), null, 4) + "</pre>");
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
 
 function updateContainerHtml(controllerUrl, methodType, contentType, data, successContainer){
     $.ajax({
