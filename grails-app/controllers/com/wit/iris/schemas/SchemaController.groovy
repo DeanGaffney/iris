@@ -57,9 +57,9 @@ class SchemaController {
         Schema schema = Schema.get(id)
         if(schema == null){
             resp.status = 500
-            resp.message = "schema with id $id does not exist"
+            resp.message = "Schema with id $id does not exist"
         }else{
-            routeService.route(schema, request.JSON)        //route and transform data
+            resp = routeService.route(schema, request.JSON).json as Map        //route and transform data
 //            Chart.findAllWhere(schema: schema).each {
 //                //loop over all charts related to schema and execute the aggregation
 //                RestResponse aggResultData = aggregationService.execute(it.aggregation)

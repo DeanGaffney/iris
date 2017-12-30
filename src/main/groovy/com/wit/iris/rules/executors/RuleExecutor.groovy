@@ -8,11 +8,11 @@ import com.wit.iris.rules.Rule
 class RuleExecutor {
 
     static Map execute(Rule rule, Map json){
-        Binding binding = new Binding();
-        binding.setVariable("fields", json);
-        GroovyShell shell = new GroovyShell(binding);
+        Binding binding = new Binding()
+        binding.setVariable("json", json)
+        GroovyShell shell = new GroovyShell(binding)
 
-        Object result = shell.evaluate(rule.script);
+        Object result = shell.evaluate(rule.script)
         return result as Map
     }
 }

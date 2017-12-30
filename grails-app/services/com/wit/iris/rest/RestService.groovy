@@ -58,6 +58,21 @@ class RestService {
     }
 
     /**
+     * REST POST method
+     * @param url - url to act on
+     * @param jsonData - the json data in Map format to send to the url
+     * @return response from the endpoint
+     */
+    RestResponse post(String url, Map jsonData){
+        resp = rest.post(url){
+            contentType "application/json"
+            json JsonOutput.toJson(jsonData)
+        }
+        logResponse("POST", url)
+        return resp
+    }
+
+    /**
      * REST DELETE method
      * @param url - the url to act on
      * @return response from the endpoint

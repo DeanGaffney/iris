@@ -42,7 +42,9 @@ class ElasticService {
             properties += [(it.name) : ["type": convertDataType(it.fieldType)]]
         }
         mapping.mappings.schema.properties = properties
-        return JsonOutput.toJson(mapping)
+        String json = JsonOutput.toJson(mapping)
+        log.debug("Created Mapping: \n $json")
+        return json
     }
 
     /**
@@ -73,11 +75,7 @@ class ElasticService {
      * @return response from the endpoint
      */
     RestResponse insert(String esIndex, Map data){
-       resp = restService.put("${getElasticEndpointUrl()}/$esIndex}", data)
-        if(resp.statusCodeValue != 200){
-            //TODO throw exception
-            resp = [:]
-        }
+        resp = restService.post("${getElasticEndpointUrl()}/$esIndex/$ES_INDEX_TYPE/", data)
         return resp
     }
 

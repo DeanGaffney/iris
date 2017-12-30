@@ -4,6 +4,8 @@ import com.wit.iris.rules.executors.RuleExecutor
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import org.grails.web.json.JSONObject
+import grails.plugins.rest.client.RestResponse
+
 
 @Transactional
 class RouteService {
@@ -13,13 +15,12 @@ class RouteService {
     /**
      * Routes incoming data to Elasticsearch
      **/
-    def route(Schema schema, JSONObject json) {
-        Map data = [:]
+    RestResponse route(Schema schema, JSONObject json) {
+        Map data = json as Map
         if(schema.rule != null){
-            data = RuleExecutor.execute(schema.rule, json.fields as Map)
-        }else{
-            data = json.fields as Map
+            data = RuleExecutor.execute(schema.rule, data)
         }
-        elasticService.insert(schema.esIndex, data)
+        log.debug("Data for Schema[${schema.id}]:\n ${data.toString()}")
+        return elasticService.insert(schema.esIndex, data)
     }
 }

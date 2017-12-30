@@ -22,11 +22,11 @@ class RuleExecutorSpec extends Specification implements GrailsUnitTest, DataTest
 
     def setup() {
         user = new User(username: "deangaffney", password: "password")
-        rule = new Rule(script: "fields.avg = fields.total / fields.size \n" +
+        rule = new Rule(script: "json.avg = json.total / json.size \n" +
                                 "return fields")
         schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor",
                 refreshInterval: 10000, rule: rule)
-        json = new JSONObject().put("fields", ["total": 6, "size": 2])
+        json = new JSONObject(["total": 6, "size": 2])
     }
 
     def cleanup() {
@@ -34,7 +34,7 @@ class RuleExecutorSpec extends Specification implements GrailsUnitTest, DataTest
 
     void "test execute method"() {
         when: "I execute the schema rule"
-        Map data = RuleExecutor.execute(schema.rule, json.fields as Map)
+        Map data = RuleExecutor.execute(schema.rule, json as Map)
 
         then: "the map returned has a new field called average"
         assert data.avg != null
