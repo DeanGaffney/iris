@@ -11,9 +11,9 @@
                 </div>
 
                 <div class="modal-body">
-                    <div id="schema-field-collapse" data-toggle="collapse" href="#schema-fields-container" aria-expanded="false" aria-controls="schema-fields-container">
+                    <div id="schema-field-collapse" data-toggle="collapse" href="#schema-fields-container" aria-expanded="false" aria-controls="schema-fields-container" data-target="#schema-fields-container">
                         <h5>Schema Fields</h5>
-                        <div id="schema-fields-container">
+                        <div id="schema-fields-container" class="collapse">
                             <table id="schema-fields-table" class="table">
                                 <thead>
                                     <tr>

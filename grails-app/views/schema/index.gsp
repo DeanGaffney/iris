@@ -22,7 +22,7 @@
                     <span class="tab"></span>
                     <span class="schema-li-id tab">${i + 1}</span>
                     <span class="tab">-</span>
-                    <span class="schema-li-name" href="${createLink(controller: 'schema', action: 'show')}">${schema.name}</span>
+                    <span class="schema-li-name" href="${createLink(controller: 'schema', action: 'show', params: [id: schema.id])}">${schema.name}</span>
                 </div>
             </g:each>
         </div>
@@ -35,11 +35,7 @@
 
             $(".schema-li-name").on("click", function(){
                 var URL = $(this).attr("href");
-                var schemaId = $(this).parent().find(".schema-li-id").html();
-                console.log(schemaId);
-                var schema = {id : schemaId}
-                console.log(JSON.stringify(schema));
-                updateContainerHtml(URL, REST.method.post, REST.contentType.json, schema, "#schema-main-container");
+                updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-main-container");
             });
           </g:javascript>
     </body>

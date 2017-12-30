@@ -24,7 +24,7 @@ class SchemaController {
 
     def save(Schema schema){
         Schema savedSchema = schemaService.createSchema(schema)
-        render(template: "show", model: [schema: savedSchema])
+        redirect(view: "index")
     }
 
     def edit(){
@@ -43,8 +43,8 @@ class SchemaController {
         redirect(view: "index")
     }
 
-    def show(){
-        Schema schema = Schema.get(request.JSON.id as Long)
+    def show(long id){
+        Schema schema = Schema.get(id)
         render(template: "show", model: [schema: schema])
     }
 
