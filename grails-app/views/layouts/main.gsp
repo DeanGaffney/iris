@@ -22,11 +22,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-            </li>
+            %{--<li class="nav-item">--}%
+                %{--<i class="fa fa-bars fa-2x" aria-hidden="true"></i>--}%
+            %{--</li>--}%
             <li class="nav-item">
                 <a href="${createLink(controller:'schema', action:'index')}">Schemas</a>
+            </li>
+            <li class="nav-item">
+                <a href="${createLink(controller:'aggregation', action:'index')}">Aggregations</a>
+            </li>
+            <li class="nav-item">
+                <a href="${createLink(controller:'dashboard', action:'index')}">Dashboards</a>
             </li>
         </ul>
     </div>

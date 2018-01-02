@@ -102,14 +102,25 @@ strong{
 //================================
 nav.navbar{
   color: $secondary-color !important;
-  background-color: $primary-color;
+  background-color: $background-color;
   text-transform: uppercase;
   font-family: $font-stack;
   font-weight: bolder;
   letter-spacing: $letter-spacing;
 }
-.nav-item:hover{
-  color: $darker-bg-color;
+
+.navbar-nav > li > a{
+  color: $secondary-color;
+  text-decoration: none;
+}
+
+.nav-item + .nav-item{
+  margin-left: 5%;
+}
+
+.navbar-nav>li>a:hover{
+  background-color: $background-color !important;
+  color: $link-color !important;
 }
 //================================
 //           SIDEBAR
