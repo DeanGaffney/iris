@@ -1,9 +1,11 @@
 package com.wit.iris.functional.pages.schemas
 
 import com.codeborne.selenide.CollectionCondition
+import com.codeborne.selenide.Condition
 import com.wit.iris.functional.pages.Page
 import com.wit.iris.schemas.SchemaField
 
+import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Condition.visible
 import com.codeborne.selenide.SelenideElement
 import com.wit.iris.functional.pages.Wait
@@ -29,9 +31,14 @@ class SchemaPage extends Page {
     private static final String SCHEMA_FIELD_CONFIRM_BUTTON = "#schema-field-confirm-btn"
 
     public static final String SCHEMA_ROWS = ".schema-row"
+    private static final String SCHEMA_LINKS = ".schema-li-name"
+    private static final String DELETE_SCHEMA_BUTTON = "#delete-schema-btn"
+
+    private numOfSchemas
 
     SchemaPage(){
         super(CREATE_BUTTON, visible, Wait.SHORT)
+        this.numOfSchemas = getNumberOfSchemas()
     }
 
     SchemaPage createSchema(String schemaName, List<SchemaField> schemaFields){
@@ -45,14 +52,33 @@ class SchemaPage extends Page {
 
         schemaFields.each {field -> addSchemaField(field.name, field.fieldType)}
 
-        int numOfSchemas = getNumberOfSchemas()
-
         schemaContainer.find(SAVE_SCHEMA_BUTTON).click()
 
         //wait for save to complete
-        $$(SCHEMA_ROWS).waitUntil(CollectionCondition.size(numOfSchemas + 1), Wait.MEDIUM.getTime())
+        $$(SCHEMA_ROWS).waitUntil(CollectionCondition.size(getSchemaCountProperty() + 1), Wait.MEDIUM.getTime())
+
+        setSchemaCountProperty( getSchemaCountProperty() + 1)
+
 
         return this
+    }
+
+    SchemaPage deleteSchema(String schemaName){
+        SelenideElement schema = getSchema(schemaName)
+        schema.click()
+
+        int numOfSchemas = getNumberOfSchemas()
+        $(DELETE_SCHEMA_BUTTON).waitUntil(visible, Wait.SHORT.getTime()).click()
+
+        $$(SCHEMA_ROWS).waitUntil(CollectionCondition.size(numOfSchemas - 1), Wait.MEDIUM.getTime())
+
+        setSchemaCountProperty(numOfSchemas - 1)
+
+        return this
+    }
+
+    SelenideElement getSchema(String schemaName){
+        return $$(SCHEMA_LINKS).find(Condition.text(schemaName))
     }
 
     private void addSchemaField(String fieldName, String fieldType){
@@ -68,6 +94,14 @@ class SchemaPage extends Page {
 
     int getNumberOfSchemas(){
         return $$(SCHEMA_ROWS).size()
+    }
+
+    int getSchemaCountProperty(){
+        return this.numOfSchemas
+    }
+
+    void setSchemaCountProperty(int count){
+        this.numOfSchemas = count
     }
 
 }

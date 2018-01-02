@@ -97,7 +97,7 @@ function addAggregation(){
     aggType = addAttributes(aggType);       //add any extra attributes
     var agg = new AggregationObj(aggType);  //wrap the type in an agg object
     aggregation.aggregations.push(agg);                 //add this to the array
-    $("#aggs-list").append("<div id='row'><div class='col-6' id='agg-item'>" + JSON.stringify(agg) + "</div></div>");
+    $("#aggs-list").append("<div class='row'><div class='agg-item'>" + JSON.stringify(agg) + "</div></div>");
     $("#agg-template-container").empty();       //clear out template container
     aggregation.levels++;
 }

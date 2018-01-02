@@ -1,9 +1,12 @@
 package com.wit.iris.elastic.aggregations.types.enums
 
+import com.wit.iris.elastic.aggregations.types.interfaces.AggType
+
 /**
  * Created by dean on 21/10/17.
  */
-enum BucketType {
+enum BucketType implements AggType{
+
     DATE_HISTOGRAM("date_histogram"),
     DATE_RANGE("date_range"),
     FILTER("filter"),
@@ -21,6 +24,7 @@ enum BucketType {
         this.value = value;
     }
 
+    @Override
     String getValue(){ return this.value; }
 
 }

@@ -2,6 +2,9 @@ package com.wit.iris.functional.demo
 
 import com.wit.iris.elastic.ElasticEndpoint
 import com.wit.iris.elastic.ElasticService
+import com.wit.iris.elastic.aggregations.types.enums.MetricType
+import com.wit.iris.functional.pages.Wait
+import com.wit.iris.functional.pages.aggregations.AggregationPage
 import com.wit.iris.functional.pages.schemas.SchemaPage
 import com.wit.iris.schemas.SchemaField
 import com.wit.iris.schemas.enums.FieldType
@@ -12,6 +15,8 @@ import com.wit.iris.functional.webdrivers.DriverFactory
 import com.codeborne.selenide.WebDriverRunner
 import com.wit.iris.functional.pages.login.LoginPage
 import spock.lang.Specification
+
+import java.util.concurrent.TimeUnit
 
 import static com.codeborne.selenide.Selenide.open
 import static com.codeborne.selenide.Selenide.$$
@@ -60,13 +65,26 @@ class AggregationDemoSpec extends Specification {
 
         SchemaPage schemaPage = new LoginPage().login().getNavbar().goToSchemaPage()
 
-        int numOfSchemas = schemaPage.getNumberOfSchemas()
         schemaPage.createSchema(AGENT_NAME, getSchemaFields())
 
         then: "there should now be 3 schemas present"
-        assert $$(SchemaPage.SCHEMA_ROWS).shouldHaveSize(numOfSchemas + 1)
+        assert $$(SchemaPage.SCHEMA_ROWS).shouldHaveSize(schemaPage.getSchemaCountProperty())
 
-        cleanElasticsearch()
+        when: "I go to the aggregation page"
+
+        AggregationPage aggregationPage = schemaPage.getNavbar().goToAggregationPage()
+
+        WebDriverRunner.getWebDriver().manage().timeouts().implicitlyWait(Wait.SHORT.getTime(), TimeUnit.MILLISECONDS)  //wait 10 seconds
+
+        then: "I create and execute an aggregation and delete the schema"
+
+        assert aggregationPage.createMetricAggregation(AGENT_NAME, MetricType.MAX, "memUsed", 10)
+                       .executeAggregation()
+                       .getNavbar()
+                       .goToSchemaPage()
+                       .deleteSchema(AGENT_NAME)
+                       .getNumberOfSchemas() == 2
+
     }
 
     private List<SchemaField> getSchemaFields(){

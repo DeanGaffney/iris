@@ -1,9 +1,11 @@
 package com.wit.iris.elastic.aggregations.types.enums
 
+import com.wit.iris.elastic.aggregations.types.interfaces.AggType
+
 /**
  * Created by dean on 21/10/17.
  */
-enum MetricType {
+enum MetricType implements AggType{
 
     AVERAGE("avg"),
     CARDINALITY("cardinality"),
@@ -16,12 +18,13 @@ enum MetricType {
     SUM("sum"),
     VALUE_COUNT("value_count");
 
-    private final String value;
+    private final String value
 
     private MetricType(String value){
-        this.value = value;
+        this.value = value
     }
 
-    String getValue(){ return this.value; }
+    @Override
+    String getValue(){ return this.value }
 
 }
