@@ -97,12 +97,6 @@ strong{
   letter-spacing: $letter-spacing;
 }
 
-label{
-  color : $darker-bg-color;
-  font-family: $font-stack;
-  letter-spacing: $letter-spacing;
-}
-
 //================================
 //           NAVBAR
 //================================
@@ -126,6 +120,12 @@ nav.navbar{
 //================================
 .schema-form > .card{
   background-color: $darker-bg-color;
+}
+
+#create-schema-container label{
+  color : $darker-bg-color;
+  font-family: $font-stack;
+  letter-spacing: $letter-spacing;
 }
 
 //================================
@@ -272,6 +272,13 @@ $schema-list-padding: percentage(0.03);
   color: $secondary-color;
   background-color: $darker-bg-color;
 }
+
+#agg-main-container label{
+  color : $secondary-color;
+  font-family: $font-stack;
+  letter-spacing: $letter-spacing;
+}
+
 
 
 
