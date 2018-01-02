@@ -17,7 +17,7 @@ class SchemaService {
         schema.esIndex = elasticService.getIndexFromName(schema.name)
         schema.user = springSecurityService.getCurrentUser()
         if(!(schema.validate() && schema.save(flush: true))){
-            println(schema.errors)
+            log.debug(schema.errors.allErrors*.toString())
         }else{
             elasticService.createIndex(schema)     //create elastic search index and mapping
         }

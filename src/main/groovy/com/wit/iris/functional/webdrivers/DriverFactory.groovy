@@ -1,4 +1,4 @@
-package com.wit.iris.webdrivers
+package com.wit.iris.functional.webdrivers
 
 import com.codeborne.selenide.WebDriverRunner
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -11,10 +11,12 @@ class DriverFactory {
 
     static void setFirefoxDriver(){
         Configuration.browser = "gecko"
+        Configuration.startMaximized = true
         DesiredCapabilities caps = DesiredCapabilities.firefox()
         caps.setCapability("marionette", true)
         System.setProperty("webdriver.gecko.driver", System.getenv(GECKO_ENV_NAME))
         WebDriverRunner.setWebDriver(new FirefoxDriver((caps)))
+        WebDriverRunner.getWebDriver().manage().window().maximize()
     }
 
 }

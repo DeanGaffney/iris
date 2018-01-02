@@ -23,7 +23,7 @@ class SchemaController {
     }
 
     def save(Schema schema){
-        Schema savedSchema = schemaService.createSchema(schema)
+        schemaService.createSchema(schema)
         redirect(view: "index")
     }
 

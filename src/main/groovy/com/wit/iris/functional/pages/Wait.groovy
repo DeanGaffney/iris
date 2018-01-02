@@ -1,4 +1,4 @@
-package com.wit.iris.page.objects
+package com.wit.iris.functional.pages
 
 /**
  * Created by dean on 12/12/17.

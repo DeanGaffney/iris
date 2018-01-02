@@ -86,6 +86,7 @@
             //add this obj to schema array
             schemaObj.schemaFields.push(schemaFieldObj);
         });
+
         reloadAfterAjax(URL, REST.method.post, REST.contentType.json, schemaObj);
     });
 </g:javascript>
