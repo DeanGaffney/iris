@@ -2,13 +2,20 @@ package com.wit.iris.functional.pages.aggregations
 
 import com.codeborne.selenide.CollectionCondition
 import com.codeborne.selenide.Condition
+import com.codeborne.selenide.SelenideElement
+import com.codeborne.selenide.WebDriverRunner
 import com.wit.iris.elastic.aggregations.types.interfaces.AggType
 import com.wit.iris.functional.pages.Page
 import com.wit.iris.functional.pages.Wait
+import com.wit.iris.functional.pages.schemas.SchemaPage
+import org.openqa.selenium.JavascriptExecutor
+
+import java.util.concurrent.TimeUnit
 
 import static com.codeborne.selenide.Condition.visible
 import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.$$
+import static com.codeborne.selenide.Selenide.screenshot
 
 class AggregationPage extends Page{
 
@@ -19,6 +26,7 @@ class AggregationPage extends Page{
     private static final String EXECUTE_AGG_BUTTON = "#execute-agg-btn"
     private static final String AGG_RESULT_CONTAINER = "#agg-result-container"
     private static final String ADDED_AGGS = ".agg-item"
+    private static final String CLEAR_AGG_BUTTON = "#clear-agg-btn"
 
     private static final String METRIC_MISSING_INPUT = "#metric-missing-input"
     private static final String AGG_TYPE_POSTFIX = "-btn"
@@ -54,19 +62,18 @@ class AggregationPage extends Page{
         return this
     }
 
+    AggregationPage scrollToResult(){
+        SelenideElement clearButton = $(CLEAR_AGG_BUTTON).scrollTo()
+        JavascriptExecutor js = (JavascriptExecutor)WebDriverRunner.getWebDriver()
+        js.executeScript("arguments[0].scrollIntoView();", clearButton)     //scroll to element
+        WebDriverRunner.getWebDriver().manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS)  //wait 2 seconds
+
+        screenshot("agg-result")
+        return this
+    }
 
     int getAggLevel(){
         return $$(ADDED_AGGS).size()
-    }
-
-    void addAggregation(){
-
-    }
-
-    AggregationPage createTermsAggregation(){
-
-
-        return this
     }
 
     AggregationPage executeAggregation(){
@@ -76,11 +83,6 @@ class AggregationPage extends Page{
         //wait for result to display
         $(AGG_RESULT_CONTAINER).waitUntil(Condition.not(Condition.empty), Wait.SHORT.getTime())
 
-        return screenshotAggregationResult()
-    }
-
-    AggregationPage screenshotAggregationResult(){
-        $(AGG_RESULT_CONTAINER).screenshotAsImage()
         return this
     }
 }

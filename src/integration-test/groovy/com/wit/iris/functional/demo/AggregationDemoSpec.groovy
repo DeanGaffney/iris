@@ -66,6 +66,10 @@ class AggregationDemoSpec extends Specification {
         SchemaPage schemaPage = new LoginPage().login().getNavbar().goToSchemaPage()
 
         schemaPage.createSchema(AGENT_NAME, getSchemaFields())
+                  .showSchema(AGENT_NAME)
+                  .showSchemaFields()
+                  .closeSchema()
+
 
         then: "there should now be 3 schemas present"
         assert $$(SchemaPage.SCHEMA_ROWS).shouldHaveSize(schemaPage.getSchemaCountProperty())
@@ -79,11 +83,13 @@ class AggregationDemoSpec extends Specification {
         then: "I create and execute an aggregation and delete the schema"
 
         assert aggregationPage.createMetricAggregation(AGENT_NAME, MetricType.MAX, "memUsed", 10)
-                       .executeAggregation()
-                       .getNavbar()
-                       .goToSchemaPage()
-                       .deleteSchema(AGENT_NAME)
-                       .getNumberOfSchemas() == 2
+                           .executeAggregation()
+                           .scrollToResult()
+                           .getNavbar()
+                           .goToSchemaPage()
+                           .showSchema(AGENT_NAME)
+                           .deleteSchema(AGENT_NAME)
+                           .getNumberOfSchemas() == 2
 
     }
 

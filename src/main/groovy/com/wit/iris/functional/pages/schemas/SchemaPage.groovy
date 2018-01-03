@@ -2,8 +2,13 @@ package com.wit.iris.functional.pages.schemas
 
 import com.codeborne.selenide.CollectionCondition
 import com.codeborne.selenide.Condition
+import com.codeborne.selenide.Selenide
+import com.codeborne.selenide.WebDriverRunner
 import com.wit.iris.functional.pages.Page
 import com.wit.iris.schemas.SchemaField
+import org.openqa.selenium.JavascriptExecutor
+
+import java.util.concurrent.TimeUnit
 
 import static com.codeborne.selenide.Condition.text
 import static com.codeborne.selenide.Condition.visible
@@ -11,6 +16,7 @@ import com.codeborne.selenide.SelenideElement
 import com.wit.iris.functional.pages.Wait
 import static com.codeborne.selenide.Selenide.$
 import static com.codeborne.selenide.Selenide.$$
+import static com.codeborne.selenide.Selenide.screenshot
 
 
 /**
@@ -29,10 +35,12 @@ class SchemaPage extends Page {
     private static final String SCHEMA_FIELD_NAME_FIELD = "#schema-field-name"
     private static final String SCHEMA_FIELD_TYPE_FIELD = "#schema-field-type"
     private static final String SCHEMA_FIELD_CONFIRM_BUTTON = "#schema-field-confirm-btn"
+    private static final String SCHEMA_FIELDS_CONTAINER = "#schema-fields-container"
 
     public static final String SCHEMA_ROWS = ".schema-row"
     private static final String SCHEMA_LINKS = ".schema-li-name"
     private static final String DELETE_SCHEMA_BUTTON = "#delete-schema-btn"
+    private static final String CLOSE_SCHEMA_BUTTON = "button.close"
 
     private numOfSchemas
 
@@ -63,16 +71,38 @@ class SchemaPage extends Page {
         return this
     }
 
+    SchemaPage showSchema(String schemaName){
+        getSchema(schemaName).click()
+        return this
+    }
+
     SchemaPage deleteSchema(String schemaName){
-        SelenideElement schema = getSchema(schemaName)
-        schema.click()
 
         int numOfSchemas = getNumberOfSchemas()
-        $(DELETE_SCHEMA_BUTTON).waitUntil(visible, Wait.SHORT.getTime()).click()
+        SelenideElement deleteButton = $(DELETE_SCHEMA_BUTTON).waitUntil(visible, Wait.SHORT.getTime())
+
+        deleteButton.click()
 
         $$(SCHEMA_ROWS).waitUntil(CollectionCondition.size(numOfSchemas - 1), Wait.MEDIUM.getTime())
 
         setSchemaCountProperty(numOfSchemas - 1)
+
+        return this
+    }
+
+    SchemaPage closeSchema(){
+        $(CLOSE_SCHEMA_BUTTON).click()
+        return this
+    }
+
+    SchemaPage showSchemaFields(){
+
+        JavascriptExecutor js = (JavascriptExecutor)WebDriverRunner.getWebDriver()
+        js.executeScript("arguments[0].click();", $(SCHEMA_FIELDS_CONTAINER))     //scroll to element
+
+        $(SCHEMA_FIELDS_CONTAINER).waitUntil(Condition.cssClass("show"), Wait.SHORT.getTime())
+
+        screenshot("schema-show")
 
         return this
     }
@@ -87,6 +117,8 @@ class SchemaPage extends Page {
         //input field attributes
         $(SCHEMA_FIELD_NAME_FIELD).waitUntil(visible, Wait.SHORT.getTime()).setValue(fieldName)
         $(SCHEMA_FIELD_TYPE_FIELD).waitUntil(visible, Wait.SHORT.getTime()).selectOption(fieldType)
+
+        screenshot("$fieldName-field")
 
         //add the field
         $(SCHEMA_FIELD_CONFIRM_BUTTON).click()
