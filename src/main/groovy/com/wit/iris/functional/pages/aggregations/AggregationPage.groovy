@@ -53,11 +53,15 @@ class AggregationPage extends Page{
 
         int aggLevel = getAggLevel()
 
+        screenshot("metric-agg-building")
+
         //add the aggregation
         $(ADD_AGG_BUTTON).click()
 
         //wait for agg to be added to list
         $$(ADDED_AGGS).waitUntil(CollectionCondition.size(aggLevel + 1), Wait.SHORT.getTime())
+
+        screenshot("metric-agg-added")
 
         return this
     }
