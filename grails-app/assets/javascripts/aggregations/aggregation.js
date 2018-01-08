@@ -10,6 +10,6 @@ function Aggregation(schemaId){
         this.aggregations = [];
         this.levels = 1;
         this.json = {};
-    }
+    };
     this.init();
 }
