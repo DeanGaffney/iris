@@ -86,3 +86,8 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+
+task killGeckoDrivers(type:Exec){
+    commandLine 'taskkill', '/f', '/im', 'geckodriver*'
+    ignoreExitValue = true
+}

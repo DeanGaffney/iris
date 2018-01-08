@@ -10,6 +10,7 @@
 //= require bootstrap/tether.min
 //= require bootstrap/bootstrap.min
 //= require flash-messages/flash.js
+//= require lodash/lodash.min.js
 //= require_tree .
 //= require_self
 
