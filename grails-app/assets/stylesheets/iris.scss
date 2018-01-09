@@ -15,6 +15,17 @@ $link-color: #C62E65;
     color: $link-color;
 }
 
+a{
+  text-decoration: none;
+  font-family: $font-stack;
+  color: $primary-color;
+}
+
+a:hover{
+  cursor: pointer;
+  color: $link-color;
+}
+
 //================================
 //           COLLAPSE
 //================================
@@ -276,9 +287,9 @@ $schema-list-padding: percentage(0.03);
   background-color: pink;
 }
 
-.grid-stack-item-content{
-  background-color: blue;
-}
+//.grid-stack-item-content{
+//  background-color: blue;
+//}
 
 //================================
 //       AGGREGATIONS PAGE

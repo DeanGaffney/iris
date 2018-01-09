@@ -1,6 +1,12 @@
 /**
  * Created by dean on 31/10/17.
  */
+
+/**
+ * This Aggregation object is used in the Aggregation Playground
+ * @param schemaId - id of schema from playground
+ * @constructor
+ */
 function Aggregation(schemaId){
     this.schemaId = schemaId;
     this.aggregations;
