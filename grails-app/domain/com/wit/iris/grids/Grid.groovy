@@ -2,7 +2,7 @@ package com.wit.iris.grids
 
 class Grid {
 
-    String gridCellPositions        //JSON from Gridster.js
+    String gridCellPositions        //JSON from gridstack.js
     static hasMany = [gridCells: GridCell]
 
     static mapping = {

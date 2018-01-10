@@ -151,36 +151,6 @@
 </div>
 
 <g:javascript>
-        // //gridstack stuff
-        // $('.grid-stack').gridstack({
-        //     resizable: {
-        //         handles: 'e, se, s, sw, w'
-        //     }
-        // });
-        // //grab the grid
-        // var grid = $("#grid").data('gridstack');
-
-        // //turn all elements into widgets
-        // $(".chart-container").each(function(){
-        //     grid.makeWidget($(this));
-        // });
-        //
-        // var initChartData = [
-        //     ["data1", 30, 200, 100, 170, 150, 250],
-        //     ["data2", 130, 100, 140, 35, 110, 50]
-        // ];
-        //
-        // var chart = new BarChart("#chart", initChartData);
-        //
-        // grid.resize(
-        //         $('.grid-stack-item')[0],
-        //         $($('.grid-stack-item')[0]).attr('data-gs-width'),
-        //         Math.ceil(($('.grid-stack-item-content')[0].scrollHeight + $('.grid-stack').data('gridstack').opts.verticalMargin) / ($('.grid-stack').data('gridstack').cellHeight() + $('.grid-stack').data('gridstack').opts.verticalMargin))
-        // );
-        //
-        // setInterval(function() {
-        //     chart.update([]);
-        // }, 5000);
 
         var itemNum = 3;
 
