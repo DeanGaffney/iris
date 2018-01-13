@@ -39,5 +39,5 @@ function updatePlaceholderChart(chartToUpdate, data){
             columns: data,
             length: 0
         });
-    },2000);
+    },10000);
 }

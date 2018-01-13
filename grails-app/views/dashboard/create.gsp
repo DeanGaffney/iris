@@ -119,7 +119,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="add-widget-modal-btn" class="btn ml-1" href="${createLink(controller: 'dashboard', action: 'addWidget')}">Add</button>
+                <button type="button" id="add-widget-modal-btn" class="btn ml-1">Add</button>
             </div>
 
         </div>
@@ -129,32 +129,15 @@
 
     <div id="grid" class="grid-stack">
 
-        %{--<div class="chart-container"--}%
-             %{--data-gs-x="0" data-gs-y="0"--}%
-             %{--data-gs-width="4" data-gs-height="2">--}%
-            %{--<div class="grid-stack-item-content">--}%
-                %{--<div id="chart"></div>--}%
-            %{--</div>--}%
-        %{--</div>--}%
-
-        %{--<div class="chart-container"--}%
-             %{--data-gs-x="4" data-gs-y="0"--}%
-             %{--data-gs-width="4" data-gs-height="4">--}%
-            %{--<div class="grid-stack-item-content">ITEM 2</div>--}%
-        %{--</div>--}%
-
     </div>
 
     <button id="add-widget" class="btn">Add Widget</button>
     <button id="clear-dashboard-btn" class="btn">Clear</button>
     <button id="load-dashboard-btn" class="btn">Load</button>
-    <button id="save-dashboard-btn" class="btn">Save</button>
+    <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}" data-url="${createLink(controller: 'dashboard', action: 'show')}">Save</button>
 </div>
 
 <g:javascript>
-
-        var itemNum = 3;
-
         init();
 
         //clear the dashboard
@@ -179,7 +162,7 @@
 
         //save the dashboard
         $("#save-dashboard-btn").on("click", function(){
-            save();
+            save($(this));
         });
 
         //load the dashboard

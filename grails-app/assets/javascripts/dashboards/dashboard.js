@@ -1,15 +1,4 @@
 
-// var serializedData = [
-//     {x: 0, y: 0, width: 2, height: 2},
-//     {x: 3, y: 1, width: 1, height: 2},
-//     {x: 4, y: 1, width: 1, height: 1},
-//     {x: 2, y: 3, width: 3, height: 1},
-//     {x: 1, y: 4, width: 1, height: 1},
-//     {x: 1, y: 3, width: 1, height: 1},
-//     {x: 2, y: 4, width: 1, height: 1},
-//     {x: 2, y: 5, width: 1, height: 1}
-// ];
-
 var serializedData = [];
 
 var grid;
@@ -32,9 +21,10 @@ function load(){
 
 /**
  * Saves the widget details on the grid
+ * @param url - the url to go to after the save is successful
  * @returns {boolean}
  */
-function save() {
+function save(saveButton) {
     //collect widget information
     serializedData = _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
         el = $(el);
@@ -65,6 +55,10 @@ function save() {
     dashboard = new Dashboard("My Dashboard", dashboardGrid);
 
     console.log(JSON.stringify(dashboard, null, 4));
+    appendContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
+    var showUrl = $(saveButton).data().url;
+    //go to show page
+    location.href = showUrl;
     return false;
 }
 
