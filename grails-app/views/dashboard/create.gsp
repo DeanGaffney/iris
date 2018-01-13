@@ -8,6 +8,7 @@
     <asset:javascript src="d3/d3.min.js"/>
     <asset:javascript src="billboard/billboard.min.js"/>
     <asset:javascript src="charts/bar.js"/>
+    <asset:javascript src="charts/pie.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>
     <asset:stylesheet src="billboard/billboard.min.css"/>

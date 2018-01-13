@@ -7,18 +7,16 @@ function BarChart(containerSelector, data){
         bindto: containerSelector,
         data: {
             type: "bar",
-            columns: data
+            columns: data,
+            colors:{
+                data1: "#12EED8",
+                data2: "#FFFF00"
+            }
+        },
+        bar:{
+            width:{
+                ratio: 0.5
+            }
         }
     });
-
-    this.update = function(data){
-        data = [
-            ["data1",  Math.floor(Math.random() * 20)],
-            ["data2",  Math.floor(Math.random() * 20)]
-        ];
-        this.chart.flow({
-            columns: data,
-            length: 0
-        });
-    }
 }
