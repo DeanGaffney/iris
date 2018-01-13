@@ -6,8 +6,12 @@ class DashboardController {
 
     def save(){
         println request.JSON
+        def dashboard
+        render(template: "show", model: [dashboard: dashboard])
+    }
 
-        render(text: "")
+    def create(){
+        render(template: "create")
     }
 
 }
