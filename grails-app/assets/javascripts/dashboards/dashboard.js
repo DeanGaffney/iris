@@ -13,6 +13,7 @@
 var serializedData = [];
 
 var grid;
+var dashboard;
 
 var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-content"></div>';
 
@@ -22,9 +23,9 @@ var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-conte
  */
 function load(){
     clear();
-    var items = GridStackUI.Utils.sort(serializedData);
+    var items = GridStackUI.Utils.sort(dashboard.grid.gridCellPositions);
     _.each(items, function (node) {
-        addNode(node);      //needs to be changed to have a method that ids id to the dom element
+        addWidget(node);
     }, this);
     return false;
 }
@@ -38,24 +39,32 @@ function save() {
     serializedData = _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
         el = $(el);
         var node = el.data('_gridstack_node');
+        var widgetInfo = el.data();
         return {
             x: node.x,
             y: node.y,
             width: node.width,
             height: node.height,
-            id: node.el[0].id
+            id: node.el[0].id,
+            schemaId: widgetInfo.schemaid,
+            chartName: widgetInfo.chartname,
+            chartType: widgetInfo.charttype,
+            aggregation: JSON.parse(localStorage.getItem(node.el[0].id))
         };
     }, this);
+
+    var dashboardGrid = new Grid(serializedData);
+
     _.each(serializedData, function(node){
-        console.log(node);
-        // function GridCell(chart, gridPosition){
-        //     this.uid = uid;
-        //     this.chart = chart;
-        //     this.gridPosition = gridPosition;
-        // }
-        // var gridCell = new GridCell(node.id, );
-        //USE HTML 'data' attribute to store schema id, aggegation, chart name, chart id etc.....
+        var chart = new Chart(node.chartName, node.chartType, node.aggregation);
+        var index = serializedData.map((o) => o.id).indexOf(node.id);
+        var cell = new GridCell(node.id, chart, index);
+        dashboardGrid.gridCells.push(cell);
     });
+
+    dashboard = new Dashboard("My Dashboard", dashboardGrid);
+
+    console.log(JSON.stringify(dashboard, null, 4));
     return false;
 }
 
@@ -116,10 +125,16 @@ function Grid(gridCellPositions){
     this.gridCells = [];
 }
 
-function GridCell(chart, gridPosition){
+function GridCell(uid, chart, gridPosition){
     this.uid = uid;
     this.chart = chart;
     this.gridPosition = gridPosition;
+}
+
+function Chart(name, chartType, aggregation){
+    this.name = name;
+    this.chartType = chartType;
+    this.aggregation = aggregation;
 }
 
 /**
@@ -145,7 +160,7 @@ function ChartWidget(uid, name, chartType, aggregation, schemaId){
  * @returns {ChartWidget}
  */
 function getAddedWidgetInfo(){
-    return new ChartWidget("widget-" + new Date().getTime() + "-" + $("#schema-select").val(),
+    return new ChartWidget("widget-" + new Date().getTime(),
                            $("#chart-name").val(),
                            $("#chart-type").val(),
                            $("#aggregation-text-area").val(),
@@ -185,7 +200,8 @@ function hideWidgetModal(){
  * @param widget - the widget object to add to the dashboard
  */
 function addWidget(widget){
-    var ele = $('<div id="' +  widget.id +'" class="chart-container"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
+    //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
+    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.name + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
     //add the element
     add(ele);
 
@@ -194,6 +210,9 @@ function addWidget(widget){
     var chart = getPlaceHolderChart(widget.chartType, selector);
 
     resizeGridAfterAdding("#" + widget.id);
+
+    //add the aggregation to the browser cache
+    localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
 }
 
 /**
