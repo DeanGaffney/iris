@@ -25,7 +25,7 @@ function load(){
     clear();
     var items = GridStackUI.Utils.sort(dashboard.grid.gridCellPositions);
     _.each(items, function (node) {
-        addWidget(node);
+        addWidget(node, true);
     }, this);
     return false;
 }
@@ -77,13 +77,8 @@ function clear() {
     return false;
 }
 
-/**
- * Add an existing saved widget to the grid
- * @param node
- */
-function addNode(node){
-    var elem = $(this.widgetHtml);
-    grid.addWidget(elem, node.x, node.y, node.width, node.height, true);
+function addLoadedWidget(ele, widget){
+    grid.addWidget(ele, widget.x, widget.y, widget.width, widget.height, true);
 }
 
 /**
@@ -100,6 +95,43 @@ function add(){
  */
 function add(ele){
     return grid.addWidget(ele, 0, 0, 3, 3, true);
+}
+
+/**
+ * Adds a widget to the dashboard
+ * @param widget - the widget object to add to the dashboard
+ */
+function addWidget(widget, isLoading){
+    //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
+    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.name + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
+    //add the element
+
+    if(isLoading){
+        addLoadedWidget(ele, widget);
+    }else{
+        add(ele);
+    }
+
+    var selector = "#" + widget.id + " .chart";
+
+    var chart = getPlaceHolderChart(widget.chartType, selector);
+
+    resizeGridAfterAdding("#" + widget.id);
+
+    //add the aggregation to the browser cache
+    localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
+}
+
+/**
+ * Resize widget to correct height based on its content
+ * @param eleId - the id of the widget
+ */
+function resizeGridAfterAdding(eleId){
+    grid.resize(
+        $(eleId),
+        $(eleId).attr('data-gs-width'),
+        Math.ceil(($(eleId + ' .grid-stack-item-content')[0].scrollHeight + grid.opts.verticalMargin) / (grid.cellHeight() + grid.opts.verticalMargin))
+    );
 }
 
 /**
@@ -194,37 +226,3 @@ function showWidgetModal(){
 function hideWidgetModal(){
     $("#widget-modal").modal("toggle");
 }
-
-/**
- * Adds a widget to the dashboard
- * @param widget - the widget object to add to the dashboard
- */
-function addWidget(widget){
-    //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
-    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.name + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
-    //add the element
-    add(ele);
-
-    var selector = "#" + widget.id + " .chart";
-
-    var chart = getPlaceHolderChart(widget.chartType, selector);
-
-    resizeGridAfterAdding("#" + widget.id);
-
-    //add the aggregation to the browser cache
-    localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
-}
-
-/**
- * Resize widget to correct height based on its content
- * @param eleId - the id of the widget
- */
-function resizeGridAfterAdding(eleId){
-    grid.resize(
-        $(eleId),
-        $(eleId).attr('data-gs-width'),
-        Math.ceil(($(eleId + ' .grid-stack-item-content')[0].scrollHeight + grid.opts.verticalMargin) / (grid.cellHeight() + grid.opts.verticalMargin))
-    );
-}
-
-
