@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'dashboard.label', default: 'Dashboard')}" />
-    <title><g:message code="default.list.label" args="[entityName]" /></title>
-    <asset:javascript src="gridstack/gridstack.all.js"/>
-    <asset:javascript src="d3/d3.min.js"/>
-    <asset:javascript src="billboard/billboard.min.js"/>
-    <asset:javascript src="charts/bar.js"/>
-    <asset:javascript src="charts/pie.js"/>
-    <asset:javascript src="dashboards/dashboard.js"/>
-    <asset:javascript src="charts/placeholder-charts.js"/>
-    <asset:stylesheet src="billboard/billboard.min.css"/>
-    <asset:stylesheet src="gridstack/gridstack.css"/>
-</head>
-<body>
+
 <div id="widget-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -131,10 +115,12 @@
 
     </div>
 
-    <button id="add-widget" class="btn">Add Widget</button>
+    <button id="add-widget-btn" class="btn">Add Widget</button>
     <button id="clear-dashboard-btn" class="btn">Clear</button>
     <button id="load-dashboard-btn" class="btn">Load</button>
     <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}" data-url="${createLink(controller: 'dashboard', action: 'show')}">Save</button>
+    <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
+
 </div>
 
 <g:javascript>
@@ -146,7 +132,7 @@
         });
 
         //add new widget to dashboard
-        $("#add-widget").on("click", function(){
+        $("#add-widget-btn").on("click", function(){
             showWidgetModal();
         });
 
@@ -171,5 +157,3 @@
         });
 
 </g:javascript>
-</body>
-</html>

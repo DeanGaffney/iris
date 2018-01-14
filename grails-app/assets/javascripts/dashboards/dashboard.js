@@ -55,10 +55,8 @@ function save(saveButton) {
     dashboard = new Dashboard("My Dashboard", dashboardGrid);
 
     console.log(JSON.stringify(dashboard, null, 4));
-    appendContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
-    var showUrl = $(saveButton).data().url;
-    //go to show page
-    location.href = showUrl;
+    updateContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
+
     return false;
 }
 

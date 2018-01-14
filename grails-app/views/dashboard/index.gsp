@@ -2,7 +2,19 @@
 <html>
 <head>
     <meta name="layout" content="main" />
-    <asset:stylesheet src="iris.css" />
+    <meta name="layout" content="main" />
+    <g:set var="entityName" value="${message(code: 'dashboard.label', default: 'Dashboard')}" />
+    <title><g:message code="default.list.label" args="[entityName]" /></title>
+    <asset:javascript src="gridstack/gridstack.all.js"/>
+    <asset:javascript src="d3/d3.min.js"/>
+    <asset:javascript src="billboard/billboard.min.js"/>
+    <asset:javascript src="charts/bar.js"/>
+    <asset:javascript src="charts/pie.js"/>
+    <asset:javascript src="dashboards/dashboard.js"/>
+    <asset:javascript src="charts/placeholder-charts.js"/>
+    <asset:stylesheet src="billboard/billboard.min.css"/>
+    <asset:stylesheet src="gridstack/gridstack.css"/>
+    <asset:javascript src="bootstrap/bs-modal-fullscreen.min.js"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
     <title>Dashboard Home</title>
 </head>
@@ -12,7 +24,7 @@
     <div class="container-fluid">
         <img class="img-fluid" src="${assetPath(src: 'iris/iris_logo_colour.png')}">
         <h1 class="display-3">Easy Data<br>Visualisation</h1>
-        <button id="create-dashboard-btn" type="button" class="btn" data-toggle="modal" data-target="#create-dashboard-modal" href="${createLink(controller: 'dashboard', action: 'create')}">Create</button>
+        <button id="create-dashboard-btn" type="button" class="btn" href="${createLink(controller: 'dashboard', action: 'create')}">Create</button>
     </div>
 </div>
 
@@ -29,46 +41,28 @@
     %{--</g:each>--}%
 </div>
 
-<!-- DASHBOARD CREATION MODAL -->
-<div class="modal fade modal-lg" id="create-dashboard-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title">Create Dashboard</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="form-group">
-                    <label class="col-2 col-form-label">Name</label>
-                    <div class="col-6">
-                        <input class="form-control" id="create-dashboard-name" type="text" value="" required>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <g:render template="create"/>
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
+<div id="dashboard-creation-area" class="overlay">
+    <div class="overlay-content">
+        <g:render template="create" />
     </div>
 </div>
 
 <g:javascript>
-    $("#create-schema-btn").on("click", function(){
+    $("#create-dashboard-btn").on("click", function(){
         // var URL = $(this).attr("href");
-        // updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#dashboard-modal-create");
-        $("#create-dashboard-modal").modal({
-            show: true,
-            backdrop: true
-        });
+        // updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#dashboard-creation-area");
+        openNav();
     });
+
+    /* Open when someone clicks on the span element */
+    function openNav() {
+       $("#dashboard-creation-area").width("100%");
+    }
+
+    /* Close when someone clicks on the "x" symbol inside the overlay */
+    function closeNav() {
+        $("#dashboard-creation-area").width("0%");
+    }
     //
     // $(".schema-li-name").on("click", function(){
     //     var URL = $(this).attr("href");
