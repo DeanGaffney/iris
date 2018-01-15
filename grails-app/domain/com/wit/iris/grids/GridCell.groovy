@@ -4,7 +4,7 @@ import com.wit.iris.charts.Chart
 
 class GridCell {
 
-    Integer gridPosition
+    Integer gridPosition //TODO dont think i need this, gridstack will have this stored
     Chart chart
 
     static belongsTo = [grid: Grid]

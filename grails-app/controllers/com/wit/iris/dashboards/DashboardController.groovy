@@ -6,9 +6,10 @@ class DashboardController {
 
     static scaffold = Dashboard
 
+    def dashboardService
+
     def save(){
-        def dashboard
-        log.debug("Dashboard save request:\n${JsonOutput.prettyPrint(request.JSON.toString())}")
+        Dashboard dashboard = dashboardService.save(request.JSON)
         redirect(view: "index")
     }
 
