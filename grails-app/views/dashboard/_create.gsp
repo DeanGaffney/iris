@@ -123,6 +123,8 @@
         <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
     </div>
 
+    <div id="dashboard-save-result"></div>
+
 </div>
 
 

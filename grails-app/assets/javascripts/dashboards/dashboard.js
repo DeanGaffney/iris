@@ -55,7 +55,7 @@ function save(saveButton) {
     dashboard = new Dashboard("My Dashboard", dashboardGrid);
 
     console.log(JSON.stringify(dashboard, null, 4));
-    appendContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
+    reloadAfterAjax($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard);
 
     return false;
 }
