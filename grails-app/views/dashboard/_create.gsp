@@ -111,6 +111,11 @@
 </div>
 <div id="dashboard-container">
 
+    <div class="form-group">
+        <label for="dashboard-name">Dashboard Name</label>
+        <input type="text" class="form-control" id="dashboard-name" placeholder="Dashboard Name..." required>
+    </div>
+
     <div id="grid" class="grid-stack">
 
     </div>

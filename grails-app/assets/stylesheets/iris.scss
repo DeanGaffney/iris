@@ -283,13 +283,17 @@ $schema-list-padding: percentage(0.03);
 //================================
 //           DASHBOARDS
 //================================
-//.chart-container{
-//  background-color: $darker-bg-color;
-//}
+.chart-container{
+  background-color: $background-color;
+}
 
 //.grid-stack-item-content{
 //  background-color: blue;
 //}
+
+#dashboard-name{
+  width: auto;
+}
 
 //CREATION AREA
 .overlay{
@@ -301,7 +305,7 @@ $schema-list-padding: percentage(0.03);
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  background-color: $background-color; /* Black fallback color */
+  background-color: $darker-bg-color; /* Black fallback color */
   overflow: auto; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 

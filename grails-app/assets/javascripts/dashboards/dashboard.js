@@ -52,7 +52,7 @@ function save(saveButton) {
         dashboardGrid.gridCells.push(cell);
     });
 
-    dashboard = new Dashboard("My Dashboard", dashboardGrid);
+    dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
 
     console.log(JSON.stringify(dashboard, null, 4));
     reloadAfterAjax($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard);
