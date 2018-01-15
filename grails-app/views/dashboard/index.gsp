@@ -7,12 +7,12 @@
     <title><g:message code="default.list.label" args="[entityName]" /></title>
     <asset:javascript src="gridstack/gridstack.all.js"/>
     <asset:javascript src="d3/d3.min.js"/>
+    <asset:stylesheet src="billboard/billboard.min.css"/>
     <asset:javascript src="billboard/billboard.min.js"/>
     <asset:javascript src="charts/bar.js"/>
     <asset:javascript src="charts/pie.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>
-    <asset:stylesheet src="billboard/billboard.min.css"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
     <asset:javascript src="bootstrap/bs-modal-fullscreen.min.js"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
@@ -41,7 +41,7 @@
     %{--</g:each>--}%
 </div>
 
-<div id="dashboard-creation-area" class="overlay">
+<div id="dashboard-area" class="overlay">
     <div class="overlay-content">
         <g:render template="create" />
     </div>
@@ -56,12 +56,12 @@
 
     /* Open when someone clicks on the span element */
     function openNav() {
-       $("#dashboard-creation-area").width("100%");
+       $("#dashboard-area").width("100%");
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
     function closeNav() {
-        $("#dashboard-creation-area").width("0%");
+        $("#dashboard-area").width("0%");
     }
     //
     // $(".schema-li-name").on("click", function(){

@@ -55,7 +55,7 @@ function save(saveButton) {
     dashboard = new Dashboard("My Dashboard", dashboardGrid);
 
     console.log(JSON.stringify(dashboard, null, 4));
-    updateContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
+    appendContainerHtml($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard, "#dashboard-container");
 
     return false;
 }
@@ -106,7 +106,7 @@ function addWidget(widget, isLoading){
 
     var selector = "#" + widget.id + " .chart";
 
-    var chart = getPlaceHolderChart(widget.chartType, selector);
+    getPlaceHolderChart(widget.chartType, selector);
 
     resizeGridAfterAdding("#" + widget.id);
 

@@ -13,10 +13,17 @@ function BarChart(containerSelector, data){
                 data2: "#FFFF00"
             }
         },
-        bar:{
-            width:{
-                ratio: 0.5
+        axis:{
+            x:{
+                show: true
+            },
+            y:{
+                show: true
             }
+        },
+        bar:{
+            width: 5,
+            zerobased: true
         }
     });
 }
