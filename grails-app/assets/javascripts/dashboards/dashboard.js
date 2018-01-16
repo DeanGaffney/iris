@@ -47,8 +47,7 @@ function save(saveButton) {
 
     _.each(serializedData, function(node){
         var chart = new Chart(node.chartName, node.chartType, node.aggregation);
-        var index = serializedData.map((o) => o.id).indexOf(node.id);
-        var cell = new GridCell(node.id, chart, index);
+        var cell = new GridCell(node.id, chart);
         dashboardGrid.gridCells.push(cell);
     });
 
@@ -149,10 +148,9 @@ function Grid(gridCellPositions){
     this.gridCells = [];
 }
 
-function GridCell(uid, chart, gridPosition){
+function GridCell(uid, chart    ){
     this.uid = uid;
     this.chart = chart;
-    this.gridPosition = gridPosition;
 }
 
 function Chart(name, chartType, aggregation){
