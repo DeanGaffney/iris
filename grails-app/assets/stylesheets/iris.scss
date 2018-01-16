@@ -188,17 +188,17 @@ body{
 }
 
 //================================
-//           SCHEMAS LIST
+//           INDEX PAGE LIST
 //================================
 $schema-list-padding: percentage(0.03);
 
-#schemas-wrapper{
+.list-wrapper{
   padding-left: 10%;
   padding-right: 10%;
   padding-bottom: 5%;
 }
 
-#schema-list-header{
+.list-header{
   background-color: $primary-color;
   color: $secondary-color;
   font-family: $font-stack;
@@ -211,7 +211,7 @@ $schema-list-padding: percentage(0.03);
   letter-spacing: $letter-spacing;
 }
 
-.schema-row{
+.list-item-row{
   background-color: $darker-bg-color;
   color: $secondary-color;
   padding-top: $schema-list-padding;
@@ -227,13 +227,13 @@ $schema-list-padding: percentage(0.03);
   letter-spacing: $letter-spacing;
 }
 
-.schema-li-name{
+.list-item-name{
   font-family: $font-stack;
   font-weight: normal;
   color: $secondary-color;
 }
 
-.schema-li-id, .schema-li-prefix{
+.list-item-id, .list-item-prefix{
   font-family: $font-stack;
   font-weight: bolder;
   color: $primary-color;

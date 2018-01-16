@@ -14,15 +14,15 @@
                 <button id="create-schema-btn" type="button" class="btn" href="${createLink(controller: 'schema', action: 'create')}">Create</button>
             </div>
         </div>
-        <div id="schemas-wrapper">
-            <h1 id="schema-list-header">My Schemas</h1>
+        <div id="schemas-wrapper" class="list-wrapper">
+            <h1 id="schema-list-header" class="list-header">My Schemas</h1>
             <g:each in="${schemas}" var="schema" status="i">
-                <div class="row schema-row">
-                    <span class="schema-li-prefix">Schema</span>
+                <div class="row list-item-row">
+                    <span class="   list-item-prefix">Schema</span>
                     <span class="tab"></span>
-                    <span class="schema-li-id tab">${i + 1}</span>
+                    <span class="list-item-id tab">${i + 1}</span>
                     <span class="tab">-</span>
-                    <span class="schema-li-name" href="${createLink(controller: 'schema', action: 'show', params: [id: schema.id])}">${schema.name}</span>
+                    <span class="list-item-name" href="${createLink(controller: 'schema', action: 'show', params: [id: schema.id])}">${schema.name}</span>
                 </div>
             </g:each>
         </div>

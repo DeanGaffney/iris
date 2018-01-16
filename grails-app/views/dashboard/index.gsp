@@ -28,15 +28,15 @@
     </div>
 </div>
 
-<div id="dashboards-wrapper">
-    <h1 id="dashboard-list-header">My Dashboards</h1>
+<div id="dashboards-wrapper" class="list-wrapper">
+    <h1 id="dashboard-list-header" class="list-header">My Dashboards</h1>
     <g:each in="${dashboards}" var="dashboard" status="i">
-        <div class="row schema-row">
-            <span class="schema-li-prefix">Dashboard</span>
+        <div class="row list-item-row">
+            <span class="list-item-prefix">Dashboard</span>
             <span class="tab"></span>
-            <span class="schema-li-id tab">${i + 1}</span>
+            <span class="list-item-id tab">${i + 1}</span>
             <span class="tab">-</span>
-            <span class="schema-li-name" href="${createLink(controller: 'dashboard', action: 'show', params: [id: dashboard.id])}">${dashboard.name}</span>
+            <span class="list-item-name" href="${createLink(controller: 'dashboard', action: 'show', params: [id: dashboard.id])}">${dashboard.name}</span>
         </div>
     </g:each>
 </div>
