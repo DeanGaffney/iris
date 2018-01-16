@@ -10,7 +10,7 @@ $link-color: #C62E65;
 //================================
 //           LINKS
 //================================
-.schema-li-name:hover{
+.list-item-name:hover{
     cursor: pointer;
     color: $link-color;
 }
@@ -190,7 +190,7 @@ body{
 //================================
 //           INDEX PAGE LIST
 //================================
-$schema-list-padding: percentage(0.03);
+$list-padding: percentage(0.03);
 
 .list-wrapper{
   padding-left: 10%;
@@ -204,7 +204,7 @@ $schema-list-padding: percentage(0.03);
   font-family: $font-stack;
   padding-top: 1%;
   padding-bottom: 1%;
-  padding-left: $schema-list-padding;
+  padding-left: $list-padding;
   text-transform: uppercase;
   font-weight: bolder;
   margin-bottom: 2%;
@@ -214,9 +214,9 @@ $schema-list-padding: percentage(0.03);
 .list-item-row{
   background-color: $darker-bg-color;
   color: $secondary-color;
-  padding-top: $schema-list-padding;
-  padding-bottom: $schema-list-padding;
-  padding-left: $schema-list-padding;
+  padding-top: $list-padding;
+  padding-bottom: $list-padding;
+  padding-left: $list-padding;
   border-top: 0;
   border-bottom: solid;
   border-bottom-color: $primary-color;
