@@ -1,21 +1,28 @@
 package com.wit.iris.dashboards
 
+import com.wit.iris.charts.Chart
+import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
-import com.wit.iris.grids.GridCell
-import grails.converters.JSON
+import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonOutput
+import org.grails.web.json.JSONObject
 
 @Transactional
 class DashboardService {
 
-    Dashboard save(JSON dashboardJson){
+    def springSecurityService
+    def aggregationService
+
+    Dashboard save(JSONObject dashboardJson){
         log.debug("Dashboard save request:\n${JsonOutput.prettyPrint(dashboardJson.toString())}")
 
-        Dashboard dashboard = new Dashboard(name: dashboardJson.name)
-        Grid grid = createGrid(dashboardJson.grid)
+        Dashboard dashboard = new Dashboard(name: dashboardJson["name"].toString(),
+                                            grid: new Grid(serializedData: dashboardJson["grid"].toString()))
 
-        dashboard.grid = grid
+        dashboard.user = springSecurityService.getCurrentUser()
+
+        createCharts(dashboardJson["grid"])
 
         if(!(dashboard.validate() && dashboard.save(flush: true))){
             log.debug(dashboard.errors.allErrors*.toString())
@@ -25,16 +32,22 @@ class DashboardService {
         return dashboard
     }
 
-    Grid createGrid(JSON gridJson){
-        Grid grid = new Grid(gridCellPositions: gridJson.gridCellPositions)
-        grid.setGridCells(createGridCells(gridJson.gridCells))
-        return grid
-    }
+    void createCharts(JSONObject gridJson){
+        gridJson["serializedData"].each{ele ->
+            Schema schema = Schema.get(ele["schemaId"] as Long)
 
-    List<GridCell> createGridCells(JSON gridCellsJson){
+            Aggregation agg = new Aggregation(esIndex: schema.esIndex, json: ele["aggregation"])
+            agg.levels = aggregationService.countAggregationLevels(agg.json)
 
-        gridCellsJson.collect {gridCell ->
-
+            Chart chart = new Chart(name: ele["chartName"], chartType: ele["chartType"],
+                                    aggregation: agg, schema: schema)
+            if(!(chart.validate() && chart.save(flush: true))){
+                log.debug(chart.errors.allErrors*.toString())
+            }else{
+                //TODO throw an exception
+            }
         }
     }
+
+
 }

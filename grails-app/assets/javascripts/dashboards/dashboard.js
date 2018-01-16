@@ -12,7 +12,7 @@ var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-conte
  */
 function load(){
     clear();
-    var items = GridStackUI.Utils.sort(dashboard.grid.gridCellPositions);
+    var items = GridStackUI.Utils.sort(dashboard.grid.serializedData);
     _.each(items, function (node) {
         addWidget(node, true);
     }, this);
@@ -44,12 +44,6 @@ function save(saveButton) {
     }, this);
 
     var dashboardGrid = new Grid(serializedData);
-
-    _.each(serializedData, function(node){
-        var chart = new Chart(node.chartName, node.chartType, node.aggregation);
-        var cell = new GridCell(node.id, chart);
-        dashboardGrid.gridCells.push(cell);
-    });
 
     dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
 
@@ -143,13 +137,11 @@ function Dashboard(name, grid){
     this.grid = grid;
 }
 
-function Grid(gridCellPositions){
-    this.gridCellPositions = gridCellPositions;
-    this.gridCells = [];
+function Grid(serializedData){
+    this.serializedData = serializedData;
 }
 
-function GridCell(uid, chart    ){
-    this.uid = uid;
+function GridCell(chart){
     this.chart = chart;
 }
 

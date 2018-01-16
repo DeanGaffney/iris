@@ -30,15 +30,15 @@
 
 <div id="dashboards-wrapper">
     <h1 id="dashboard-list-header">My Dashboards</h1>
-    %{--<g:each in="${dashboards}" var="dashboard" status="i">--}%
-        %{--<div class="row schema-row">--}%
-            %{--<span class="schema-li-prefix">Schema</span>--}%
-            %{--<span class="tab"></span>--}%
-            %{--<span class="schema-li-id tab">${i + 1}</span>--}%
-            %{--<span class="tab">-</span>--}%
-            %{--<span class="schema-li-name" href="${createLink(controller: 'schema', action: 'show', params: [id: schema.id])}">${schema.name}</span>--}%
-        %{--</div>--}%
-    %{--</g:each>--}%
+    <g:each in="${dashboards}" var="dashboard" status="i">
+        <div class="row schema-row">
+            <span class="schema-li-prefix">Dashboard</span>
+            <span class="tab"></span>
+            <span class="schema-li-id tab">${i + 1}</span>
+            <span class="tab">-</span>
+            <span class="schema-li-name" href="${createLink(controller: 'dashboard', action: 'show', params: [id: dashboard.id])}">${dashboard.name}</span>
+        </div>
+    </g:each>
 </div>
 
 <div id="dashboard-area" class="overlay">

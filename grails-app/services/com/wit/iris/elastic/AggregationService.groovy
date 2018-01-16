@@ -7,6 +7,8 @@ import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 
+import java.util.regex.Matcher
+
 @Transactional
 class AggregationService {
 
@@ -26,6 +28,11 @@ class AggregationService {
     RestResponse execute(Aggregation agg){
         log.debug("Aggregation Domain Executing:[${agg.properties as JSON}]")
         return elasticService.executeAggregation(agg)
+    }
+
+    int countAggregationLevels(String json){
+        Matcher matcher = (json =~ /"aggs"/)
+        return matcher.getCount()
     }
 
     /**

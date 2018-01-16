@@ -1,15 +1,18 @@
 package com.wit.iris.dashboards
 
-import groovy.json.JsonOutput
-
 class DashboardController {
 
     static scaffold = Dashboard
 
     def dashboardService
 
+    def index(){
+        List<Dashboard> dashboards = Dashboard.list()
+        render(view: "index", model:[dashboards: dashboards])
+    }
+
     def save(){
-        Dashboard dashboard = dashboardService.save(request.JSON)
+        dashboardService.save(request.JSON)
         redirect(view: "index")
     }
 

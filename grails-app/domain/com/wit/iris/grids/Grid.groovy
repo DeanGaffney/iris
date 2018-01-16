@@ -2,14 +2,13 @@ package com.wit.iris.grids
 
 class Grid {
 
-    String gridCellPositions        //JSON from gridstack.js
-    static hasMany = [gridCells: GridCell]
+    String serializedData        //JSON from gridstack.js
 
     static mapping = {
-        gridCells cascade: 'all-delete-orphan'
+        serializedData sqlType: 'text'
     }
 
     static constraints = {
-        gridCellPositions(nullable: false)
+        serializedData(nullable: false)
     }
 }

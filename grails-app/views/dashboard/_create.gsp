@@ -66,7 +66,7 @@
                                     <label for="chart-type">Example multiple select</label>
                                     <select class="form-control custom-select" id="chart-type">
                                         <option value="Bar">Bar</option>
-                                        <option value="Bar">Bubble</option>
+                                        <option value="Bubble">Bubble</option>
                                         <option value="Pie">Pie</option>
                                     </select>
 
