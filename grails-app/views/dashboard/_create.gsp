@@ -151,7 +151,7 @@
             //clear the add widget modal
             clearWidgetModal();
             //add widget to the dashboard
-            addWidget(widget);
+            addWidget(widget, false);
         });
 
         //save the dashboard

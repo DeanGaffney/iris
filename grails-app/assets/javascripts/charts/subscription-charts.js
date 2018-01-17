@@ -8,7 +8,7 @@
 function getSubscriptionChart(chartType, containerSelector, schemaId){
     var chart;
     if(chartType == "Bar"){
-        chart = new BarChart(chartType, containerSelector).chart;
+        chart = new BarChart(containerSelector, []).chart;
         setChartSubscription(chart, chartType, schemaId);
     }
 
@@ -19,6 +19,10 @@ function setChartSubscription(chart, chartType, schemaId){
     client.subscribe("/topic/" + schemaId + "/" + chartType, function(message) {
         console.log("Received a message");
         console.log(JSON.stringify(message, null, 4));
+        var parsedMsg = JSON.parse(message.body);
         //update the chart
+        chart.flow({
+            columns: parsedMsg.data.columns
+        });
     });
 }

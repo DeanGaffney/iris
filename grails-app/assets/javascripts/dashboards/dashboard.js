@@ -6,6 +6,10 @@ var dashboard;
 
 var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-content"></div>';
 
+/**--------------------------------------------
+ *              DASHBOARD FUNCTIONS
+ *--------------------------------------------/
+
 /**
  * Loads existing widgets into the grid
  * @returns {boolean}
@@ -92,11 +96,9 @@ function addLoadedWidget(ele, widget){
  */
 function addWidget(widget, isLoading){
     //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
-    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.name + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
+    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.chartName + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
     //add the element
     var selector = "#" + widget.id + " .chart";
-
-    var chart;
 
     if(isLoading){
         addLoadedWidget(ele, widget);
@@ -111,8 +113,6 @@ function addWidget(widget, isLoading){
     }
 
     resizeGridAfterAdding("#" + widget.id);
-
-    return chart;
 }
 
 /**
@@ -140,41 +140,6 @@ function init(){
     grid = $('.grid-stack').data('gridstack');
 }
 
-function Dashboard(name, grid){
-    this.name = name;
-    this.grid = grid;
-}
-
-function Grid(serializedData){
-    this.serializedData = serializedData;
-}
-
-function GridCell(chart){
-    this.chart = chart;
-}
-
-function Chart(name, chartType, aggregation){
-    this.name = name;
-    this.chartType = chartType;
-    this.aggregation = aggregation;
-}
-
-/**
- * ChartWidget is a widget containing a chart
- * @param uid - unique id of the widget (date in milliseconds)
- * @param name - name of the chart
- * @param chartType - type of the chart (BAR, BUBBLE, PIE etc....)
- * @param aggregation - aggregation associated ith the chart
- * @param schemaId - the id of the schema to associate with the chart
- * @constructor
- */
-function ChartWidget(uid, name, chartType, aggregation, schemaId){
-    this.id = uid;
-    this.name = name;
-    this.chartType = chartType;
-    this.aggregation = aggregation;
-    this.schemaId = schemaId;
-}
 
 /**
  * Creates and returns a Chart Widget object
@@ -183,10 +148,10 @@ function ChartWidget(uid, name, chartType, aggregation, schemaId){
  */
 function getAddedWidgetInfo(){
     return new ChartWidget("widget-" + new Date().getTime(),
-                           $("#chart-name").val(),
-                           $("#chart-type").val(),
-                           $("#aggregation-text-area").val(),
-                           $("#schema-select").val());
+        $("#chart-name").val(),
+        $("#chart-type").val(),
+        $("#aggregation-text-area").val(),
+        $("#schema-select").val());
 }
 
 /**
@@ -215,4 +180,47 @@ function showWidgetModal(){
  */
 function hideWidgetModal(){
     $("#widget-modal").modal("toggle");
+}
+
+
+
+/**--------------------------------------------
+ *              CONSTRUCTORS
+ *--------------------------------------------/
+
+/**
+ * Dashboard object that is set to server to be saved
+ * @param name - name of the dashboard
+ * @param grid - the grid with charts
+ * @constructor
+ */
+function Dashboard(name, grid){
+    this.name = name;
+    this.grid = grid;
+}
+
+/**
+ * Grid object for storing widget and chart information
+ * @param serializedData - the information for widgets and charts
+ * @constructor
+ */
+function Grid(serializedData){
+    this.serializedData = serializedData;
+}
+
+/**
+ * ChartWidget is a widget containing a chart
+ * @param uid - unique id of the widget (date in milliseconds)
+ * @param chartName - name of the chart
+ * @param chartType - type of the chart (BAR, BUBBLE, PIE etc....)
+ * @param aggregation - aggregation associated ith the chart
+ * @param schemaId - the id of the schema to associate with the chart
+ * @constructor
+ */
+function ChartWidget(uid, chartName, chartType, aggregation, schemaId){
+    this.id = uid;
+    this.chartName = chartName;
+    this.chartType = chartType;
+    this.aggregation = aggregation;
+    this.schemaId = schemaId;
 }
