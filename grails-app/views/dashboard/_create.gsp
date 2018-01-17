@@ -124,12 +124,9 @@
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="load-dashboard-btn" class="btn">Load</button>
-        <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}" data-url="${createLink(controller: 'dashboard', action: 'show')}">Save</button>
+        <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>
         <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
     </div>
-
-    <div id="dashboard-save-result"></div>
-
 </div>
 
 

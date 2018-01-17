@@ -20,4 +20,9 @@ class DashboardController {
         render(template: "create")
     }
 
+    def show(long id){
+        Dashboard dashboard = Dashboard.get(id)
+        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData])
+    }
+
 }

@@ -42,15 +42,14 @@
 </div>
 
 <div id="dashboard-area" class="overlay">
-    <div class="overlay-content">
-        <g:render template="create" />
-    </div>
+    <div class="overlay-content"></div>
 </div>
 
 <g:javascript>
+    //show creation area when create button is clicked
     $("#create-dashboard-btn").on("click", function(){
-        // var URL = $(this).attr("href");
-        // updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#dashboard-creation-area");
+        var URL = $(this).attr("href");
+        updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, ".overlay-content");
         openNav();
     });
 
@@ -63,11 +62,13 @@
     function closeNav() {
         $("#dashboard-area").width("0%");
     }
-    //
-    // $(".schema-li-name").on("click", function(){
-    //     var URL = $(this).attr("href");
-    //     updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-main-container");
-    // });
+
+    // show dashboard when clicked on
+    $(".list-item-name").on("click", function(){
+        var URL = $(this).attr("href");
+        updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, ".overlay-content");
+        openNav();
+    });
 </g:javascript>
 </body>
 </html>

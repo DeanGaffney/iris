@@ -10,9 +10,9 @@ var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-conte
  * Loads existing widgets into the grid
  * @returns {boolean}
  */
-function load(){
+function load(serializedData){
     clear();
-    var items = GridStackUI.Utils.sort(dashboard.grid.serializedData);
+    var items = GridStackUI.Utils.sort(serializedData);
     _.each(items, function (node) {
         addWidget(node, true);
     }, this);
@@ -47,7 +47,6 @@ function save(saveButton) {
 
     dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
 
-    console.log(JSON.stringify(dashboard, null, 4));
     reloadAfterAjax($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard);
 
     return false;
@@ -60,10 +59,6 @@ function save(saveButton) {
 function clear() {
     grid.removeAll();
     return false;
-}
-
-function addLoadedWidget(ele, widget){
-    grid.addWidget(ele, widget.x, widget.y, widget.width, widget.height, true);
 }
 
 /**
@@ -83,6 +78,15 @@ function add(ele){
 }
 
 /**
+ * Adds a serialized widget to the dashboard
+ * @param ele - the container for the widget
+ * @param widget - the widget to add
+ */
+function addLoadedWidget(ele, widget){
+    grid.addWidget(ele, widget.x, widget.y, widget.width, widget.height, true);
+}
+
+/**
  * Adds a widget to the dashboard
  * @param widget - the widget object to add to the dashboard
  */
@@ -90,21 +94,24 @@ function addWidget(widget, isLoading){
     //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
     var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.name + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
     //add the element
+    var selector = "#" + widget.id + " .chart";
+
+    var chart;
 
     if(isLoading){
         addLoadedWidget(ele, widget);
+        //add the aggregation to the browser cache
+        localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
     }else{
         add(ele);
+        getPlaceHolderChart(widget.chartType, selector);
+        //add the aggregation to the browser cache
+        localStorage.setItem(widget.id, JSON.stringify(JSON.parse(widget.aggregation)));
     }
-
-    var selector = "#" + widget.id + " .chart";
-
-    getPlaceHolderChart(widget.chartType, selector);
 
     resizeGridAfterAdding("#" + widget.id);
 
-    //add the aggregation to the browser cache
-    localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
+
 }
 
 /**

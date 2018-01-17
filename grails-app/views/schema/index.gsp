@@ -33,7 +33,7 @@
                 updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-main-container");
             });
 
-            $(".schema-li-name").on("click", function(){
+            $(".list-item-name").on("click", function(){
                 var URL = $(this).attr("href");
                 updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-main-container");
             });
