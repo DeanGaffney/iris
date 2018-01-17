@@ -1,6 +1,4 @@
 <h1>${dashboard.name}</h1>
-<h1>${serializedData}</h1>
-
 <div id="dashboard-container">
 
     <div class="form-group">
@@ -18,15 +16,16 @@
         <button id="load-dashboard-btn" class="btn">Load</button>
         <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>
         <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
+        <g:link action="delete" params="${[id: dashboard.id]}">
+            <button id="delete-dashboard-btn" type="button" class="btn">Delete</button>
+        </g:link>
     </div>
 
 </div>
 
 <g:javascript>
     init();
-
     var jsonStr = '${serializedData.toString()}';
     var loadedDashboard = JSON.parse(jsonStr);
-    console.log(JSON.stringify(loadedDashboard, null, 4));
     load(loadedDashboard.serializedData);
 </g:javascript>

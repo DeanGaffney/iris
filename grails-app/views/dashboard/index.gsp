@@ -5,16 +5,17 @@
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'dashboard.label', default: 'Dashboard')}" />
     <title><g:message code="default.list.label" args="[entityName]" /></title>
+    <asset:javascript src="spring-websocket"/>
     <asset:javascript src="gridstack/gridstack.all.js"/>
     <asset:javascript src="d3/d3.min.js"/>
     <asset:stylesheet src="billboard/billboard.min.css"/>
     <asset:javascript src="billboard/billboard.min.js"/>
     <asset:javascript src="charts/bar.js"/>
     <asset:javascript src="charts/pie.js"/>
-    <asset:javascript src="dashboards/dashboard.js"/>
+    <asset:javascript src="charts/subscription-charts.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>
+    <asset:javascript src="dashboards/dashboard.js"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
-    <asset:javascript src="bootstrap/bs-modal-fullscreen.min.js"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
     <title>Dashboard Home</title>
 </head>
@@ -46,6 +47,13 @@
 </div>
 
 <g:javascript>
+
+    var socket = new SockJS("${createLink(uri: '/stomp')}");
+    var client = Stomp.over(socket);
+
+    client.connect({}, function(){});
+
+
     //show creation area when create button is clicked
     $("#create-dashboard-btn").on("click", function(){
         var URL = $(this).attr("href");

@@ -36,8 +36,8 @@ class DashboardService {
         gridJson["serializedData"].each{ele ->
             Schema schema = Schema.get(ele["schemaId"] as Long)
 
-            Aggregation agg = new Aggregation(esIndex: schema.esIndex, json: ele["aggregation"])
-            agg.levels = aggregationService.countAggregationLevels(agg.json)
+            Aggregation agg = new Aggregation(esIndex: schema.esIndex, json: ele["aggregation"].toString())
+            agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
 
             Chart chart = new Chart(name: ele["chartName"], chartType: ele["chartType"],
                                     aggregation: agg, schema: schema)

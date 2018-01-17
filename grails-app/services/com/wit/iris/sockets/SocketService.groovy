@@ -15,7 +15,7 @@ class SocketService {
      * @param chartType - the type of dashboard.chart (Bubble, Pie etc...)
      * @param data - the data to be send to the dashboard.chart
      */
-    void sendDataToClient(String esIndex, String chartType, Map data){
-        brokerMessagingTemplate.convertAndSend "$esIndex/$chartType", JsonOutput.toJson(data)
+    void sendDataToClient(long schemaId, String chartType, Map data){
+        brokerMessagingTemplate.convertAndSend "/topic/$schemaId/$chartType".toString(), JsonOutput.toJson(data)
     }
 }

@@ -102,6 +102,7 @@ function addWidget(widget, isLoading){
         addLoadedWidget(ele, widget);
         //add the aggregation to the browser cache
         localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
+        getSubscriptionChart(widget.chartType, selector, widget.schemaId);
     }else{
         add(ele);
         getPlaceHolderChart(widget.chartType, selector);
@@ -111,7 +112,7 @@ function addWidget(widget, isLoading){
 
     resizeGridAfterAdding("#" + widget.id);
 
-
+    return chart;
 }
 
 /**

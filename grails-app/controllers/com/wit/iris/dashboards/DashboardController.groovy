@@ -7,7 +7,7 @@ class DashboardController {
     def dashboardService
 
     def index(){
-        List<Dashboard> dashboards = Dashboard.list()
+        List<Dashboard> dashboards = Dashboard.findAllWhere([archived: false]).asList()
         render(view: "index", model:[dashboards: dashboards])
     }
 
@@ -18,6 +18,13 @@ class DashboardController {
 
     def create(){
         render(template: "create")
+    }
+
+    def delete(long id){
+        Dashboard dashboard = Dashboard.get(id)
+        dashboard.archived = true
+        dashboard.save(flush: true)
+        redirect(view: "index")
     }
 
     def show(long id){

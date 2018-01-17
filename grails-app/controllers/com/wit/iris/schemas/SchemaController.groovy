@@ -60,12 +60,14 @@ class SchemaController {
             resp.message = "Schema with id $id does not exist"
         }else{
             resp = routeService.route(schema, request.JSON).json as Map        //route and transform data
-//            Chart.findAllWhere(schema: schema).each {
-//                //loop over all charts related to schema and execute the aggregation
-//                RestResponse aggResultData = aggregationService.execute(it.aggregation)
-//                //update dashboard.chart with aggregation results
-//                chartService.updateChart(schema.esIndex, it, aggResultData.json)
-//            }
+            List<Chart> relevantCharts = Chart.findAllWhere(schema: schema).asList()
+            log.debug("Found ${relevantCharts.size()} charts to update")
+            relevantCharts.each {
+                //loop over all charts related to schema and execute the aggregation
+                RestResponse aggResultData = aggregationService.execute(it.aggregation)
+                //update dashboard.chart with aggregation results
+                chartService.updateChart(schema.id, it, aggResultData.json)
+            }
         }
         render resp as JSON
     }

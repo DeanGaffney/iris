@@ -6,6 +6,7 @@ import com.wit.iris.schemas.enums.FieldType
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
+import groovy.json.JsonOutput
 
 import java.util.regex.Matcher
 
@@ -26,7 +27,7 @@ class AggregationService {
      * @return aggregation result data from elasticsearch
      */
     RestResponse execute(Aggregation agg){
-        log.debug("Aggregation Domain Executing:[${agg.properties as JSON}]")
+        log.debug("Aggregation Executing:\n${JsonOutput.prettyPrint(agg.json)}")
         return elasticService.executeAggregation(agg)
     }
 

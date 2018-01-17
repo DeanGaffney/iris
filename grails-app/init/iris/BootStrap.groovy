@@ -33,6 +33,17 @@ class BootStrap {
                                                       new SchemaField(name: "text_entry", fieldType: FieldType.STRING.getValue()),
                                                       new SchemaField(name: "type", fieldType: FieldType.STRING.getValue())],
                          refreshInterval: 10000).save(flush: true)
+
+                new Schema(name: "node_agent", esIndex: "node_agent",
+                        user: user, schemaFields: [new SchemaField(name: "osName", fieldType: FieldType.STRING.getValue()),
+                                                   new SchemaField(name: "uptime", fieldType: FieldType.DOUBLE.getValue()),
+                                                   new SchemaField(name: "cpuSpeedGHZ", fieldType: FieldType.FLOAT.getValue()),
+                                                   new SchemaField(name: "memTotal", fieldType: FieldType.LONG.getValue()),
+                                                   new SchemaField(name: "memFree", fieldType: FieldType.LONG.getValue()),
+                                                   new SchemaField(name: "memUsed", fieldType: FieldType.LONG.getValue()),
+                                                   new SchemaField(name: "cpuCurrentLoad", fieldType: FieldType.DOUBLE.getValue())],
+                        refreshInterval: 10000).save(flush: true)
+
                 UserRole.withSession{
                     it.flush()
                     it.clear()

@@ -26,8 +26,4 @@ function BarChart(containerSelector, data){
             zerobased: true
         }
     });
-
-    this.subscribe = function(schemaId){
-
-    }
 }
