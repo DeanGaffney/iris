@@ -4,6 +4,26 @@ import com.wit.iris.charts.enums.ChartType
 
 class DashboardController {
 
+    //this is a test aggregation for testing out charts on the dashboard against the node_agent
+
+//    {
+//        "size": 0,
+//        "aggs": {
+//        "aggs_1": {
+//            "terms": {
+//                "field": "osName"
+//            },
+//            "aggs": {
+//                "aggs_2": {
+//                    "max": {
+//                        "field": "memUsed"
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    }
+
     static scaffold = Dashboard
 
     def dashboardService

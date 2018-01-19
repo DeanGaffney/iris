@@ -20,6 +20,7 @@ class RouteService {
         if(schema.rule != null){
             data = RuleExecutor.execute(schema.rule, data)
         }
+        data["insertionDate"] = new Date().getTime()                  //add insertion date to data
         log.debug("Data for Schema[${schema.id}]:\n ${data.toString()}")
         return elasticService.insert(schema.esIndex, data)
     }

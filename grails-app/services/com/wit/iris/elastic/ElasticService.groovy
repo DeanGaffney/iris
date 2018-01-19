@@ -37,7 +37,7 @@ class ElasticService {
      */
     String createMapping(Schema schema){
         Map mapping = ["mappings" : ["schema" : ["properties" : [:]]]]
-        Map properties = [:]
+        Map properties = ["insertionDate": ["type": "date"]]        //add insertionDate mapping to each schema
         schema.schemaFields.each{
             properties += [(it.name) : ["type": convertDataType(it.fieldType)]]
         }
