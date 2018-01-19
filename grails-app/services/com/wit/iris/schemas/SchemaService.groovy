@@ -1,5 +1,6 @@
 package com.wit.iris.schemas
 
+import com.wit.iris.schemas.enums.IrisSchemaField
 import grails.gorm.transactions.Transactional
 
 @Transactional
@@ -15,6 +16,11 @@ class SchemaService {
      */
     Schema createSchema(Schema schema){
         schema.esIndex = elasticService.getIndexFromName(schema.name)
+
+        //add iris insertion date as a field to the schema
+        schema.schemaFields.add(new SchemaField(name: IrisSchemaField.INSERTION_DATE.getFieldName(),
+                                                fieldType: IrisSchemaField.INSERTION_DATE.getFieldType()))
+
         schema.user = springSecurityService.getCurrentUser()
         if(!(schema.validate() && schema.save(flush: true))){
             log.debug(schema.errors.allErrors*.toString())

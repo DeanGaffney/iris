@@ -2,6 +2,7 @@ package com.wit.iris.elastic
 
 import com.wit.iris.schemas.Schema
 import com.wit.iris.schemas.SchemaField
+import com.wit.iris.schemas.enums.IrisSchemaField
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
@@ -37,7 +38,7 @@ class ElasticService {
      */
     String createMapping(Schema schema){
         Map mapping = ["mappings" : ["schema" : ["properties" : [:]]]]
-        Map properties = ["insertionDate": ["type": "date"]]        //add insertionDate mapping to each schema
+        Map properties = [(IrisSchemaField.INSERTION_DATE.getFieldName()): ["type": IrisSchemaField.INSERTION_DATE.getFieldType()]]        //add insertionDate mapping to each schema
         schema.schemaFields.each{
             properties += [(it.name) : ["type": convertDataType(it.fieldType)]]
         }
