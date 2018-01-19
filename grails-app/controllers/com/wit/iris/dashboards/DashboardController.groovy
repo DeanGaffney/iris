@@ -23,13 +23,27 @@ class DashboardController {
     def delete(long id){
         Dashboard dashboard = Dashboard.get(id)
         dashboard.archived = true
+        dashboard.isRendering = false
         dashboard.save(flush: true)
         redirect(view: "index")
     }
 
     def show(long id){
         Dashboard dashboard = Dashboard.get(id)
+        dashboard.setIsRendering(true)                  //set the dashboard as rendering
+        dashboard.save(flush: true)
         render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData])
+    }
+
+    def onShowViewClosed(long id){
+        Dashboard dashboard = Dashboard.get(id)
+        dashboard.setIsRendering(false)
+        Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
+        if(dashboard.save(flush: true)){
+            resp.status = 200
+            resp.message = "successfully toggled dashboard rendering state"
+        }
+        redirect(view: "index")
     }
 
 }

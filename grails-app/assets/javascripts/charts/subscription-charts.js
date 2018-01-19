@@ -9,9 +9,14 @@ function getSubscriptionChart(chartType, containerSelector, schemaId){
     var chart;
     if(chartType == "Bar"){
         chart = new BarChart(containerSelector, []).chart;
-        setChartSubscription(chart, chartType, schemaId);
+    }else if(chartType == "Pie"){
+        chart = new PieChart(containerSelector, []).chart;
+    }else if(chartType == "Bubble"){
+        chart = new BubbleChart(containerSelector, []).chart;
+    }else if(chartType == "Line"){
+        chart = new LineChart(containerSelector, []).chart;
     }
-
+    setChartSubscription(chart, chartType, schemaId);
     return chart;
 }
 

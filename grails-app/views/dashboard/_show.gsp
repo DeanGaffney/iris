@@ -15,7 +15,9 @@
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="load-dashboard-btn" class="btn">Load</button>
         <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>
-        <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
+        <g:link action="onShowViewClosed" params="${[id: dashboard.id]}"
+            <button id="show-close-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}">Close</button>
+        </g:link>
         <g:link action="delete" params="${[id: dashboard.id]}">
             <button id="delete-dashboard-btn" type="button" class="btn">Delete</button>
         </g:link>

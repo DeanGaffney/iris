@@ -2,6 +2,7 @@ package com.wit.iris.charts
 
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
+import com.wit.iris.grids.Grid
 import com.wit.iris.schemas.Schema
 
 class Chart {
@@ -19,4 +20,6 @@ class Chart {
         schema(nullable: false)
         archived(nullable: true)
     }
+
+    static belongsTo = [grid: Grid]
 }

@@ -8,6 +8,7 @@ class Dashboard {
     String name
     Grid grid
     boolean archived = false
+    boolean isRendering = false
 
     static belongsTo = [user: User]
 
@@ -15,5 +16,6 @@ class Dashboard {
         name(nullable: false, blank: false)
         grid(nullable: false)
         archived(nullable: true)
+        isRendering(nullable: true)
     }
 }

@@ -1,6 +1,7 @@
 package com.wit.iris.schemas
 
 import com.wit.iris.charts.Chart
+import com.wit.iris.dashboards.Dashboard
 import grails.converters.JSON
 import grails.plugins.rest.client.RestResponse
 
@@ -12,6 +13,7 @@ class SchemaController {
     def routeService
     def aggregationService
     def chartService
+    def dashboardService
 
     def index(){
         List<Schema> schemas = Schema.list()
@@ -60,14 +62,8 @@ class SchemaController {
             resp.message = "Schema with id $id does not exist"
         }else{
             resp = routeService.route(schema, request.JSON).json as Map        //route and transform data
-            List<Chart> relevantCharts = Chart.findAllWhere(schema: schema).asList()
-            log.debug("Found ${relevantCharts.size()} charts to update")
-            relevantCharts.each {
-                //loop over all charts related to schema and execute the aggregation
-                RestResponse aggResultData = aggregationService.execute(it.aggregation)
-                //update dashboard.chart with aggregation results
-                chartService.updateChart(schema.id, it, aggResultData.json)
-            }
+            //get all dashboards that are currently marked as rendering
+            dashboardService.updateDashboardCharts(id)
         }
         render resp as JSON
     }
