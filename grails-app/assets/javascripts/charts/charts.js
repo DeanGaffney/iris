@@ -2,6 +2,13 @@
  * Created by dean on 19/01/18.
  */
 
+var chartTypes = {
+    Bar: "Bar",
+    Bubble: "Bubble",
+    Pie: "Pie",
+    Line: "Line"
+};
+
 function BarChart(containerSelector, data){
     this.chart = bb.generate({
         bindto: containerSelector,

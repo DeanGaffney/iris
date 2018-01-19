@@ -3,7 +3,6 @@ package com.wit.iris.charts
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import grails.gorm.transactions.Transactional
-import org.grails.web.json.JSONElement
 import org.grails.web.json.JSONObject
 
 @Transactional
@@ -34,18 +33,20 @@ class ChartService {
     Map formatChartData(Chart chart, JSONObject data){
         Map formattedData = [:]
         log.debug("Formatting data: \n ${data.toString()}")
-        if(chart.chartType == ChartType.BAR.getValue()){
-            formattedData = formatDataForBar(data, chart.aggregation)
+        if(isBasicChart(chart.chartType)){
+            formattedData = formatDataForBasicChart(data, chart.aggregation)
         }
         return formattedData
     }
 
+    //BAR, BUBBLE, PIE - (TERMS), (TERMS, METRIC)
+
     /**
-     * Format data for a bar dashboard.chart
+     * Format data for a basic chart (Bar, Bubble, Pie, Line)
      * @param data - the data to format
      * @return A map of formatted data for a bar dashboard.chart
      */
-    Map formatDataForBar(JSONObject data, Aggregation agg){
+    Map formatDataForBasicChart(JSONObject data, Aggregation agg){
         Map formattedData = [data:[:]]
         log.debug("Formatting data for Bar Chart: \n ${data.toString()}")
 
@@ -67,7 +68,12 @@ class ChartService {
         return formattedData
     }
 
-    //BAR, BUBBLE, PIE - (TERMS), (TERMS, METRIC)
+    boolean isBasicChart(String chartType){
+        return chartType in [ChartType.BAR.getValue(),
+                             ChartType.BUBBLE.getValue(),
+                             ChartType.PIE.getValue(),
+                             ChartType.LINE.getValue()]
+    }
 
     //GROUP BAR, STACKED ROW - (TERMS, TERMS), (TERMS, TERMS, METRIC)
 

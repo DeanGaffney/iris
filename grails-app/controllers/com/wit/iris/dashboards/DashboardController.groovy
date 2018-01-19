@@ -1,5 +1,7 @@
 package com.wit.iris.dashboards
 
+import com.wit.iris.charts.enums.ChartType
+
 class DashboardController {
 
     static scaffold = Dashboard
@@ -17,7 +19,8 @@ class DashboardController {
     }
 
     def create(){
-        render(template: "create")
+        List<String> chartTypes = ChartType.values()*.getValue()
+        render(template: "create", model: [chartTypes: chartTypes])
     }
 
     def delete(long id){

@@ -7,13 +7,13 @@
 
 function getSubscriptionChart(chartType, containerSelector, schemaId){
     var chart;
-    if(chartType == "Bar"){
+    if(chartType == chartTypes.Bar){
         chart = new BarChart(containerSelector, []).chart;
-    }else if(chartType == "Pie"){
+    }else if(chartType == chartTypes.Pie){
         chart = new PieChart(containerSelector, []).chart;
-    }else if(chartType == "Bubble"){
+    }else if(chartType == chartTypes.Bubble){
         chart = new BubbleChart(containerSelector, []).chart;
-    }else if(chartType == "Line"){
+    }else if(chartType == chartTypes.Line){
         chart = new LineChart(containerSelector, []).chart;
     }
     setChartSubscription(chart, chartType, schemaId);
@@ -26,7 +26,7 @@ function setChartSubscription(chart, chartType, schemaId){
         console.log(JSON.stringify(message, null, 4));
         var parsedMsg = JSON.parse(message.body);
         //update the chart
-        chart.flow({
+        chart.load({
             columns: parsedMsg.data.columns
         });
     });

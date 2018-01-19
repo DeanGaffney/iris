@@ -7,7 +7,8 @@ enum ChartType {
 
     BAR("Bar"),
     BUBBLE("Bubble"),
-    PIE("Pie");
+    PIE("Pie"),
+    LINE("Line");
 
     private String value;
 

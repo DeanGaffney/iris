@@ -1,3 +1,4 @@
+<%@ page import="com.wit.iris.charts.enums.ChartType" %>
 
 <div id="widget-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -64,11 +65,11 @@
                                     <input type="text" class="form-control" id="chart-name" placeholder="Name...">
 
                                     <label for="chart-type">Example multiple select</label>
-                                    <select class="form-control custom-select" id="chart-type">
-                                        <option value="Bar">Bar</option>
-                                        <option value="Bubble">Bubble</option>
-                                        <option value="Pie">Pie</option>
-                                    </select>
+
+                                    <g:select name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
+                                              keys="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
+                                              class="form-control custom-select"/>
+
 
                                 </div>
                             </div>
