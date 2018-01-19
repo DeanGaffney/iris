@@ -1,9 +1,6 @@
 package com.wit.iris.schemas
 
-import com.wit.iris.charts.Chart
-import com.wit.iris.dashboards.Dashboard
 import grails.converters.JSON
-import grails.plugins.rest.client.RestResponse
 
 class SchemaController {
 
@@ -11,8 +8,6 @@ class SchemaController {
 
     def schemaService
     def routeService
-    def aggregationService
-    def chartService
     def dashboardService
 
     def index(){
