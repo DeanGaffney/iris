@@ -18,7 +18,7 @@ class SchemaService {
         schema.esIndex = elasticService.getIndexFromName(schema.name)
 
         //add iris insertion date as a field to the schema
-        schema.schemaFields.add(new SchemaField(name: IrisSchemaField.INSERTION_DATE.getFieldName(),
+        schema.addToSchemaFields(new SchemaField(name: IrisSchemaField.INSERTION_DATE.getFieldName(),
                                                 fieldType: IrisSchemaField.INSERTION_DATE.getFieldType()))
 
         schema.user = springSecurityService.getCurrentUser()
