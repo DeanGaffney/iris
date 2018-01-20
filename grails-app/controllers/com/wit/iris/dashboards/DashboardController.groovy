@@ -1,6 +1,7 @@
 package com.wit.iris.dashboards
 
 import com.wit.iris.charts.enums.ChartType
+import grails.converters.JSON
 
 class DashboardController {
 
@@ -86,6 +87,16 @@ class DashboardController {
             resp.message = "successfully toggled dashboard rendering state"
         }
         redirect(view: "index")
+    }
+
+    /**
+     * Executes charts aggregation upon loading
+     * @return response as json
+     */
+    def onDashboardChartLoad(){
+        dashboardService.onDashboardChartsLoad(request.JSON.dashboardId as Long)
+        Map resp = [status: 200, message: "Charts updated"]
+        render resp as JSON
     }
 
 }

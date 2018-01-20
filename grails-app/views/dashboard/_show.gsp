@@ -27,14 +27,17 @@
 
 <g:javascript>
     init();
+    var onDashboardChartLoadUrl = '${createLink(controller: 'dashboard', action: 'onDashboardChartLoad')}'
+    var dashboardId = '${dashboard.id}';
+    var data = {dashboardId: dashboardId};
     var jsonStr = '${serializedData.toString()}';
     var loadedDashboard = JSON.parse(jsonStr);
-    load(loadedDashboard.serializedData);
+    load(onDashboardChartLoadUrl, data, loadedDashboard.serializedData);
 
     //if user closes tab/browser or refreshes page, we need to toggle dashboard as not rendering anymore
     $(window).bind('beforeunload', function(){
        var url = $("#show-close-dashboard-btn").attr("href");
        var dashboardId = '${dashboard.id}'
-       toggleServerObjectState(url, REST.method.post, REST.contentType.json, {dashboardId : dashboardId});
+       reloadAfterAjax(url, REST.method.post, REST.contentType.json, {dashboardId : dashboardId});
     });
 </g:javascript>

@@ -1,9 +1,6 @@
 /**
  * Created by dean on 17/01/18.
  */
-/**
- * Created by dean on 01/11/17.
- */
 
 function getSubscriptionChart(chartType, containerSelector, schemaId){
     var chart;
@@ -22,12 +19,29 @@ function getSubscriptionChart(chartType, containerSelector, schemaId){
 
 function setChartSubscription(chart, chartType, schemaId){
     client.subscribe("/topic/" + schemaId + "/" + chartType, function(message) {
-        console.log("Received a message");
         console.log(JSON.stringify(message, null, 4));
         var parsedMsg = JSON.parse(message.body);
         //update the chart
         chart.load({
             columns: parsedMsg.data.columns
         });
+    });
+}
+
+function onChartLoad(controllerUrl, data, chart){
+    $.ajax({
+        url: controllerUrl,
+        type: REST.method.post,
+        dataType: REST.dataType.json,
+        contentType: REST.contentType.json,
+        data: JSON.stringify(data),
+        success: function(data){
+            chart.load({
+                columns: data
+            });
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+        }
     });
 }

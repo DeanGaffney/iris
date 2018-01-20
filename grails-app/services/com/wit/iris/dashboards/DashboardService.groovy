@@ -98,4 +98,19 @@ class DashboardService {
         }
     }
 
+    /**
+     * Called when dashboard is loaded,
+     * executes aggregations for charts to give them some data to display
+     * this avoids blank charts, as some agents may have long intervals between
+     * sending data to the application
+     * @param dashboardId - the id of the dashboard
+     */
+    void onDashboardChartsLoad(long dashboardId){
+        Dashboard dashboard = Dashboard.get(dashboardId)
+        dashboard.grid.charts.each {chart ->
+            RestResponse aggResultData = aggregationService.execute(chart.aggregation)
+            chartService.updateChart(chart.schema.id, chart, aggResultData.json)
+        }
+    }
+
 }

@@ -14,11 +14,12 @@ var widgetHtml = '<div class="chart-container"><div class="grid-stack-item-conte
  * Loads existing widgets into the grid
  * @returns {boolean}
  */
-function load(serializedData){
+function load(controllerUrl, data, serializedData){
     clear();
     var items = GridStackUI.Utils.sort(serializedData);
     _.each(items, function (node) {
-        addWidget(node, true);
+        var chart = addWidget(node, true);
+        onChartLoad(controllerUrl, data, chart);
     }, this);
     return false;
 }
@@ -100,19 +101,23 @@ function addWidget(widget, isLoading){
     //add the element
     var selector = "#" + widget.id + " .chart";
 
+    var chart;
+
     if(isLoading){
         addLoadedWidget(ele, widget);
         //add the aggregation to the browser cache
         localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
-        getSubscriptionChart(widget.chartType, selector, widget.schemaId);
+        chart = getSubscriptionChart(widget.chartType, selector, widget.schemaId);
     }else{
         add(ele);
-        getPlaceHolderChart(widget.chartType, selector);
+        chart = getPlaceHolderChart(widget.chartType, selector);
         //add the aggregation to the browser cache
         localStorage.setItem(widget.id, JSON.stringify(JSON.parse(widget.aggregation)));
     }
 
     resizeGridAfterAdding("#" + widget.id);
+
+    return chart;
 }
 
 /**
