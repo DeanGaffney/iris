@@ -31,6 +31,7 @@
     var loadedDashboard = JSON.parse(jsonStr);
     load(loadedDashboard.serializedData);
 
+    //if user closes tab/browser or refreshes page, we need to toggle dashboard as not rendering anymore
     $(window).bind('beforeunload', function(){
        var url = $("#show-close-dashboard-btn").attr("href");
        var dashboardId = '${dashboard.id}'
