@@ -39,10 +39,14 @@ class DashboardController {
     }
 
     def create(){
-        List<String> chartTypes = ChartType.values()*.getValue()
-        render(template: "create", model: [chartTypes: chartTypes])
+        render(template: "create")
     }
 
+    /**
+     * Archives a dashboard
+     * @param id - the id of the dashboard to archive
+     * @return redirect to the index view
+     */
     def delete(long id){
         Dashboard dashboard = Dashboard.get(id)
         dashboard.archived = true
@@ -51,6 +55,12 @@ class DashboardController {
         redirect(view: "index")
     }
 
+    /**
+     * Called when a user wishes to view a dashboard
+     * The dashboard is then marked as rendering
+     * @param id - the id of the dashboard to view
+     * @return show template with the dashboard and serialized json for dashboard grid
+     */
     def show(long id){
         Dashboard dashboard = Dashboard.get(id)
         dashboard.setIsRendering(true)                  //set the dashboard as rendering
@@ -58,8 +68,15 @@ class DashboardController {
         render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData])
     }
 
+    /**
+     * Called when a user closes down a dashboard they were previously viewing
+     * The dashboard is then marked as not being rendered
+     * @param id - the id of the dashboard
+     * @return redirects to index page
+     */
     def onShowViewClosed(long id){
-        //if the user clicks the close button on the view the id will not be null, if the user closes or refreshes the tab the id will come from json
+        //if the user clicks the close button on the view the id will not be null,
+        //if the user closes or refreshes the tab the id will come from json
         id = (id == null) ? request.JSON.dashboardId : id
         Dashboard dashboard = Dashboard.get(id)
         dashboard.setIsRendering(false)
