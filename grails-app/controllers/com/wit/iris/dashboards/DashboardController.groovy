@@ -59,6 +59,7 @@ class DashboardController {
     }
 
     def onShowViewClosed(long id){
+        id = (id == null) ? request.JSON.dashboardId : id
         Dashboard dashboard = Dashboard.get(id)
         dashboard.setIsRendering(false)
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]

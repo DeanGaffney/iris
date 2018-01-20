@@ -30,4 +30,10 @@
     var jsonStr = '${serializedData.toString()}';
     var loadedDashboard = JSON.parse(jsonStr);
     load(loadedDashboard.serializedData);
+
+    $(window).bind('beforeunload', function(){
+       var url = $("#show-close-dashboard-btn").attr("href");
+       var dashboardId = '${dashboard.id}'
+       toggleServerObjectState(url, REST.method.post, REST.contentType.json, {dashboardId : dashboardId});
+    });
 </g:javascript>
