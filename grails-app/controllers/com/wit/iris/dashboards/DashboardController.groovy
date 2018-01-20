@@ -59,6 +59,7 @@ class DashboardController {
     }
 
     def onShowViewClosed(long id){
+        //if the user clicks the close button on the view the id will not be null, if the user closes or refreshes the tab the id will come from json
         id = (id == null) ? request.JSON.dashboardId : id
         Dashboard dashboard = Dashboard.get(id)
         dashboard.setIsRendering(false)
