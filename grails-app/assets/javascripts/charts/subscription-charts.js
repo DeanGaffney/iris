@@ -22,8 +22,9 @@ function setChartSubscription(chart, chartType, schemaId){
         console.log(JSON.stringify(message, null, 4));
         var parsedMsg = JSON.parse(message.body);
         //update the chart
-        chart.load({
-            columns: parsedMsg.data.columns
+        chart.flow({
+            columns: parsedMsg.data.columns,
+            length: 1
         });
     });
 }
@@ -36,8 +37,9 @@ function onChartLoad(controllerUrl, data, chart){
         contentType: REST.contentType.json,
         data: JSON.stringify(data),
         success: function(data){
-            chart.load({
-                columns: data
+            chart.flow({
+                columns: data,
+                length: 0
             });
         },
         error: function(xhr, status, error) {

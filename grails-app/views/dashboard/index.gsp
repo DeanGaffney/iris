@@ -7,9 +7,8 @@
     <title><g:message code="default.list.label" args="[entityName]" /></title>
     <asset:javascript src="spring-websocket"/>
     <asset:javascript src="gridstack/gridstack.all.js"/>
-    <asset:javascript src="d3/d3.min.js"/>
+    <asset:javascript src="billboard/billboard.pkgd.min.js"/>
     <asset:stylesheet src="billboard/billboard.min.css"/>
-    <asset:javascript src="billboard/billboard.min.js"/>
     <asset:javascript src="charts/charts.js"/>
     <asset:javascript src="charts/subscription-charts.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>

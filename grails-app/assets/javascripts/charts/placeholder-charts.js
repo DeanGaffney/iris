@@ -35,27 +35,27 @@ var placeholderData = {
 };
 
 var placeholderUpdateData = {
-    Bar: [["data1",  Math.floor(Math.random() * 20)],
-         ["data2",   Math.floor(Math.random() * 20)]],
+    Bar: [["data1",  Math.floor(Math.random() * 250)],
+         ["data2",   Math.floor(Math.random() * 250)]],
 
-    Pie: [["data1",  Math.floor(Math.random() * 20)],
-          ["data2",  Math.floor(Math.random() * 20)],
-          ["data3",  Math.floor(Math.random() * 20)]],
+    Pie: [["data1",  Math.floor(Math.random() * 3.0)],
+          ["data2",  Math.floor(Math.random() * 3.0)],
+          ["data3",  Math.floor(Math.random() * 3.0)]],
 
-    Line: [["data1",  Math.floor(Math.random() * 20)],
-           ["data2",   Math.floor(Math.random() * 20)]],
+    Line: [["data1",  Math.floor(Math.random() * 250)],
+           ["data2",   Math.floor(Math.random() * 250)]],
 
-    Bubble: [["data1",  Math.floor(Math.random() * 20)],
-            ["data2",  Math.floor(Math.random() * 20)],
-            ["data3",  Math.floor(Math.random() * 20)]]
+    Bubble: [["data1",  Math.floor(Math.random() * 300)],
+            ["data2",  Math.floor(Math.random() * 300)],
+            ["data3",  Math.floor(Math.random() * 300)]]
 
 };
 
 function updatePlaceholderChart(chartToUpdate, data){
     setInterval(function(){
-        chartToUpdate.load({
+        chartToUpdate.flow({
             columns: data,
-            length: 0
+            length: 1
         });
-    },10000);
+    },3000);
 }
