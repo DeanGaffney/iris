@@ -82,6 +82,31 @@
         var widget = $(this).closest('.grid-stack-item');
         removeWidget(widget);
     });
+
+     //clear the dashboard
+    $(document).on("click", "#clear-dashboard-btn", function(){
+       clear();
+    });
+
+    //add new widget to dashboard
+    $(document).on("click", "#add-widget-btn",  function(){
+        showWidgetModal();
+    });
+
+    $(document).on("click", "#add-widget-modal-btn", function(){
+        var widget = getAddedWidgetInfo();
+        //close the add widget modal
+        hideWidgetModal();
+        //clear the add widget modal
+        clearWidgetModal();
+        //add widget to the dashboard
+        addWidget(widget, false);
+    });
+
+    //save the dashboard
+    $(document).on("click", "#save-dashboard-btn", function(){
+        save($(this));
+    });
 </g:javascript>
 </body>
 </html>

@@ -134,35 +134,4 @@
 
 <g:javascript>
         init();
-
-        //clear the dashboard
-        $("#clear-dashboard-btn").on("click", function(){
-           clear();
-        });
-
-        //add new widget to dashboard
-        $("#add-widget-btn").on("click", function(){
-            showWidgetModal();
-        });
-
-        $("#add-widget-modal-btn").on("click", function(){
-            var widget = getAddedWidgetInfo();
-            //close the add widget modal
-            hideWidgetModal();
-            //clear the add widget modal
-            clearWidgetModal();
-            //add widget to the dashboard
-            addWidget(widget, false);
-        });
-
-        //save the dashboard
-        $("#save-dashboard-btn").on("click", function(){
-            save($(this));
-        });
-
-        //load the dashboard
-        $("#load-dashboard-btn").on("click", function(){
-            load();
-        });
-
 </g:javascript>
