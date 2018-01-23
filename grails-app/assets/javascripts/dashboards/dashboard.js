@@ -97,7 +97,15 @@ function addLoadedWidget(ele, widget){
  */
 function addWidget(widget, isLoading){
     //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
-    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.chartName + '" data-charttype="' + widget.chartType + '"><div class="grid-stack-item-content"><div class="chart"></div></div></div>');
+    var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.chartName + '" data-charttype="' + widget.chartType + '">' +
+                    '<div class="chart-crud-bar">' +
+                        '<span><i class="widget-remove fa fa-times" aria-hidden="true"></i></span>' +
+                    '</div>' +
+                    '<div class="grid-stack-item-content">' +
+                        '<div class="chart"></div>' +
+                    '</div>' +
+                '</div>');
+
     //add the element
     var selector = "#" + widget.id + " .chart";
 

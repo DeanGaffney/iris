@@ -14,6 +14,7 @@
     <asset:javascript src="charts/placeholder-charts.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
+    <asset:stylesheet src="gridstack/gridstack-extra.css"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
     <title>Dashboard Home</title>
 </head>
