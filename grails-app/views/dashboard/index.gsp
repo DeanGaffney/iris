@@ -66,7 +66,7 @@
     }
 
     /* Close when someone clicks on the "x" symbol inside the overlay */
-    function closeNav() {
+    function closeOverlay() {
         $("#dashboard-area").width("0%");
     }
 

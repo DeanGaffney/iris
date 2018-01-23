@@ -155,7 +155,8 @@ function init(){
     $('.grid-stack').gridstack({
         resizable: {
             handles: 'e, se, s, sw, w'
-        }
+        },
+        verticalMargin : '20px'
     });
 
     grid = $('.grid-stack').data('gridstack');

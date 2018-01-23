@@ -110,6 +110,8 @@
         </div>
     </div>
 </div>
+<span><i id="overlay-close-button" class="fa fa-times fa-2x" onclick="closeOverlay()" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
+
 <div id="dashboard-container">
 
     <div class="form-group">
@@ -124,9 +126,7 @@
     <div class="btn-group">
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
-        <button id="load-dashboard-btn" class="btn">Load</button>
         <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>
-        <button id="close-dashboard-btn" class="btn" onclick="closeNav()">Close</button>
     </div>
 </div>
 

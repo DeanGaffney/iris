@@ -74,10 +74,8 @@ class DashboardController {
      * @param id - the id of the dashboard
      * @return redirects to index page
      */
-    def onShowViewClosed(long id){
-        //if the user clicks the close button on the view the id will not be null,
-        //if the user closes or refreshes the tab the id will come from json
-        id = (id == null) ? request.JSON.dashboardId : id
+    def onShowViewClosed(){
+        long id = request.JSON.dashboardId as Long
         Dashboard dashboard = Dashboard.get(id)
         dashboard.setIsRendering(false)
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
