@@ -76,6 +76,12 @@
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, ".overlay-content");
         openNav();
     });
+
+    //get widget that was cliked to be removed
+    $(document).on('click','.widget-remove',function(e) {
+        var widget = $(this).closest('.grid-stack-item');
+        removeWidget(widget);
+    });
 </g:javascript>
 </body>
 </html>

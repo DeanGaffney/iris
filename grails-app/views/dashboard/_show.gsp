@@ -14,7 +14,7 @@
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="load-dashboard-btn" class="btn">Load</button>
-        <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>
+        <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}" disabled>Save</button>
         <g:link action="onShowViewClosed" params="${[id: dashboard.id]}"
             <button id="show-close-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}">Close</button>
         </g:link>
@@ -39,5 +39,9 @@
        var url = $("#show-close-dashboard-btn").attr("href");
        var dashboardId = '${dashboard.id}'
        reloadAfterAjax(url, REST.method.post, REST.contentType.json, {dashboardId : dashboardId});
+    });
+
+    $('.grid-stack').on('change', function(event, items) {
+        $("#save-dashboard-btn").prop('disabled', false);
     });
 </g:javascript>

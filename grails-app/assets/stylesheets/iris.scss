@@ -316,7 +316,8 @@ $list-padding: percentage(0.03);
 .widget-remove{
   position: absolute;
   bottom: 25%;
-  right: 0%;
+  right: 3%;
+  z-index:inherit;
 }
 
 .widget-remove:hover{

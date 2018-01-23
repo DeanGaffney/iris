@@ -123,16 +123,24 @@ function addWidget(widget, isLoading){
         localStorage.setItem(widget.id, JSON.stringify(JSON.parse(widget.aggregation)));
     }
 
-    resizeGridAfterAdding("#" + widget.id);
+    resizeWidget("#" + widget.id);
 
     return chart;
+}
+
+/**
+ * Removes a widget from the dashboard
+ * @param widget - the widget to remove
+ */
+function removeWidget(widget){
+    grid.removeWidget(widget);
 }
 
 /**
  * Resize widget to correct height based on its content
  * @param eleId - the id of the widget
  */
-function resizeGridAfterAdding(eleId){
+function resizeWidget(eleId){
     grid.resize(
         $(eleId),
         $(eleId).attr('data-gs-width'),
