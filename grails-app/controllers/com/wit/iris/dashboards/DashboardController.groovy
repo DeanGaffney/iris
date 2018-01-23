@@ -1,6 +1,5 @@
 package com.wit.iris.dashboards
 
-import com.wit.iris.charts.enums.ChartType
 import grails.converters.JSON
 
 class DashboardController {
@@ -22,7 +21,7 @@ class DashboardController {
 //                }
 //            }
 //        }
-//    }
+//      }
 //    }
 
     static scaffold = Dashboard

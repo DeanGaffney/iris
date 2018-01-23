@@ -10,12 +10,16 @@ class SocketService {
     SimpMessagingTemplate brokerMessagingTemplate
 
     /**
-     * Sends dashboard.chart data to specific dashboard.chart types for specific schemas
+     * Sends dashboard chart data to specific dashboard chart types for specific schemas
      * @param esIndex - the name of the schema index which is used as a unique subscription socket endpoint
      * @param chartType - the type of dashboard.chart (Bubble, Pie etc...)
      * @param data - the data to be send to the dashboard.chart
      */
-    void sendDataToClient(long schemaId, String chartType, Map data){
+    void sendUpdateToClient(long schemaId, String chartType, Map data){
         brokerMessagingTemplate.convertAndSend "/topic/$schemaId/$chartType".toString(), JsonOutput.toJson(data)
+    }
+
+    void sendDataToClient(long schemaId, String chartType, Map data){
+        brokerMessagingTemplate.convertAndSend "/topic/load/$schemaId/$chartType".toString(), JsonOutput.toJson(data)
     }
 }

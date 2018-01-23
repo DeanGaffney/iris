@@ -19,18 +19,6 @@ function BarChart(containerSelector, data){
                 data1: "#12EED8",
                 data2: "#FFFF00"
             }
-        },
-        axis:{
-            x:{
-                show: true
-            },
-            y:{
-                show: true
-            }
-        },
-        bar:{
-            width: 5,
-            zerobased: true
         }
     });
 }
@@ -49,9 +37,6 @@ function BubbleChart(cssSelector, data) {
         axis: {
             x: {
                 type: "category"
-            },
-            y: {
-                max: 450
             }
         },
         bindto: cssSelector
@@ -63,9 +48,6 @@ function PieChart(containerSelector, data){
         data: {
             columns: data,
             type: "pie",
-            onclick: function (d, i) { console.log("onclick", d, i); },
-            onover: function (d, i) { console.log("onover", d, i); },
-            onout: function (d, i) { console.log("onout", d, i); },
             colors:{
                 data1: "#12EED8",
                 data2: "#FFFF00",

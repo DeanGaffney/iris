@@ -108,8 +108,12 @@ class DashboardService {
     void onDashboardChartsLoad(long dashboardId){
         Dashboard dashboard = Dashboard.get(dashboardId)
         dashboard.grid.charts.each {chart ->
-            RestResponse aggResultData = aggregationService.execute(chart.aggregation)
-            chartService.updateChart(chart.schema.id, chart, aggResultData.json)
+            List<JSONObject> responses = []
+            5.times {
+                RestResponse aggResultData = aggregationService.execute(chart.aggregation)
+                responses.add(aggResultData.json)
+            }
+            chartService.loadChart(chart.schema.id, chart, responses)
         }
     }
 
