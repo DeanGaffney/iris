@@ -298,6 +298,7 @@ $list-padding: percentage(0.03);
 
 .grid-stack > .grid-stack-item{
   margin: 0% 2% 0% 2%;
+  background-color: $background-color;
 }
 
 .chart-crud-bar{
@@ -305,7 +306,7 @@ $list-padding: percentage(0.03);
   left: 0%;
   right: 0%;
   top: 0%;
-  background-color: $darker-bg-color;
+  background-color: $background-color;
   width: 100%;
   height: 8%;
   margin-bottom: 5%;
@@ -320,6 +321,10 @@ $list-padding: percentage(0.03);
 
 .widget-remove:hover{
   cursor: pointer;
+}
+
+.bb-tooltip tr{
+  color: $background-color;
 }
 
 #dashboard-name{
