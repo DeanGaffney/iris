@@ -110,7 +110,6 @@
         </div>
     </div>
 </div>
-<span><i id="overlay-close-button" class="fa fa-times fa-2x" onclick="closeOverlay()" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
 
 <div id="dashboard-container">
 
@@ -134,4 +133,14 @@
 
 <g:javascript>
         init();
+
+        //add create class to this, so i know it's the show view
+        $("#overlay-close-button").removeClass('show-view');
+        $("#overlay-close-button").addClass('create-view');
+
+        $("#overlay-close-button").on("click", function(){
+            if($(this).hasClass('create-view')){
+                closeOverlay();
+            }
+        });
 </g:javascript>

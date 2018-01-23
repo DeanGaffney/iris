@@ -56,22 +56,6 @@ function reloadAfterAjax(controllerUrl, methodType, contentType, data){
     });
 }
 
-function toggleServerObjectState(controllerUrl, methodType, contentType, data){
-    $.ajax({
-        url: controllerUrl,
-        type: methodType,
-        dataType: REST.dataType.html,
-        contentType: contentType,
-        data: JSON.stringify(data),
-        success: function(data){
-
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    });
-}
-
 function prettyPrintJsonResponse(controllerUrl, methodType, contentType, data, successContainer){
     $.ajax({
         url: controllerUrl,

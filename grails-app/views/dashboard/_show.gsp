@@ -109,8 +109,6 @@
     </div>
 </div>
 
-<span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
-
 <h1>${dashboard.name}</h1>
 
 <div id="dashboard-container">
@@ -136,6 +134,9 @@
 </div>
 
 <g:javascript>
+    $("#overlay-close-button").removeClass('create-view');
+    $("#overlay-close-button").addClass('show-view');
+
     init();
     var onDashboardChartLoadUrl = '${createLink(controller: 'dashboard', action: 'onDashboardChartLoad')}'
     var dashboardId = '${dashboard.id}';
@@ -152,11 +153,14 @@
     });
 
     $("#overlay-close-button").on("click", function(){
-       $(window).trigger('beforeunload');
+        if($(this).hasClass('show-view')){
+           $(window).trigger('beforeunload');
+        }
     });
 
     $('.grid-stack').on('change', function(event, items) {
         $("#save-dashboard-btn").prop('disabled', false);
     });
+
 
 </g:javascript>

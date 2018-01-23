@@ -367,6 +367,8 @@ $list-padding: percentage(0.03);
   position: absolute;
   right: 3%;
   top: 3%;
+  z-index: 100;
+  transition: 0.5s;
 }
 
 #overlay-close-button:hover{

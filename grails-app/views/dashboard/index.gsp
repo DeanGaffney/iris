@@ -42,6 +42,7 @@
 </div>
 
 <div id="dashboard-area" class="overlay">
+    <span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
     <div class="overlay-content"></div>
 </div>
 
@@ -57,11 +58,11 @@
     $("#create-dashboard-btn").on("click", function(){
         var URL = $(this).attr("href");
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, ".overlay-content");
-        openNav();
+        openOverlay();
     });
 
     /* Open when someone clicks on the span element */
-    function openNav() {
+    function openOverlay() {
        $("#dashboard-area").width("100%");
     }
 
@@ -74,7 +75,7 @@
     $(".list-item-name").on("click", function(){
         var URL = $(this).attr("href");
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {}, ".overlay-content");
-        openNav();
+        openOverlay();
     });
 
     //get widget that was cliked to be removed
