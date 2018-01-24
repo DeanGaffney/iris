@@ -125,7 +125,7 @@
     <div id="dashboard-btn-group" class="btn-group">
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
-        <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}" disabled>Save</button>
+        <button id="update-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'update')}" disabled>Update</button>
         <g:link action="delete" params="${[id: dashboard.id]}">
             <button id="delete-dashboard-btn" type="button" class="btn">Delete</button>
         </g:link>
@@ -163,5 +163,8 @@
         $("#save-dashboard-btn").prop('disabled', false);
     });
 
+    $("#update-dashboard-btn").on("click", function(){
+        update($(this).attr('href'), dashboardId);
+    });
 
 </g:javascript>

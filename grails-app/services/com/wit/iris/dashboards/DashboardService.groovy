@@ -64,6 +64,15 @@ class DashboardService {
     }
 
     /**
+     * Update a dashboard using JSON request sent from client
+     * @param dashboardJson - the json containing the dashboard information
+     * @return the updated dashboard
+     */
+    Dashboard update(JSONObject dashboardJson){
+
+    }
+
+    /**
      * Returns all dashboards that are currently marked as rendering
      * @return A List of Dashboards that are currently rendering
      */

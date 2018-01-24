@@ -38,6 +38,11 @@ class DashboardController {
         redirect(view: "index")
     }
 
+    def update(){
+        dashboardService.update(request.JSON)
+        redirect(view: "index")
+    }
+
     def create(){
         render(template: "create")
     }

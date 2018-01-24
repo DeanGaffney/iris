@@ -27,10 +27,44 @@ function load(controllerUrl, data, serializedData){
 
 /**
  * Saves the widget details on the grid
- * @param url - the url to go to after the save is successful
+ * @param url - the url to send the data to ('/save')
  * @returns {boolean}
  */
-function save(saveButton) {
+function save(url) {
+
+    collectSerializedData();
+
+    var dashboardGrid = new Grid(serializedData);
+
+    dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
+
+    reloadAfterAjax(url, REST.method.post,  REST.contentType.json, dashboard);
+
+    return false;
+}
+
+/**
+ * Sends the updated dashboard information to the server
+ * @param url - the url to send the updated information to
+ */
+function update(url, dashboardId){
+    collectSerializedData();
+
+    var dashboardGrid = new Grid(serializedData);
+
+    dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
+    dashboard.id = dashboardId;
+
+    reloadAfterAjax(url, REST.method.post,  REST.contentType.json, dashboard);
+
+    return false;
+}
+
+/**
+ * Collects all necessary attributes from DOM elements to store dashboard state
+ * The collected data is stored in the 'serializedData' array
+ */
+function collectSerializedData(){
     //collect widget information
     serializedData = _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
         el = $(el);
@@ -48,14 +82,6 @@ function save(saveButton) {
             aggregation: JSON.parse(localStorage.getItem(node.el[0].id))
         };
     }, this);
-
-    var dashboardGrid = new Grid(serializedData);
-
-    dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
-
-    reloadAfterAjax($(saveButton).attr("href"), REST.method.post,  REST.contentType.json, dashboard);
-
-    return false;
 }
 
 /**
