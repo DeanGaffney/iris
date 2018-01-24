@@ -108,6 +108,18 @@
     $(document).on("click", "#save-dashboard-btn", function(){
         save($(this));
     });
+
+    //if a resize occurs, then resize the chart to be the width and height of the new widget size
+    $(document).on('gsresizestop', '.grid-stack', function(event, elem) {
+        var elemHeight = $(elem).height();
+        var newHeight = elemHeight - (elemHeight * 0.2);      //subtract 10%
+        //update chart height, billboard dynamically does width for chart
+        var widgetId = $(elem).attr('id');
+        var chart = displayingCharts[widgetId];
+        updateChartHeight(chart, newHeight);
+        resizeWidget('#' + widgetId);
+    });
+
 </g:javascript>
 </body>
 </html>

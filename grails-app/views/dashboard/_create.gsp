@@ -122,7 +122,7 @@
 
     </div>
 
-    <div class="btn-group">
+    <div id="dashboard-btn-group" class="btn-group">
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="save-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'save')}">Save</button>

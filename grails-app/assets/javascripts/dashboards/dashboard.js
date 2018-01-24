@@ -1,5 +1,6 @@
 
 var serializedData = [];
+var displayingCharts = {};
 
 var grid;
 var dashboard;
@@ -123,6 +124,8 @@ function addWidget(widget, isLoading){
         localStorage.setItem(widget.id, JSON.stringify(JSON.parse(widget.aggregation)));
     }
 
+    displayingCharts[widget.id] = chart;        //add the chart to the displayingCharts object
+
     resizeWidget("#" + widget.id);
 
     return chart;
@@ -134,6 +137,7 @@ function addWidget(widget, isLoading){
  */
 function removeWidget(widget){
     grid.removeWidget(widget);
+    delete displayingCharts[widget.attr('id')];     //remove the property from displayingCharts object
 }
 
 /**
@@ -141,11 +145,20 @@ function removeWidget(widget){
  * @param eleId - the id of the widget
  */
 function resizeWidget(eleId){
-    grid.resize(
-        $(eleId),
-        $(eleId).attr('data-gs-width'),
-        Math.ceil(($(eleId + ' .grid-stack-item-content')[0].scrollHeight + grid.opts.verticalMargin) / (grid.cellHeight() + grid.opts.verticalMargin))
-    );
+    var newHeight = Math.ceil(($(eleId + ' .grid-stack-item-content')[0].scrollHeight + grid.opts.verticalMargin) /
+                                (grid.cellHeight() + grid.opts.verticalMargin));
+    grid.resize($(eleId), $(eleId).attr('data-gs-width'), newHeight);
+}
+
+/**
+ * Resizes a chart with a new height
+ * @param chart - the chart to resize
+ * @param newHeight - the new height for the chart
+ */
+function updateChartHeight(chart, newHeight){
+    chart.resize({
+        height: newHeight
+    });
 }
 
 /**
