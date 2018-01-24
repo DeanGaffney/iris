@@ -69,7 +69,10 @@ class DashboardService {
      * @return the updated dashboard
      */
     Dashboard update(JSONObject dashboardJson){
-
+        // I dont need to compare the json of the incoming updated dashboard
+        // because i am implementing revision history// i just need to copy some of the information
+        //take the new serializedData and update the revision id and timestamp
+        //TODO add revision fields to Dashboard domain
     }
 
     /**
