@@ -109,8 +109,20 @@
     </div>
 </div>
 
-<h1>Dashboard: ${dashboard.name}</h1>
-<h1>Revision No: ${dashboard.revision.revisionNumber}</h1>
+<div id="dashboard-header-area" class="row">
+    <div class="col-4">
+        <h1>Dashboard: ${dashboard.name}</h1>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4">
+        <h1>Revision No: ${dashboard.revision.revisionNumber}</h1>
+        <g:select name="dashboard-revision-select" from="${revisions}"
+                  optionValue="${{it.dateCreated}}"
+                  optionKey="${{it.revisionId + '-' + it.revisionNumber}}"
+                  class="form-control custom-select"/>
+    </div>
+</div>
+
 
 <div id="dashboard-container">
 
@@ -152,10 +164,8 @@
 
     //if user closes tab/browser or refreshes page, we need to toggle dashboard as not rendering anymore
     $(window).bind('beforeunload', function(){
-       //var closingUrl = $("#overlay-close-button").attr("href");
-       //
-       location.reload(true);
-
+       var closingUrl = $("#overlay-close-button").attr("href");
+        reloadAfterAjax(closingUrl, REST.method.post, REST.contentType.json, data);
        var closedUrl = $("#overlay-close-button").data("closed");
        toggleServerObjectState(closedUrl, REST.method.post, REST.contentType.json, data);
     });

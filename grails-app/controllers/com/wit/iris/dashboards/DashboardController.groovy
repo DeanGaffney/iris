@@ -93,19 +93,24 @@ class DashboardController {
      * @return redirects to index page
      */
     def onShowViewClosing(){
-        redirect(view: "index")
-    }
-
-    def onShowViewClosed(){
         Revision rev = Revision.findWhere([revisionId: request.JSON.dashboardRevisionId as String, revisionNumber: request.JSON.dashboardRevisionNumber as Long])
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.setIsRendering(false)
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
+
         if(dashboard.save(flush: true)){
             resp.status = 200
             resp.message = "successfully toggled dashboard rendering state"
         }
-        render resp as JSON
+        redirect(view: "index")
+    }
+
+    def onShowViewClosed(){
+        Dashboard.withSession {
+            it.flush()
+            it.clear()
+        }
+        render [:] as JSON
     }
 
     /**
