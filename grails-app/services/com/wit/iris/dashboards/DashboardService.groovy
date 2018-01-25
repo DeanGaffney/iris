@@ -3,6 +3,7 @@ package com.wit.iris.dashboards
 import com.wit.iris.charts.Chart
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
+import com.wit.iris.revisions.Revision
 import com.wit.iris.schemas.Schema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
@@ -18,6 +19,7 @@ class DashboardService {
 
     /**
      * Saves a dashboard using the json request sent to the server
+     * A dashboard being saved is given revision number 0
      * @param dashboardJson - the json representing the dashboard
      * @return the saved dashboard
      */
@@ -25,7 +27,8 @@ class DashboardService {
         log.debug("Dashboard save request:\n${JsonOutput.prettyPrint(dashboardJson.toString())}")
 
         Dashboard dashboard = new Dashboard(name: dashboardJson["name"].toString(),
-                                            grid: new Grid(serializedData: dashboardJson["grid"].toString()))
+                                            grid: new Grid(serializedData: dashboardJson["grid"].toString()),
+                                            revision: new Revision(comment: "master"))
 
         dashboard.user = springSecurityService.getCurrentUser()
 
@@ -38,6 +41,27 @@ class DashboardService {
         }
         return dashboard
     }
+
+    /**
+     * Update a dashboard using JSON request sent from client
+     * @param dashboardJson - the json containing the dashboard information
+     * @return the updated dashboard
+     */
+    Dashboard update(JSONObject dashboardJson){
+        Revision rev = Revision.findWhere([revisionId: dashboardJson.revisionId as String, revisionNumber: dashboardJson.revisionNumber as Long])
+        Dashboard legacyDashboard = Dashboard.findWhere([revision: rev])
+        legacyDashboard.setIsRendering(false)
+        legacyDashboard.save(flush: true)
+
+
+        Dashboard currentDashboard = save(dashboardJson)
+        currentDashboard.revision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: legacyDashboard.revision.revisionNumber + 1)
+        currentDashboard.setIsRendering(true)
+        currentDashboard.save(flush: true)
+        return currentDashboard
+    }
+
+
 
     /**
      * Creates and adds charts to a dashboard grid using grid json information
@@ -61,18 +85,6 @@ class DashboardService {
             }
             grid.addToCharts(chart)
         }
-    }
-
-    /**
-     * Update a dashboard using JSON request sent from client
-     * @param dashboardJson - the json containing the dashboard information
-     * @return the updated dashboard
-     */
-    Dashboard update(JSONObject dashboardJson){
-        // I dont need to compare the json of the incoming updated dashboard
-        // because i am implementing revision history// i just need to copy some of the information
-        //take the new serializedData and update the revision id and timestamp
-        //TODO add revision fields to Dashboard domain
     }
 
     /**
@@ -115,10 +127,11 @@ class DashboardService {
      * executes aggregations for charts to give them some data to display
      * this avoids blank charts, as some agents may have long intervals between
      * sending data to the application
-     * @param dashboardId - the id of the dashboard
+     * @param revisionId - the id of the dashboard
      */
-    void onDashboardChartsLoad(long dashboardId){
-        Dashboard dashboard = Dashboard.get(dashboardId)
+    void onDashboardChartsLoad(String revisionId, long revisionNumber){
+        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber])
+        Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.grid.charts.each {chart ->
             List<JSONObject> responses = []
             5.times {

@@ -1,6 +1,8 @@
 package com.wit.iris.dashboards
 
+import com.wit.iris.revisions.Revision
 import grails.converters.JSON
+import org.grails.datastore.mapping.query.api.BuildableCriteria
 
 class DashboardController {
 
@@ -29,7 +31,13 @@ class DashboardController {
     def dashboardService
 
     def index(){
-        List<Dashboard> dashboards = Dashboard.findAllWhere([archived: false]).asList()
+        def results = Dashboard.executeQuery("select distinct d.revision.revisionId, MAX(d.revision.revisionNumber) from Dashboard d " +
+                "group by d.revision.revisionId")
+        List<Dashboard> dashboards = results.collect{ list ->
+            Revision rev = Revision.findWhere(revisionId: list[0], revisionNumber: list[1])
+            Dashboard.findWhere([revision: rev, archived: false])
+        }
+
         render(view: "index", model:[dashboards: dashboards])
     }
 
@@ -39,8 +47,9 @@ class DashboardController {
     }
 
     def update(){
-        dashboardService.update(request.JSON)
-        redirect(view: "index")
+        Dashboard updatedDashboard = dashboardService.update(request.JSON)
+        List<Revision> revisions = Revision.findAllWhere([revisionId: updatedDashboard.revision.revisionId])
+        render(template: "show", model: [dashboard: updatedDashboard, serializedData: updatedDashboard.grid.serializedData, revisions: revisions])
     }
 
     def create(){
@@ -52,8 +61,9 @@ class DashboardController {
      * @param id - the id of the dashboard to archive
      * @return redirect to the index view
      */
-    def delete(long id){
-        Dashboard dashboard = Dashboard.get(id)
+    def delete(String revisionId, long revisionNumber){
+        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber])
+        Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.archived = true
         dashboard.isRendering = false
         dashboard.save(flush: true)
@@ -63,14 +73,17 @@ class DashboardController {
     /**
      * Called when a user wishes to view a dashboard
      * The dashboard is then marked as rendering
-     * @param id - the id of the dashboard to view
+     * @param revisionId - the revisionId of the dashboard to view
+     * @param revisionNumber - the revisionNumber of the dashboard to view
      * @return show template with the dashboard and serialized json for dashboard grid
      */
-    def show(long id){
-        Dashboard dashboard = Dashboard.get(id)
+    def show(String revisionId, long revisionNumber){
+        List<Revision> revisions = Revision.findAllWhere([revisionId: revisionId])
+        Revision rev = revisions.find {rev -> rev.revisionNumber == revisionNumber}
+        Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.setIsRendering(true)                  //set the dashboard as rendering
         dashboard.save(flush: true)
-        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData])
+        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions])
     }
 
     /**
@@ -79,16 +92,20 @@ class DashboardController {
      * @param id - the id of the dashboard
      * @return redirects to index page
      */
+    def onShowViewClosing(){
+        redirect(view: "index")
+    }
+
     def onShowViewClosed(){
-        long id = request.JSON.dashboardId as Long
-        Dashboard dashboard = Dashboard.get(id)
+        Revision rev = Revision.findWhere([revisionId: request.JSON.dashboardRevisionId as String, revisionNumber: request.JSON.dashboardRevisionNumber as Long])
+        Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.setIsRendering(false)
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
         if(dashboard.save(flush: true)){
             resp.status = 200
             resp.message = "successfully toggled dashboard rendering state"
         }
-        redirect(view: "index")
+        render resp as JSON
     }
 
     /**
@@ -96,7 +113,7 @@ class DashboardController {
      * @return response as json
      */
     def onDashboardChartLoad(){
-        dashboardService.onDashboardChartsLoad(request.JSON.dashboardId as Long)
+        dashboardService.onDashboardChartsLoad(request.JSON.dashboardRevisionId as String, request.JSON.dashboardRevisionNumber as Long)
         Map resp = [status: 200, message: "Charts updated"]
         render resp as JSON
     }

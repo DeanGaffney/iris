@@ -47,15 +47,16 @@ function save(url) {
  * Sends the updated dashboard information to the server
  * @param url - the url to send the updated information to
  */
-function update(url, dashboardId){
+function update(url, revisionId, revisionNumber){
     collectSerializedData();
 
     var dashboardGrid = new Grid(serializedData);
 
     dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
-    dashboard.id = dashboardId;
+    dashboard.revisionId = revisionId;
+    dashboard.revisionNumber = revisionNumber;
 
-    reloadAfterAjax(url, REST.method.post,  REST.contentType.json, dashboard);
+    updateContainerHtml(url, REST.method.post,  REST.contentType.json, dashboard, ".overlay-content");
 
     return false;
 }

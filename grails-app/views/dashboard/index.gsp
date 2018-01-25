@@ -36,13 +36,13 @@
             <span class="tab"></span>
             <span class="list-item-id tab">${i + 1}</span>
             <span class="tab">-</span>
-            <span class="list-item-name" href="${createLink(controller: 'dashboard', action: 'show', params: [id: dashboard.id])}">${dashboard.name}</span>
+            <span class="list-item-name" href="${createLink(controller: 'dashboard', action: 'show', params: [revisionId: dashboard.revision.revisionId, revisionNumber: dashboard.revision.revisionNumber])}">${dashboard.name}</span>
         </div>
     </g:each>
 </div>
 
 <div id="dashboard-area" class="overlay">
-    <span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
+    <span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosing')}" data-closed="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
     <div class="overlay-content"></div>
 </div>
 

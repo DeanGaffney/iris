@@ -109,13 +109,14 @@
     </div>
 </div>
 
-<h1>${dashboard.name}</h1>
+<h1>Dashboard: ${dashboard.name}</h1>
+<h1>Revision No: ${dashboard.revision.revisionNumber}</h1>
 
 <div id="dashboard-container">
 
     <div class="form-group">
         <label for="dashboard-name">Dashboard Name</label>
-        <input type="text" class="form-control" id="dashboard-name" placeholder="${dashboard.name}" required>
+        <input type="text" class="form-control" id="dashboard-name" value="${dashboard.name}" required>
     </div>
 
     <div id="grid" class="grid-stack">
@@ -126,7 +127,7 @@
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="update-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'update')}" disabled>Update</button>
-        <g:link action="delete" params="${[id: dashboard.id]}">
+        <g:link action="delete" params="${[revisionId: dashboard.revision.revisionId, revisionNumber: dashboard.revision.revisionNumber]}">
             <button id="delete-dashboard-btn" type="button" class="btn">Delete</button>
         </g:link>
     </div>
@@ -139,17 +140,24 @@
 
     init();
     var onDashboardChartLoadUrl = '${createLink(controller: 'dashboard', action: 'onDashboardChartLoad')}'
-    var dashboardId = '${dashboard.id}';
-    var data = {dashboardId: dashboardId};
+    var dashboardRevisionId = '${dashboard.revision.revisionId}';
+    var dashboardRevisionNumber = '${dashboard.revision.revisionNumber}';
+    var data = {
+        dashboardRevisionId: dashboardRevisionId,
+        dashboardRevisionNumber: dashboardRevisionNumber
+    };
     var jsonStr = '${serializedData.toString()}';
     var loadedDashboard = JSON.parse(jsonStr);
     load(onDashboardChartLoadUrl, data, loadedDashboard.serializedData);
 
     //if user closes tab/browser or refreshes page, we need to toggle dashboard as not rendering anymore
     $(window).bind('beforeunload', function(){
-       var url = $("#overlay-close-button").attr("href");
-       var data = {dashboardId: dashboardId};
-       reloadAfterAjax(url, REST.method.post, REST.contentType.json, data);
+       //var closingUrl = $("#overlay-close-button").attr("href");
+       //
+       location.reload(true);
+
+       var closedUrl = $("#overlay-close-button").data("closed");
+       toggleServerObjectState(closedUrl, REST.method.post, REST.contentType.json, data);
     });
 
     //if the overlay close button is clicked in the show view, trigger the beforeunload event to toggle dashboard rendering state server side
@@ -160,11 +168,11 @@
     });
 
     $('.grid-stack').on('change', function(event, items) {
-        $("#save-dashboard-btn").prop('disabled', false);
+        $("#update-dashboard-btn").prop('disabled', false);
     });
 
     $("#update-dashboard-btn").on("click", function(){
-        update($(this).attr('href'), dashboardId);
+        update($(this).attr('href'), dashboardRevisionId, dashboardRevisionNumber);
     });
 
 </g:javascript>
