@@ -173,9 +173,7 @@
     //if the overlay close button is clicked in the show view, trigger the beforeunload event to toggle dashboard rendering state server side
     $("#overlay-close-button").on("click", function(){
         if($(this).hasClass('show-view')){
-            var closingUrl = $("#overlay-close-button").attr("href");
-            toggleServerObjectState(closingUrl, REST.method.post, REST.contentType.json, data);
-            closeOverlay();
+            location.reload(true);
         }
     });
 
