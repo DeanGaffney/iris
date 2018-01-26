@@ -123,4 +123,23 @@ class DashboardController {
         render resp as JSON
     }
 
+    def onRevisionChange(){
+        String revisionId = request.JSON.dashboardRevisionId as String
+        long revisionNumber = request.JSON.dashboardRevisionNumber as Long
+        long requestedRevisionNumber = request.JSON.requestedRevisionNumber as Long
+
+        List<Revision> revisions = Revision.findAllWhere([revisionId: revisionId])
+
+        Revision legacyRevision = revisions.find { rev -> rev.revisionNumber == revisionNumber}
+        Dashboard legacyDashboard = Dashboard.findWhere([revision: legacyRevision])
+        legacyDashboard.setIsRendering(false)
+        legacyDashboard.save()
+
+        Revision currentRevision = revisions.find {rev -> rev.revisionNumber == requestedRevisionNumber}
+        Dashboard dashboard = Dashboard.findWhere([revision: currentRevision])
+        dashboard.setIsRendering(true)                  //set the dashboard as rendering
+        dashboard.save(flush: true)
+        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions])
+    }
+
 }

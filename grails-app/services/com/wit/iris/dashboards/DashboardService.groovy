@@ -51,7 +51,7 @@ class DashboardService {
         Revision rev = Revision.findWhere([revisionId: dashboardJson.revisionId as String, revisionNumber: dashboardJson.revisionNumber as Long])
         Dashboard legacyDashboard = Dashboard.findWhere([revision: rev])
         legacyDashboard.setIsRendering(false)
-        legacyDashboard.save(flush: true)
+        legacyDashboard.save()
 
 
         Dashboard currentDashboard = save(dashboardJson)

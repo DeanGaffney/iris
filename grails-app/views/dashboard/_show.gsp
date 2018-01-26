@@ -118,8 +118,9 @@
         <h1>Revision No: ${dashboard.revision.revisionNumber}</h1>
         <g:select name="dashboard-revision-select" from="${revisions}"
                   optionValue="${{it.dateCreated}}"
-                  optionKey="${{it.revisionId + '-' + it.revisionNumber}}"
-                  class="form-control custom-select"/>
+                  optionKey="${{it.revisionNumber}}"
+                  class="form-control custom-select"
+                  href="${createLink(controller: 'dashboard', action: 'onRevisionChange')}"/>
     </div>
 </div>
 
@@ -183,6 +184,14 @@
 
     $("#update-dashboard-btn").on("click", function(){
         update($(this).attr('href'), dashboardRevisionId, dashboardRevisionNumber);
+    });
+
+    $("#dashboard-revision-select").on("change", function(){
+        var url = $(this).attr("href");
+        var revisionData = data;
+        revisionData['requestedRevisionNumber'] = $(this).val();
+        console.log(JSON.stringify(revisionData));
+       updateContainerHtml(url, REST.method.post, REST.contentType.json, revisionData, '.overlay-content');
     });
 
 </g:javascript>
