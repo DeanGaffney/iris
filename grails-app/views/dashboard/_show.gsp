@@ -117,7 +117,7 @@
     <div class="col-4">
         <h1>Revision No: ${revisionNumber}</h1>
         <g:select name="dashboard-revision-select" from="${revisions}"
-                  optionValue="${{it.dateCreated}}"
+                  optionValue="${{'Rev:(' + it.revisionNumber + ') ' + it.dateCreated}}"
                   optionKey="${{it.revisionNumber}}"
                   noSelection="['':'Most Recent']"
                   class="form-control custom-select"
