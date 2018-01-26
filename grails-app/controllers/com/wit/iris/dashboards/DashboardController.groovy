@@ -2,7 +2,6 @@ package com.wit.iris.dashboards
 
 import com.wit.iris.revisions.Revision
 import grails.converters.JSON
-import org.grails.datastore.mapping.query.api.BuildableCriteria
 
 class DashboardController {
 
@@ -31,13 +30,9 @@ class DashboardController {
     def dashboardService
 
     def index(){
-        def results = Dashboard.executeQuery("select distinct d.revision.revisionId, MAX(d.revision.revisionNumber) from Dashboard d " +
-                "group by d.revision.revisionId")
-        List<Dashboard> dashboards = results.collect{ list ->
-            Revision rev = Revision.findWhere(revisionId: list[0], revisionNumber: list[1])
-            Dashboard.findWhere([revision: rev, archived: false])
-        }
-
+        List<Dashboard> dashboards = dashboardService.getDashboards()
+        println 'called index'
+        println dashboards
         render(view: "index", model:[dashboards: dashboards])
     }
 
@@ -48,7 +43,7 @@ class DashboardController {
 
     def update(){
         Dashboard updatedDashboard = dashboardService.update(request.JSON)
-        List<Revision> revisions = Revision.findAllWhere([revisionId: updatedDashboard.revision.revisionId])
+        List<Revision> revisions = dashboardService.getRevisions(updatedDashboard.revision.revisionId)
         revisions.removeIf{rev -> rev.revisionNumber == updatedDashboard.revision.revisionNumber}
         render(template: "show", model: [dashboard: updatedDashboard, serializedData: updatedDashboard.grid.serializedData, revisions: revisions, revisionNumber: updatedDashboard.revision.revisionNumber])
     }
@@ -62,14 +57,28 @@ class DashboardController {
      * @param id - the id of the dashboard to archive
      * @return redirect to the index view
      */
-    def delete(String revisionId, long revisionNumber){
-        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber])
-        Dashboard dashboard = Dashboard.findWhere([revision: rev])
+    def delete(){
+        String revisionId = request.JSON.dashboardRevisionId as String
+        long revisionNumber = request.JSON.dashboardRevisionNumber as Long
+        boolean shouldReload = request.JSON.reload as Boolean
+
+        Revision revision = dashboardService.getRevision(revisionId, revisionNumber)
+
+        Dashboard dashboard = dashboardService.getDashboard(revision)
         dashboard.archived = true
         dashboard.isRendering = false
         dashboard.save(flush: true)
 
-        //TODO grab the dashboard which is now considered to be the most recent and send this down, send back the show view with this revision
+        revision.archived = true
+        revision.save(flush: true)
+
+        if(!shouldReload){
+            Dashboard latestDashboard = dashboardService.getLatestDashboard(revisionId)
+            List<Revision> revisions = dashboardService.getRevisions(latestDashboard.revision.revisionId)
+            revisions.removeIf{rev -> rev.revisionNumber == latestDashboard.revision.revisionNumber}
+            render(template: "show", model: [dashboard: latestDashboard, serializedData: latestDashboard.grid.serializedData, revisions: revisions, revisionNumber: latestDashboard.revision.revisionNumber])
+            return
+        }
         redirect(view: "index")
     }
 
@@ -81,9 +90,9 @@ class DashboardController {
      * @return show template with the dashboard and serialized json for dashboard grid
      */
     def show(String revisionId, long revisionNumber){
-        List<Revision> revisions = Revision.findAllWhere([revisionId: revisionId])
-        Revision rev = revisions.find {rev -> rev.revisionNumber == revisionNumber}
-        Dashboard dashboard = Dashboard.findWhere([revision: rev])
+        List<Revision> revisions = dashboardService.getRevisions(revisionId)
+        Revision rev = dashboardService.getRevision(revisions, revisionNumber)
+        Dashboard dashboard = dashboardService.getDashboard(rev)
         dashboard.setIsRendering(true)                  //set the dashboard as rendering
         dashboard.save(flush: true)
         revisions.removeIf{it.revisionNumber == dashboard.revision.revisionNumber}
@@ -97,8 +106,8 @@ class DashboardController {
      * @return redirects to index page
      */
     def onShowViewClosing(){
-        Revision rev = Revision.findWhere([revisionId: request.JSON.dashboardRevisionId as String, revisionNumber: request.JSON.dashboardRevisionNumber as Long])
-        Dashboard dashboard = Dashboard.findWhere([revision: rev])
+        Revision rev = dashboardService.getRevision(request.JSON.dashboardRevisionId as String, request.JSON.dashboardRevisionNumber as Long)
+        Dashboard dashboard = dashboardService.getDashboard(rev)
         dashboard.isRendering = false
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
 
@@ -119,20 +128,25 @@ class DashboardController {
         render resp as JSON
     }
 
+    /**
+     * Changes the current revision's rendering state and sends down the request revisions serialized data
+     * to base the new revision off of
+     * @return
+     */
     def onRevisionChange(){
         String revisionId = request.JSON.dashboardRevisionId as String
         long revisionNumber = request.JSON.dashboardRevisionNumber as Long
         long requestedRevisionNumber = request.JSON.requestedRevisionNumber as Long
 
-        List<Revision> revisions = Revision.findAllWhere([revisionId: revisionId])
+        List<Revision> revisions = dashboardService.getRevisions(revisionId)
 
-        Revision legacyRevision = revisions.find { rev -> rev.revisionNumber == revisionNumber}
-        Dashboard legacyDashboard = Dashboard.findWhere([revision: legacyRevision])
+        Revision legacyRevision = dashboardService.getRevision(revisions, revisionNumber)
+        Dashboard legacyDashboard = dashboardService.getDashboard(legacyRevision)
         legacyDashboard.isRendering = false
         legacyDashboard.save()
 
-        Revision currentRevision = revisions.find {rev -> rev.revisionNumber == requestedRevisionNumber}
-        Dashboard dashboard = Dashboard.findWhere([revision: currentRevision])
+        Revision currentRevision = dashboardService.getRevision(revisions, requestedRevisionNumber)
+        Dashboard dashboard = dashboardService.getDashboard(currentRevision)
         dashboard.isRendering = true                  //set the dashboard as rendering
         dashboard.save(flush: true)
         revisions.removeIf{rev -> rev.revisionNumber == dashboard.revision.revisionNumber}

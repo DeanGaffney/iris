@@ -119,7 +119,7 @@
         <g:select name="dashboard-revision-select" from="${revisions}"
                   optionValue="${{'Rev:(' + it.revisionNumber + ') ' + it.dateCreated}}"
                   optionKey="${{it.revisionNumber}}"
-                  noSelection="['':'Most Recent']"
+                  noSelection="[revisionNumber:'Rev:(' + revisionNumber + ')']"
                   class="form-control custom-select"
                   href="${createLink(controller: 'dashboard', action: 'onRevisionChange')}"/>
     </div>
@@ -141,9 +141,7 @@
         <button id="add-widget-btn" class="btn">Add Widget</button>
         <button id="clear-dashboard-btn" class="btn">Clear</button>
         <button id="update-dashboard-btn" class="btn" href="${createLink(controller: 'dashboard', action: 'update')}" disabled>Update</button>
-        <g:link action="delete" params="${[revisionId: dashboard.revision.revisionId, revisionNumber: dashboard.revision.revisionNumber]}">
-            <button id="delete-dashboard-btn" type="button" class="btn">Delete</button>
-        </g:link>
+        <button id="delete-dashboard-btn" type="button" class="btn" href="${createLink(controller: 'dashboard', action: 'delete')}">Delete</button>
     </div>
 
 </div>
@@ -192,5 +190,21 @@
         console.log(JSON.stringify(revisionData));
        updateContainerHtml(url, REST.method.post, REST.contentType.json, revisionData, '.overlay-content');
     });
+
+    $("#delete-dashboard-btn").on("click", function(){
+        //delete revision
+        //if revision has more than 2 options??? make updateContainer call
+        //else make reloadAfterAjax call
+        var url = $(this).attr("href");
+        var revisionData = data;
+        revisionData.reload = false;
+        if($("#dashboard-revision-select > option").length > 1){
+            updateContainerHtml(url, REST.method.post, REST.contentType.json, revisionData, ".overlay-content");
+        }else{
+            revisionData.reload = true;
+            reloadAfterAjax(url, REST.method.post, REST.contentType.json, revisionData);
+        }
+    });
+
 
 </g:javascript>

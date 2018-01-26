@@ -78,10 +78,22 @@
         openOverlay();
     });
 
-    //get widget that was cliked to be removed
+    //get widget that was clicked to be removed
     $(document).on('click','.widget-remove',function(e) {
         var widget = $(this).closest('.grid-stack-item');
         removeWidget(widget);
+    });
+
+        //get widget that was clicked to be downloaded as image
+    $(document).on('click','.widget-img-download',function(e) {
+        var widget = $(this).closest('.grid-stack-item');
+        downloadChartImage(widget);
+    });
+
+        //get widget that was cliked to be downloaded as json file
+    $(document).on('click','.widget-json-download',function(e) {
+        var widget = $(this).closest('.grid-stack-item');
+        downloadChartJson(widget);
     });
 
      //clear the dashboard
@@ -121,8 +133,7 @@
     });
 
     $(window).bind('load', function(){
-        if(localStorage.getItem('dashboard-revision') != null){
-            console.log('in here');
+        if(localStorage.getItem('dashboard-revision') !== null){
             var data = JSON.parse(localStorage.getItem('dashboard-revision'));
             var url = $("#overlay-close-button").attr("href");
             toggleServerObjectState(url, REST.method.post, REST.contentType.json, data);

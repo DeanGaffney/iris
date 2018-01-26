@@ -10,6 +10,8 @@ import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
 import org.grails.web.json.JSONObject
 
+import java.util.function.Predicate
+
 @Transactional
 class DashboardService {
 
@@ -53,10 +55,11 @@ class DashboardService {
         legacyDashboard.setIsRendering(false)
         legacyDashboard.save()
 
-        long revisionNumber = Revision.findAllWhere([revisionId: dashboardJson.revisionId]).asList()*.revisionNumber.max()
+        long revisionNumber = getHighestRevisionNumber(dashboardJson.revisionId as String)
 
         Dashboard currentDashboard = save(dashboardJson)
-        currentDashboard.revision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1)
+        Revision newRevision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1)
+        currentDashboard.setRevision(newRevision)
         currentDashboard.setIsRendering(true)
         currentDashboard.save(flush: true)
         return currentDashboard
@@ -131,7 +134,7 @@ class DashboardService {
      * @param revisionId - the id of the dashboard
      */
     void onDashboardChartsLoad(String revisionId, long revisionNumber){
-        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber])
+        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber, archived: false])
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.grid.charts.each {chart ->
             List<JSONObject> responses = []
@@ -141,6 +144,124 @@ class DashboardService {
             }
             chartService.loadChart(chart.schema.id, chart, responses)
         }
+    }
+
+    List<Dashboard> getDashboards(){
+//        def results = Dashboard.executeQuery("select distinct d.revision.revisionId, MAX(d.revision.revisionNumber) from Dashboard d " +
+//                "group by d.revision.revisionId")
+//        List<Dashboard> dashboards = results.collect{ list ->
+//            Revision rev = Revision.findWhere(revisionId: list[0], revisionNumber: list[1])
+//            Dashboard.findWhere([revision: rev, archived: false])
+//        }
+        List<Dashboard> dashboards = []
+        List<String> ids = getDistinctRevisionIds()
+        println ids
+        getDistinctRevisionIds().each {revId ->
+            long highestRevisionNumber = getHighestRevisionNumber(revId)
+            println highestRevisionNumber
+            Revision rev = getRevision(revId, highestRevisionNumber)
+            Dashboard dashboard = Dashboard.findWhere([revision: rev])
+            dashboards.add(dashboard)
+        }
+        return dashboards
+    }
+
+    /**
+     * Gets a dashboard by revision id and revision number
+     * @param revisionId - the revision id
+     * @param revisionNumber - the revision number
+     * @return dashboard found by using the revision id and revision number
+     */
+    Dashboard getDashboard(String revisionId, long revisionNumber){
+        Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber, archived: false])
+        Dashboard dashboard = getDashboard(rev)
+        return dashboard
+    }
+
+    /**
+     * Get a dashboard using a revision object
+     * @param rev - the revision
+     * @return dashboard found by using the revision object
+     */
+    Dashboard getDashboard(Revision rev){
+        return Dashboard.findWhere([revision: rev, archived: false])
+    }
+
+    /**
+     * Gets the most recent revision of all revisions related to a dashboard
+     * @param revisionId - the revision id to compare against
+     * @return the latest dashboard
+     */
+    Dashboard getLatestDashboard(String revisionId){
+        return getDashboard(revisionId, getHighestRevisionNumber(revisionId))
+    }
+
+    /**
+     * Gets all revisions with the same revision id, where the dashboard is not archived
+     * @param revisionId - the revision id to use to find the revisions
+     * @return a list of revisions that are not related to archived dashboards
+     */
+    List<Revision> getRevisions(String revisionId){
+        return Revision.findAllWhere([revisionId: revisionId, archived: false]).asList()
+    }
+
+    /**
+     * Get all the unique revision ids
+     * @return a list of unique revision ids
+     */
+    List<String> getDistinctRevisionIds(){
+        return Revision.findAll().asList().collect {rev -> rev.revisionId}.toSet().asList()
+    }
+
+    /**
+     * Gets a revision object by using the revision id and revision number
+     * @param revisionId - the revision id
+     * @param revisionNumber - the revision number
+     * @return a revision object
+     */
+    Revision getRevision(String revisionId, long revisionNumber){
+        return getRevisions(revisionId).find{rev -> rev.revisionNumber == revisionNumber}
+    }
+
+    /**
+     * Gets a revision object from a list of existing revisions by the revision number
+     * @param revisions - the list of revisions to search
+     * @param revisionNumber - the revision number to search for
+     * @return the revision object found
+     */
+    Revision getRevision(List<Revision> revisions, long revisionNumber){
+        return revisions.find {rev -> rev.revisionNumber == revisionNumber}
+    }
+
+    List<Revision> getFilteredRevisions(String revisionId, Predicate<Revision> condition){
+        getRevisions(revisionId).removeIf(condition)
+    }
+
+    /**
+     * Get's the highest revision number for a revisionId
+     * @param revisionId - the id to compare revisions against
+     * @return the highest revision for the revisionId supplied
+     */
+    long getHighestRevisionNumber(String revisionId){
+        List<Revision> revisions = getRevisions(revisionId)
+        println revisions
+        List<Long> revisionNumbers = revisions.collect{rev -> rev.revisionNumber}
+        println revisionNumbers
+        println revisionNumbers.max()
+        return getRevisions(revisionId).collect {rev -> rev.revisionNumber}
+                                       .max()
+    }
+
+    /**
+     * Checks to see if a dashboard has any more revisions
+     * @param revisionId - the revisionId to check for revisions against
+     * @return true if the highest revisionNumber is greater than 0 AND
+     * the highest revision number is within a list of non-archived revisions
+     */
+    boolean hasOtherRevisions(String revisionId){
+        long highestRevNum = getHighestRevisionNumber(revisionId)
+        return highestRevNum != 0 &&
+               highestRevNum in getRevisions(revisionId)*.revisionNumber
     }
 
 }

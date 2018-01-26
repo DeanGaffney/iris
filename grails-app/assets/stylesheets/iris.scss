@@ -315,11 +315,25 @@ $list-padding: percentage(0.03);
 .widget-remove{
   position: absolute;
   bottom: 25%;
-  right: 3%;
+  right: 10px;
   z-index:inherit;
 }
 
-.widget-remove:hover{
+.widget-img-download{
+  position: absolute;
+  bottom: 25%;
+  right: 30px;
+  z-index:inherit;
+}
+
+.widget-json-download{
+  position: absolute;
+  bottom: 25%;
+  right: 50px;
+  z-index:inherit;
+}
+
+.widget-remove:hover, .widget-img-download:hover, .widget-json-download:hover{
   cursor: pointer;
 }
 

@@ -91,6 +91,7 @@ function collectSerializedData(){
  */
 function clear() {
     grid.removeAll();
+    displayingCharts = {};
     return false;
 }
 
@@ -127,6 +128,8 @@ function addWidget(widget, isLoading){
     //add widget data attribute to DOM element containing (schemaid, chart-name, chartType)
     var ele = $('<div id="' +  widget.id +'" class="chart-container" data-schemaid="' + widget.schemaId + '" data-chartname="' + widget.chartName + '" data-charttype="' + widget.chartType + '">' +
                     '<div class="chart-crud-bar">' +
+                        '<span><i class="widget-img-download fa fa-file-image-o" aria-hidden="true"></i></span>' +
+                        '<span><i class="widget-json-download fa fa-file-text-o" aria-hidden="true"></i></span>' +
                         '<span><i class="widget-remove fa fa-times" aria-hidden="true"></i></span>' +
                     '</div>' +
                     '<div class="grid-stack-item-content">' +
@@ -242,6 +245,38 @@ function showWidgetModal(){
  */
 function hideWidgetModal(){
     $("#widget-modal").modal("toggle");
+}
+
+/**
+ * Downloads a chart as an image in '.png' format
+ * @param widget - the widget containing the chart
+ */
+function downloadChartImage(widget){
+    var chart = displayingCharts[$(widget).attr('id')];
+    // Call after the chart finished rendering
+    chart.export("image/png", function(dataUrl) {
+        const link = document.createElement("a");
+        link.setAttribute("href", dataUrl);
+        link.setAttribute("download", Date.now() + '.png');
+        link.click();
+        link.remove();
+    });
+}
+
+/**
+ * Downloads a charts data as json
+ * @param widget - the widget element, to obtain the widget id, to access the chart
+ */
+function downloadChartJson(widget){
+    var chart = displayingCharts[$(widget).attr('id')];
+    var dataStr = "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(chart.data()));
+
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "chart.json");
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 
