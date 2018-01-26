@@ -53,9 +53,10 @@ class DashboardService {
         legacyDashboard.setIsRendering(false)
         legacyDashboard.save()
 
+        long revisionNumber = Revision.findAllWhere([revisionId: dashboardJson.revisionId]).asList()*.revisionNumber.max()
 
         Dashboard currentDashboard = save(dashboardJson)
-        currentDashboard.revision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: legacyDashboard.revision.revisionNumber + 1)
+        currentDashboard.revision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1)
         currentDashboard.setIsRendering(true)
         currentDashboard.save(flush: true)
         return currentDashboard
