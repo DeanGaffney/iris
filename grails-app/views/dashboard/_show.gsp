@@ -115,10 +115,11 @@
     </div>
     <div class="col-4"></div>
     <div class="col-4">
-        <h1>Revision No: ${dashboard.revision.revisionNumber}</h1>
+        <h1>Revision No: ${revisionNumber}</h1>
         <g:select name="dashboard-revision-select" from="${revisions}"
                   optionValue="${{it.dateCreated}}"
                   optionKey="${{it.revisionNumber}}"
+                  noSelection="['':'Most Recent']"
                   class="form-control custom-select"
                   href="${createLink(controller: 'dashboard', action: 'onRevisionChange')}"/>
     </div>
@@ -154,7 +155,7 @@
     init();
     var onDashboardChartLoadUrl = '${createLink(controller: 'dashboard', action: 'onDashboardChartLoad')}'
     var dashboardRevisionId = '${dashboard.revision.revisionId}';
-    var dashboardRevisionNumber = '${dashboard.revision.revisionNumber}';
+    var dashboardRevisionNumber = '${revisionNumber}';
     var data = {
         dashboardRevisionId: dashboardRevisionId,
         dashboardRevisionNumber: dashboardRevisionNumber
@@ -165,16 +166,16 @@
 
     //if user closes tab/browser or refreshes page, we need to toggle dashboard as not rendering anymore
     $(window).bind('beforeunload', function(){
-       var closingUrl = $("#overlay-close-button").attr("href");
-        reloadAfterAjax(closingUrl, REST.method.post, REST.contentType.json, data);
-       var closedUrl = $("#overlay-close-button").data("closed");
-       toggleServerObjectState(closedUrl, REST.method.post, REST.contentType.json, data);
+       //before the page reloads, add the dashboard object to local storage
+       localStorage.setItem('dashboard-revision', JSON.stringify(data));
     });
 
     //if the overlay close button is clicked in the show view, trigger the beforeunload event to toggle dashboard rendering state server side
     $("#overlay-close-button").on("click", function(){
         if($(this).hasClass('show-view')){
-           $(window).trigger('beforeunload');
+            var closingUrl = $("#overlay-close-button").attr("href");
+            toggleServerObjectState(closingUrl, REST.method.post, REST.contentType.json, data);
+            closeOverlay();
         }
     });
 

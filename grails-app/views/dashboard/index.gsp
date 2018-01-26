@@ -42,7 +42,7 @@
 </div>
 
 <div id="dashboard-area" class="overlay">
-    <span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosing')}" data-closed="${createLink(controller: 'dashboard', action: 'onShowViewClosed')}"></i></span>
+    <span><i id="overlay-close-button" class="fa fa-times fa-2x" href="${createLink(controller: 'dashboard', action: 'onShowViewClosing')}"></i></span>
     <div class="overlay-content"></div>
 </div>
 
@@ -118,6 +118,16 @@
         var chart = displayingCharts[widgetId];
         updateChartHeight(chart, newHeight);
         resizeWidget('#' + widgetId);
+    });
+
+    $(window).bind('load', function(){
+        if(localStorage.getItem('dashboard-revision') != null){
+            console.log('in here');
+            var data = JSON.parse(localStorage.getItem('dashboard-revision'));
+            var url = $("#overlay-close-button").attr("href");
+            toggleServerObjectState(url, REST.method.post, REST.contentType.json, data);
+            localStorage.removeItem('dashboard-revision');
+        }
     });
 
 </g:javascript>

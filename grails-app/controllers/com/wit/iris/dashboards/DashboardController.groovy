@@ -49,7 +49,8 @@ class DashboardController {
     def update(){
         Dashboard updatedDashboard = dashboardService.update(request.JSON)
         List<Revision> revisions = Revision.findAllWhere([revisionId: updatedDashboard.revision.revisionId])
-        render(template: "show", model: [dashboard: updatedDashboard, serializedData: updatedDashboard.grid.serializedData, revisions: revisions])
+        revisions.removeIf{rev -> rev.revisionNumber == updatedDashboard.revision.revisionNumber}
+        render(template: "show", model: [dashboard: updatedDashboard, serializedData: updatedDashboard.grid.serializedData, revisions: revisions, revisionNumber: updatedDashboard.revision.revisionNumber])
     }
 
     def create(){
@@ -67,6 +68,8 @@ class DashboardController {
         dashboard.archived = true
         dashboard.isRendering = false
         dashboard.save(flush: true)
+
+        //TODO grab the dashboard which is now considered to be the most recent and send this down, send back the show view with this revision
         redirect(view: "index")
     }
 
@@ -83,7 +86,8 @@ class DashboardController {
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.setIsRendering(true)                  //set the dashboard as rendering
         dashboard.save(flush: true)
-        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions])
+        revisions.removeIf{it.revisionNumber == dashboard.revision.revisionNumber}
+        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions, revisionNumber: dashboard.revision.revisionNumber])
     }
 
     /**
@@ -95,22 +99,14 @@ class DashboardController {
     def onShowViewClosing(){
         Revision rev = Revision.findWhere([revisionId: request.JSON.dashboardRevisionId as String, revisionNumber: request.JSON.dashboardRevisionNumber as Long])
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
-        dashboard.setIsRendering(false)
+        dashboard.isRendering = false
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
 
         if(dashboard.save(flush: true)){
             resp.status = 200
             resp.message = "successfully toggled dashboard rendering state"
         }
-        redirect(view: "index")
-    }
-
-    def onShowViewClosed(){
-        Dashboard.withSession {
-            it.flush()
-            it.clear()
-        }
-        render [:] as JSON
+        render resp as JSON
     }
 
     /**
@@ -132,14 +128,15 @@ class DashboardController {
 
         Revision legacyRevision = revisions.find { rev -> rev.revisionNumber == revisionNumber}
         Dashboard legacyDashboard = Dashboard.findWhere([revision: legacyRevision])
-        legacyDashboard.setIsRendering(false)
+        legacyDashboard.isRendering = false
         legacyDashboard.save()
 
         Revision currentRevision = revisions.find {rev -> rev.revisionNumber == requestedRevisionNumber}
         Dashboard dashboard = Dashboard.findWhere([revision: currentRevision])
-        dashboard.setIsRendering(true)                  //set the dashboard as rendering
+        dashboard.isRendering = true                  //set the dashboard as rendering
         dashboard.save(flush: true)
-        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions])
+        revisions.removeIf{rev -> rev.revisionNumber == dashboard.revision.revisionNumber}
+        render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions, revisionNumber: dashboard.revision.revisionNumber])
     }
 
 }

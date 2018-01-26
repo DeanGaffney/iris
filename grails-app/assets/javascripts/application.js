@@ -63,8 +63,8 @@ function toggleServerObjectState(controllerUrl, methodType, contentType, data){
         dataType: REST.dataType.html,
         contentType: contentType,
         data: JSON.stringify(data),
-        success: function(data){
-            console.log("toggled state");
+        success: function(){
+
         },
         error: function(xhr, status, error) {
             console.log(xhr.responseText);
