@@ -20,21 +20,34 @@ class DashboardService {
     def chartService
 
     /**
+     * Creates a dashboard, with no revision, revisions should be added in the save or update method
+     * @param dashboardJson - the json to create the dashboard from
+     * @return a dashboard object which needs a revision attached to it
+     */
+    Dashboard createDashboard(dashboardJson){
+        log.debug("Dashboard create request:\n${JsonOutput.prettyPrint(dashboardJson.toString())}")
+
+        Dashboard dashboard = new Dashboard(name: dashboardJson["name"].toString(),
+                grid: new Grid(serializedData: dashboardJson["grid"].toString()))
+
+        dashboard.user = springSecurityService.getCurrentUser()
+
+        createCharts(dashboardJson["grid"], dashboard.grid)
+
+        return dashboard
+    }
+
+    /**
      * Saves a dashboard using the json request sent to the server
      * A dashboard being saved is given revision number 0
      * @param dashboardJson - the json representing the dashboard
      * @return the saved dashboard
      */
     Dashboard save(JSONObject dashboardJson){
-        log.debug("Dashboard save request:\n${JsonOutput.prettyPrint(dashboardJson.toString())}")
 
-        Dashboard dashboard = new Dashboard(name: dashboardJson["name"].toString(),
-                                            grid: new Grid(serializedData: dashboardJson["grid"].toString()),
-                                            revision: new Revision(comment: "master"))
+        Dashboard dashboard = createDashboard(dashboardJson)
 
-        dashboard.user = springSecurityService.getCurrentUser()
-
-        createCharts(dashboardJson["grid"], dashboard.grid)
+        dashboard.setRevision(new Revision(comment: "master"))      //default revision with new UID for rev id
 
         if(!(dashboard.validate() && dashboard.save(flush: true))){
             log.debug(dashboard.errors.allErrors*.toString())
@@ -57,15 +70,21 @@ class DashboardService {
 
         long revisionNumber = getHighestRevisionNumber(dashboardJson.revisionId as String)
 
-        Dashboard currentDashboard = save(dashboardJson)
-        Revision newRevision = new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1)
-        currentDashboard.setRevision(newRevision)
+        Dashboard currentDashboard = createDashboard(dashboardJson)
+        currentDashboard.setRevision(new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1))
         currentDashboard.setIsRendering(true)
-        currentDashboard.save(flush: true)
+
+        if(!(currentDashboard.validate() && currentDashboard.save(flush: true))){
+            log.debug(currentDashboard.errors.allErrors*.toString())
+        }else{
+            //TODO throw an exception
+        }
         return currentDashboard
     }
 
+    void delete(String revisionId, long revisionNumber){
 
+    }
 
     /**
      * Creates and adds charts to a dashboard grid using grid json information
@@ -146,19 +165,15 @@ class DashboardService {
         }
     }
 
+    /**
+     * Gets most recent dashboards for each revision and returns them in a  list
+     * @return list of dashboards
+     */
     List<Dashboard> getDashboards(){
-//        def results = Dashboard.executeQuery("select distinct d.revision.revisionId, MAX(d.revision.revisionNumber) from Dashboard d " +
-//                "group by d.revision.revisionId")
-//        List<Dashboard> dashboards = results.collect{ list ->
-//            Revision rev = Revision.findWhere(revisionId: list[0], revisionNumber: list[1])
-//            Dashboard.findWhere([revision: rev, archived: false])
-//        }
         List<Dashboard> dashboards = []
         List<String> ids = getDistinctRevisionIds()
-        println ids
-        getDistinctRevisionIds().each {revId ->
+        ids.each { revId ->
             long highestRevisionNumber = getHighestRevisionNumber(revId)
-            println highestRevisionNumber
             Revision rev = getRevision(revId, highestRevisionNumber)
             Dashboard dashboard = Dashboard.findWhere([revision: rev])
             dashboards.add(dashboard)
@@ -210,7 +225,7 @@ class DashboardService {
      * @return a list of unique revision ids
      */
     List<String> getDistinctRevisionIds(){
-        return Revision.findAll().asList().collect {rev -> rev.revisionId}.toSet().asList()
+        return Revision.findAllWhere([archived: false]).asList().collect {rev -> rev.revisionId}.toSet().asList()
     }
 
     /**
@@ -244,10 +259,7 @@ class DashboardService {
      */
     long getHighestRevisionNumber(String revisionId){
         List<Revision> revisions = getRevisions(revisionId)
-        println revisions
         List<Long> revisionNumbers = revisions.collect{rev -> rev.revisionNumber}
-        println revisionNumbers
-        println revisionNumbers.max()
         return getRevisions(revisionId).collect {rev -> rev.revisionNumber}
                                        .max()
     }

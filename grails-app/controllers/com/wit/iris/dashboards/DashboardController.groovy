@@ -31,8 +31,6 @@ class DashboardController {
 
     def index(){
         List<Dashboard> dashboards = dashboardService.getDashboards()
-        println 'called index'
-        println dashboards
         render(view: "index", model:[dashboards: dashboards])
     }
 
