@@ -3,6 +3,8 @@ package com.wit.iris.dashboards
 import com.wit.iris.revisions.Revision
 import grails.converters.JSON
 
+import java.lang.reflect.InvocationTargetException
+
 class DashboardController {
 
     //this is a test aggregation for testing out charts on the dashboard against the node_agent
@@ -60,15 +62,7 @@ class DashboardController {
         long revisionNumber = request.JSON.dashboardRevisionNumber as Long
         boolean shouldReload = request.JSON.reload as Boolean
 
-        Revision revision = dashboardService.getRevision(revisionId, revisionNumber)
-
-        Dashboard dashboard = dashboardService.getDashboard(revision)
-        dashboard.archived = true
-        dashboard.isRendering = false
-        dashboard.save(flush: true)
-
-        revision.archived = true
-        revision.save(flush: true)
+        dashboardService.delete(revisionId, revisionNumber)
 
         if(!shouldReload){
             Dashboard latestDashboard = dashboardService.getLatestDashboard(revisionId)
@@ -104,14 +98,18 @@ class DashboardController {
      * @return redirects to index page
      */
     def onShowViewClosing(){
-        Revision rev = dashboardService.getRevision(request.JSON.dashboardRevisionId as String, request.JSON.dashboardRevisionNumber as Long)
-        Dashboard dashboard = dashboardService.getDashboard(rev)
-        dashboard.isRendering = false
         Map resp = [status: 500, message: "failed to toggle dashboard rendering state"]
+        try{
+            Revision rev = dashboardService.getRevision(request.JSON.dashboardRevisionId as String, request.JSON.dashboardRevisionNumber as Long)
+            Dashboard dashboard = dashboardService.getDashboard(rev)
+            dashboard.isRendering = false
 
-        if(dashboard.save(flush: true)){
-            resp.status = 200
-            resp.message = "successfully toggled dashboard rendering state"
+            if(dashboard.save(flush: true)){
+                resp.status = 200
+                resp.message = "successfully toggled dashboard rendering state"
+            }
+        }catch(NullPointerException e){
+            //this may occur because the dashboard revision may be present on the client side and send up null
         }
         render resp as JSON
     }

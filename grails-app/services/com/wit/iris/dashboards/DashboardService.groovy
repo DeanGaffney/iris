@@ -82,8 +82,21 @@ class DashboardService {
         return currentDashboard
     }
 
+    /**
+     * Delets/Archives a dashboard and it's revision
+     * @param revisionId - the revision id to get the dashboard with
+     * @param revisionNumber - the revision number of the dashboard
+     */
     void delete(String revisionId, long revisionNumber){
+        Revision revision = getRevision(revisionId, revisionNumber)
 
+        Dashboard dashboard = getDashboard(revision)
+        dashboard.archived = true
+        dashboard.isRendering = false
+        dashboard.save(flush: true)
+
+        revision.archived = true
+        revision.save(flush: true)
     }
 
     /**
