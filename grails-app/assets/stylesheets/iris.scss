@@ -345,6 +345,18 @@ $list-padding: percentage(0.03);
   width: auto;
 }
 
+#dashboard-header-area{
+  border-radius: 2%;
+  background-color: $darker-bg-color;
+  padding: 2%;
+
+  #revision-comment{
+    background-color: $background-color;
+    border-radius: 2%;
+    padding: 2%;
+  }
+}
+
 #dashboard-btn-group{
   position: relative;
   bottom: 0%;

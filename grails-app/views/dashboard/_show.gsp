@@ -109,11 +109,39 @@
     </div>
 </div>
 
+<!--REVISION COMMENT MODAL-->
+<div id="revision-comment-modal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Revision Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="revision-comment-textarea">Example textarea</label>
+                    <textarea class="form-control" id="revision-comment-textarea" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="commit-revision-btn" type="button" class="btn">Commit changes</button>
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--DASHBOARD AREA-->
 <div id="dashboard-header-area" class="row">
     <div class="col-4">
         <h1>Dashboard: ${dashboard.name}</h1>
     </div>
-    <div class="col-4"></div>
+    <div class="col-4">
+        <h1>Revision Comment:</h1>
+        <h5 id="revision-comment">"${dashboard.revision?.comment}"</h5>
+    </div>
     <div class="col-4">
         <h1>Revision No: ${revisionNumber}</h1>
         <g:select name="dashboard-revision-select" from="${revisions}"
@@ -180,7 +208,16 @@
     });
 
     $("#update-dashboard-btn").on("click", function(){
-        update($(this).attr('href'), dashboardRevisionId, dashboardRevisionNumber);
+        //show modal
+        $("#revision-comment-modal").modal({
+            show: true,
+            backdrop: true
+        });
+    });
+
+    $("#commit-revision-btn").on("click", function(){
+        var dashboardRevisionComment = $("#revision-comment-textarea").val();
+        update($("#update-dashboard-btn").attr('href'), dashboardRevisionId, dashboardRevisionNumber, dashboardRevisionComment);
     });
 
     $("#dashboard-revision-select").on("change", function(){

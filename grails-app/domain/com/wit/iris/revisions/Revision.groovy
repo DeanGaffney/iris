@@ -16,6 +16,7 @@ class Revision {
     }
 
     static mapping = {
+        comment sqlType: 'text'
         sort revisionNumber: "desc"
     }
 }

@@ -72,7 +72,7 @@ class DashboardService {
         long revisionNumber = getHighestRevisionNumber(dashboardJson.revisionId as String)
 
         Dashboard currentDashboard = createDashboard(dashboardJson)
-        currentDashboard.setRevision(new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1))
+        currentDashboard.setRevision(new Revision(revisionId: legacyDashboard.revision.revisionId, revisionNumber: revisionNumber + 1, comment: dashboardJson.revisionComment as String))
         currentDashboard.setIsRendering(true)
 
         if(!(currentDashboard.validate() && currentDashboard.save(flush: true))){
