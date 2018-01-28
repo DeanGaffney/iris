@@ -1,14 +1,19 @@
 package iris
 
+import com.wit.iris.dashboards.Dashboard
 import com.wit.iris.elastic.ElasticEndpoint
+import com.wit.iris.revisions.Revision
 import com.wit.iris.schemas.Schema
 import com.wit.iris.schemas.SchemaField
 import com.wit.iris.users.Role
 import com.wit.iris.users.User
 import com.wit.iris.users.UserRole
 import com.wit.iris.schemas.enums.FieldType
+import org.grails.web.json.JSONObject
 
 class BootStrap {
+
+    def dashboardService
 
     def init = { servletContext ->
 
@@ -44,10 +49,132 @@ class BootStrap {
                                                    new SchemaField(name: "cpuCurrentLoad", fieldType: FieldType.DOUBLE.getValue())],
                         refreshInterval: 10000).save(flush: true)
 
+                JSONObject dashboardJson = new JSONObject("{\n" +
+                        "    \"grid\": {\n" +
+                        "        \"serializedData\": [\n" +
+                        "            {\n" +
+                        "                \"chartName\": \"zsa\",\n" +
+                        "                \"schemaId\": 3,\n" +
+                        "                \"x\": 0,\n" +
+                        "                \"width\": 3,\n" +
+                        "                \"chartType\": \"Bar\",\n" +
+                        "                \"y\": 0,\n" +
+                        "                \"aggregation\": {\n" +
+                        "                    \"size\": 0,\n" +
+                        "                    \"aggs\": {\n" +
+                        "                        \"aggs_1\": {\n" +
+                        "                            \"terms\": {\n" +
+                        "                                \"field\": \"osName\"\n" +
+                        "                            },\n" +
+                        "                            \"aggs\": {\n" +
+                        "                                \"aggs_2\": {\n" +
+                        "                                    \"max\": {\n" +
+                        "                                        \"field\": \"memUsed\"\n" +
+                        "                                    }\n" +
+                        "                                }\n" +
+                        "                            }\n" +
+                        "                        }\n" +
+                        "                    }\n" +
+                        "                },\n" +
+                        "                \"id\": \"widget-1516647373575\",\n" +
+                        "                \"height\": 5\n" +
+                        "            },\n" +
+                        "            {\n" +
+                        "                \"chartName\": \"sdfa\",\n" +
+                        "                \"schemaId\": 3,\n" +
+                        "                \"x\": 3,\n" +
+                        "                \"width\": 3,\n" +
+                        "                \"chartType\": \"Bubble\",\n" +
+                        "                \"y\": 0,\n" +
+                        "                \"aggregation\": {\n" +
+                        "                    \"size\": 0,\n" +
+                        "                    \"aggs\": {\n" +
+                        "                        \"aggs_1\": {\n" +
+                        "                            \"terms\": {\n" +
+                        "                                \"field\": \"osName\"\n" +
+                        "                            },\n" +
+                        "                            \"aggs\": {\n" +
+                        "                                \"aggs_2\": {\n" +
+                        "                                    \"max\": {\n" +
+                        "                                        \"field\": \"memUsed\"\n" +
+                        "                                    }\n" +
+                        "                                }\n" +
+                        "                            }\n" +
+                        "                        }\n" +
+                        "                    }\n" +
+                        "                },\n" +
+                        "                \"id\": \"widget-1516647404135\",\n" +
+                        "                \"height\": 5\n" +
+                        "            },\n" +
+                        "            {\n" +
+                        "                \"chartName\": \"asda\",\n" +
+                        "                \"schemaId\": 3,\n" +
+                        "                \"x\": 6,\n" +
+                        "                \"width\": 3,\n" +
+                        "                \"chartType\": \"Pie\",\n" +
+                        "                \"y\": 0,\n" +
+                        "                \"aggregation\": {\n" +
+                        "                    \"size\": 0,\n" +
+                        "                    \"aggs\": {\n" +
+                        "                        \"aggs_1\": {\n" +
+                        "                            \"terms\": {\n" +
+                        "                                \"field\": \"osName\"\n" +
+                        "                            },\n" +
+                        "                            \"aggs\": {\n" +
+                        "                                \"aggs_2\": {\n" +
+                        "                                    \"max\": {\n" +
+                        "                                        \"field\": \"memUsed\"\n" +
+                        "                                    }\n" +
+                        "                                }\n" +
+                        "                            }\n" +
+                        "                        }\n" +
+                        "                    }\n" +
+                        "                },\n" +
+                        "                \"id\": \"widget-1516647421899\",\n" +
+                        "                \"height\": 5\n" +
+                        "            },\n" +
+                        "            {\n" +
+                        "                \"chartName\": \"zxc\",\n" +
+                        "                \"schemaId\": 3,\n" +
+                        "                \"x\": 9,\n" +
+                        "                \"width\": 3,\n" +
+                        "                \"chartType\": \"Line\",\n" +
+                        "                \"y\": 0,\n" +
+                        "                \"aggregation\": {\n" +
+                        "                    \"size\": 0,\n" +
+                        "                    \"aggs\": {\n" +
+                        "                        \"aggs_1\": {\n" +
+                        "                            \"terms\": {\n" +
+                        "                                \"field\": \"osName\"\n" +
+                        "                            },\n" +
+                        "                            \"aggs\": {\n" +
+                        "                                \"aggs_2\": {\n" +
+                        "                                    \"max\": {\n" +
+                        "                                        \"field\": \"memUsed\"\n" +
+                        "                                    }\n" +
+                        "                                }\n" +
+                        "                            }\n" +
+                        "                        }\n" +
+                        "                    }\n" +
+                        "                },\n" +
+                        "                \"id\": \"widget-1516647434927\",\n" +
+                        "                \"height\": 5\n" +
+                        "            }\n" +
+                        "        ]\n" +
+                        "    },\n" +
+                        "    \"name\": \"node\"\n" +
+                        "}")
+
+                Dashboard dashboard = dashboardService.createDashboard(dashboardJson)
+                dashboard.setUser(user)
+                dashboard.setRevision(new Revision(comment: "master"))
+                dashboard.save(flush: true)
+
                 UserRole.withSession{
                     it.flush()
                     it.clear()
                 }
+
             }
         }
     }

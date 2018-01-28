@@ -5,6 +5,7 @@ import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
 import com.wit.iris.revisions.Revision
 import com.wit.iris.schemas.Schema
+import com.wit.iris.users.User
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
@@ -24,7 +25,7 @@ class DashboardService {
      * @param dashboardJson - the json to create the dashboard from
      * @return a dashboard object which needs a revision attached to it
      */
-    Dashboard createDashboard(dashboardJson){
+    Dashboard createDashboard(JSONObject dashboardJson){
         log.debug("Dashboard create request:\n${JsonOutput.prettyPrint(dashboardJson.toString())}")
 
         Dashboard dashboard = new Dashboard(name: dashboardJson["name"].toString(),
