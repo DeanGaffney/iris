@@ -135,14 +135,15 @@
 
 <!--DASHBOARD AREA-->
 <div id="dashboard-header-area" class="row">
-    <div class="col-4">
-        <h1>Dashboard: ${dashboard.name}</h1>
+    <div class="col-3">
+        <h1>Dashboard Name:</h1>
+        <h1>${dashboard.name}</h1>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <h1>Revision Comment:</h1>
         <h5 id="revision-comment">"${dashboard.revision?.comment}"</h5>
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <h1>Revision No: ${revisionNumber}</h1>
         <g:select name="dashboard-revision-select" from="${revisions}"
                   optionValue="${{'Rev:(' + it.revisionNumber + ') ' + it.dateCreated}}"
