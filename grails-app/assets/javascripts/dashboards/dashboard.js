@@ -52,7 +52,7 @@ function update(url, revisionId, revisionNumber, revisionComment){
 
     var dashboardGrid = new Grid(serializedData);
 
-    dashboard = new Dashboard($("#dashboard-name").val(), dashboardGrid);
+    dashboard = new Dashboard($("#dashboard-name-header").text(), dashboardGrid);
     dashboard.revisionId = revisionId;
     dashboard.revisionNumber = revisionNumber;
     dashboard.revisionComment = revisionComment;

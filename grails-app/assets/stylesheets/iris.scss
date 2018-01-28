@@ -346,9 +346,10 @@ $list-padding: percentage(0.03);
 }
 
 #dashboard-header-area{
-  border-radius: 2%;
+  border-radius: 0.5%;
   background-color: $darker-bg-color;
   padding: 2%;
+  margin-bottom: 20px;
 
   #revision-comment{
     background-color: $background-color;

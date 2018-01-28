@@ -137,7 +137,7 @@
 <div id="dashboard-header-area" class="row">
     <div class="col-3">
         <h1>Dashboard Name:</h1>
-        <h1>${dashboard.name}</h1>
+        <h1 id="dashboard-name-header">${dashboard.name}</h1>
     </div>
     <div class="col-6">
         <h1>Revision Comment:</h1>
@@ -157,14 +157,7 @@
 
 <div id="dashboard-container">
 
-    <div class="form-group">
-        <label for="dashboard-name">Dashboard Name</label>
-        <input type="text" class="form-control" id="dashboard-name" value="${dashboard.name}" required>
-    </div>
-
-    <div id="grid" class="grid-stack">
-
-    </div>
+    <div id="grid" class="grid-stack"></div>
 
     <div id="dashboard-btn-group" class="btn-group">
         <button id="add-widget-btn" class="btn">Add Widget</button>
