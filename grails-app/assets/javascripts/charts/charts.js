@@ -9,16 +9,17 @@ var chartTypes = {
     Line: "Line"
 };
 
+var chartPatterns = ["#12EED8", "#FFFF00", "#AF4BFF", "#BC2C4B"];
+
 function BarChart(containerSelector, data){
     this.chart = bb.generate({
         bindto: containerSelector,
         data: {
             type: "bar",
-            columns: data,
-            colors:{
-                data1: "#12EED8",
-                data2: "#FFFF00"
-            }
+            columns: data
+        },
+        color:{
+            pattern: chartPatterns
         }
     });
 }
@@ -30,6 +31,9 @@ function BubbleChart(cssSelector, data) {
             columns: data,
             type: "bubble",
             labels: true
+        },
+        color:{
+            pattern: chartPatterns
         },
         bubble: {
             maxR: 50
@@ -47,12 +51,10 @@ function PieChart(containerSelector, data){
     this.chart = bb.generate({
         data: {
             columns: data,
-            type: "pie",
-            colors:{
-                data1: "#12EED8",
-                data2: "#FFFF00",
-                data3: "#AF4BFF"
-            }
+            type: "pie"
+        },
+        color:{
+            pattern: chartPatterns
         },
         bindto: containerSelector
     });
@@ -62,6 +64,9 @@ function LineChart(cssSelector, data){
     this.chart = bb.generate({
         data: {
             columns: data
+        },
+        color:{
+            pattern: chartPatterns
         },
         bindto: cssSelector
     });

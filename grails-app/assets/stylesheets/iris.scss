@@ -284,6 +284,13 @@ $list-padding: percentage(0.03);
 //           DASHBOARDS
 //================================
 
+.bb-axis text, .bb-legend-item text{
+  fill: $secondary-color;
+}
+.bb .bb-axis path, .bb-axis .tick line{
+  stroke: $secondary-color;
+}
+
 #dashboard-area{
   background-color: $background-color;
 }
