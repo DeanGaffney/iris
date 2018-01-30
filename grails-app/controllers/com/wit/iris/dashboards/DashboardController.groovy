@@ -149,4 +149,10 @@ class DashboardController {
         render(template: "show", model: [dashboard: dashboard, serializedData: dashboard.grid.serializedData, revisions: revisions, revisionNumber: dashboard.revision.revisionNumber])
     }
 
+    def getWidgetChartTemplate(){
+        String chartType = request.JSON.chartType as String
+        String template = dashboardService.getWidgetChartTemplate(chartType)
+        render(template: template)
+    }
+
 }

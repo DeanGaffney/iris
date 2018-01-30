@@ -1,6 +1,7 @@
 package com.wit.iris.dashboards
 
 import com.wit.iris.charts.Chart
+import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
 import com.wit.iris.revisions.Revision
@@ -288,6 +289,18 @@ class DashboardService {
         long highestRevNum = getHighestRevisionNumber(revisionId)
         return highestRevNum != 0 &&
                highestRevNum in getRevisions(revisionId)*.revisionNumber
+    }
+
+    String getWidgetChartTemplate(String chartType){
+        String template = '/dashboard/'
+        if(chartType == ChartType.STATE_DISC.getValue()){
+            template += 'stateDisc'
+        }else if(chartType == ChartType.STATE_LIST.getValue()){
+            template += 'stateList'
+        }else{
+            template += 'agg'
+        }
+        return template
     }
 
 }

@@ -64,9 +64,10 @@
 
                                     <label for="chart-type">Example multiple select</label>
 
-                                    <g:select v-model="chartType" name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
+                                    <g:select v-model="chartType" @change="updateWidgetArea()" name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
                                               keys="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
-                                              class="form-control custom-select"/>
+                                              class="form-control custom-select"
+                                              href="${createLink(controller: 'dashboard', action: 'getWidgetChartTemplate')}"/>
 
 
                                 </div>
@@ -89,9 +90,8 @@
 
                         <div id="aggregation-creation" class="collapse" role="tabpanel" aria-labelledby="aggregation-header">
                             <div class="card-block">
-                                <div class="form-group">
-                                    <label for="aggregation-text-area">Aggregation Text Area</label>
-                                    <textarea class="form-control" id="aggregation-text-area"></textarea>
+                                <div id="aggregation-area">
+
                                 </div>
                             </div>
                         </div>
@@ -100,52 +100,53 @@
                     <!--AGGREGATION CREATION END-->
                 </template>
 
+                <!--STATE DISC CREATION START-->
+
                 <template v-else-if="isStateDiscChart">
                     <div class="card">
 
-                        <div class="card-header" role="tab" id="plz">
+                        <div class="card-header" role="tab" id="state-disc-header">
                             <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#aggregation-creation" aria-expanded="false" aria-controls="aggregation-creation">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#state-disc-creation" aria-expanded="false" aria-controls="state-disc-creation">
                                     State Disc
                                 </a>
                             </h5>
                         </div>
 
-                        <div id="something" class="collapse" role="tabpanel" aria-labelledby="aggregation-header">
+                        <div id="state-disc-creation" class="collapse" role="tabpanel" aria-labelledby="state-disc-header">
                             <div class="card-block">
-                                <div class="form-group">
-                                    <label for="aggregation-text-area">Aggregation Text Area</label>
-                                    <textarea class="form-control" id="aggregation-area"></textarea>
+                                <div id="state-disc-area">
+
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <!--AGGREGATION CREATION END-->
+                    <!--STATE DISC CREATION END-->
                 </template>
 
+                <!--STATE LIST CREATION START-->
                 <template v-else-if="isStateListChart">
                     <div class="card">
 
-                        <div class="card-header" role="tab" id="y">
+                        <div class="card-header" role="tab" id="state-list-header">
                             <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#aggregation-creation" aria-expanded="false" aria-controls="aggregation-creation">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#state-list-creation" aria-expanded="false" aria-controls="state-list-creation">
                                     State List
                                 </a>
                             </h5>
                         </div>
 
-                        <div id="ya" class="collapse" role="tabpanel" aria-labelledby="aggregation-header">
+                        <div id="state-list-creation" class="collapse" role="tabpanel" aria-labelledby="state-list-header">
                             <div class="card-block">
-                                <div class="form-group">
-                                    <label for="aggregation-text-area">Aggregation Text Area</label>
-                                    <textarea class="form-control" id="y-area"></textarea>
+                                <div id="state-list-area">
+
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <!--AGGREGATION CREATION END-->
+                <!--STATE LIST CREATION END-->
                 </template>
 
 
@@ -236,8 +237,16 @@
             needsAggregation:function(){
                 return this.chartType != "StateList" && this.chartType != "StateDisc";
             }
+        },
+        methods:{
+            updateWidgetArea: function(){
+                var url = $("#chart-type").attr("href");
+                updateContainerHtml(url, REST.method.post, REST.contentType.json, {chartType: this.chartType}, getWidgetAreaToUpdate());
+            }
         }
     });
+
+    app.updateWidgetArea();
 
     $("#overlay-close-button").removeClass('create-view');
     $("#overlay-close-button").addClass('show-view');
@@ -306,6 +315,11 @@
             reloadAfterAjax(url, REST.method.post, REST.contentType.json, revisionData);
         }
     });
+
+    function getWidgetAreaToUpdate(){
+        return (app.chartType == 'StateDisc') ? "#state-disc-area" : (app.chartType == 'StateList') ?
+                                                "#state-list-area" : "#aggregation-area";
+    }
 
 
 </g:javascript>
