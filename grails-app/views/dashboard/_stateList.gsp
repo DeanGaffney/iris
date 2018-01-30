@@ -1,1 +1,1 @@
-<p>STATE LIST</p>
+<g:render template="/schema/schemaSelect"/>

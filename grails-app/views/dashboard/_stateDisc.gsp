@@ -1,1 +1,1 @@
-<p>STATE DISC</p>
+<g:render template="/schema/schemaSelect"/>

@@ -2,6 +2,7 @@
  * Created by dean on 31/10/17.
  */
 var aggregation;       // the root aggregation object
+var currentAggregation;
 var aggCounter = 0;
 
 //==================================
@@ -97,22 +98,35 @@ function addAggregation(){
     aggType = addAttributes(aggType);       //add any extra attributes
     var agg = new AggregationObj(aggType);  //wrap the type in an agg object
     aggregation.aggregations.push(agg);                 //add this to the array
-    $("#aggs-list").append("<div class='row'><div class='agg-item'>" + JSON.stringify(agg) + "</div></div>");
+    currentAggregation.aggregations.push(agg);
+    $("#aggs-list").html("<div class='row'><div class='agg-item'><pre>" + JSON.stringify(getCurrentAggregation(), null, 4) + "</pre></div></div>");
     $("#agg-template-container").empty();       //clear out template container
     aggregation.levels++;
+    currentAggregation.levels++;
 }
 
 /**
  * Builds up a single Aggregation by nesting all sub aggregations into a single aggregation
  * @returns Root aggregation with sub aggregations inside it
  */
-function buildAggregation(){
+function buildAggregation(aggList){
     var agg;
-    for (var i = aggregation.aggregations.length - 1; i >= 1; i--) {
-        aggregation.aggregations[i-1] = nestAggregations(aggregation.aggregations[i-1], aggregation.aggregations[i]);
-        agg = aggregation.aggregations[i-1];
+    for (var i = aggList.length - 1; i >= 1; i--) {
+        aggList[i-1] = nestAggregations(aggList[i-1], aggList[i]);
+        agg = aggList[i-1];
     }
     return agg
+}
+
+function getCurrentAggregation(){
+    //if list size is 1 just return that, else return result from builtAggregation()
+    var currentAgg = (currentAggregation.aggregations.length == 1) ? currentAggregation.aggregations[0] : buildAggregation(currentAggregation.aggregations);
+    /*add this to map to avoid sending back documents,we only want results*/
+    var clone = _.clone(currentAgg);
+    clone["size"] = 0;
+    delete clone.name;
+    //remove name from the agg, not needed for backend
+    return clone;
 }
 
 /**

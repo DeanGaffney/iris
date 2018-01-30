@@ -9,6 +9,7 @@ class Schema {
     String esIndex
     Long refreshInterval
     Rule rule
+    List schemaFields
     boolean archived = false
 
     static hasMany = [schemaFields: SchemaField]

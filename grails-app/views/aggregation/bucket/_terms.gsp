@@ -1,4 +1,3 @@
-
 <g:render template="fields/fields"/>
 
 <div id="terms-size agg-form" class="agg-option-container col-6">

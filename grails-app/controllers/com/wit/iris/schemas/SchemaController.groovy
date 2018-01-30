@@ -62,4 +62,11 @@ class SchemaController {
         }
         render resp as JSON
     }
+
+    def getSchemaFields(){
+        long schemaId = request.JSON.schemaId as Long
+        Schema schema = Schema.get(schemaId)
+        List schemaFields = schema.schemaFields as List
+        render(template: "schemaFieldSelect", model: [schemaFields: schemaFields])
+    }
 }

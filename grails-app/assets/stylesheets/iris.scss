@@ -412,6 +412,40 @@ $list-padding: percentage(0.03);
   z-index: 0;
 }
 
+#agg-buttons-wrapper{
+  color: $secondary-color;
+  background-color: $darker-bg-color;
+  padding: 10px;
+  border-radius: 2%;
+
+  h5{
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+}
+
+#aggs-list-wrapper{
+  color: $secondary-color;
+  background-color: $darker-bg-color;
+  padding: 10px;
+  border-radius: 2%;
+
+  margin-top: 10px;
+
+  h5{
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .agg-item > pre{
+    color: $secondary-color;
+    background-color: $darker-bg-color;
+    padding: 5px;
+    border-radius: 2%;
+    border-color: $link-color;
+  }
+}
+
 //================================
 //       AGGREGATIONS PAGE
 //================================
