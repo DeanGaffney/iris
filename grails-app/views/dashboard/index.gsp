@@ -52,6 +52,7 @@
     var client = Stomp.over(socket);
 
     client.connect({}, function(){});
+    client.debug = null;
 
 
     //show creation area when create button is clicked

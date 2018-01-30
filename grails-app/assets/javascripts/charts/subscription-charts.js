@@ -20,7 +20,6 @@ function getSubscriptionChart(chartType, containerSelector, schemaId){
 function setChartSubscription(chart, chartType, schemaId){
     //this subscription is for updates being sent to the chart
     client.subscribe("/topic/" + schemaId + "/" + chartType, function(message) {
-        console.log(JSON.stringify(message, null, 4));
         var parsedMsg = JSON.parse(message.body);
         //update the chart
         chart.flow({
@@ -31,7 +30,6 @@ function setChartSubscription(chart, chartType, schemaId){
 
     //this subscription is for initial loading data for the chart
     client.subscribe("/topic/load/" + schemaId + "/" + chartType, function(message){
-        console.log(JSON.stringify(message, null, 4));
         var parsedMsg = JSON.parse(message.body);
         //update the chart
         chart.load({
