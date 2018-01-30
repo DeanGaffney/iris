@@ -64,7 +64,7 @@
 
                                     <label for="chart-type">Example multiple select</label>
 
-                                    <g:select name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
+                                    <g:select v-model="chartType" name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
                                               keys="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
                                               class="form-control custom-select"/>
 
@@ -76,6 +76,7 @@
                     <!--CHART CREATION END-->
 
                     <!--AGGREGATION CREATION-->
+                <template v-if="needsAggregation">
                     <div class="card">
 
                         <div class="card-header" role="tab" id="aggregation-header">
@@ -97,6 +98,56 @@
 
                     </div>
                     <!--AGGREGATION CREATION END-->
+                </template>
+
+                <template v-else-if="isStateDiscChart">
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="plz">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#aggregation-creation" aria-expanded="false" aria-controls="aggregation-creation">
+                                    State Disc
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="something" class="collapse" role="tabpanel" aria-labelledby="aggregation-header">
+                            <div class="card-block">
+                                <div class="form-group">
+                                    <label for="aggregation-text-area">Aggregation Text Area</label>
+                                    <textarea class="form-control" id="aggregation-area"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--AGGREGATION CREATION END-->
+                </template>
+
+                <template v-else-if="isStateListChart">
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="y">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#aggregation-creation" aria-expanded="false" aria-controls="aggregation-creation">
+                                    State List
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="ya" class="collapse" role="tabpanel" aria-labelledby="aggregation-header">
+                            <div class="card-block">
+                                <div class="form-group">
+                                    <label for="aggregation-text-area">Aggregation Text Area</label>
+                                    <textarea class="form-control" id="y-area"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--AGGREGATION CREATION END-->
+                </template>
+
 
                 </div>
             </div>
@@ -169,6 +220,25 @@
 </div>
 
 <g:javascript>
+
+    var app = new Vue({
+        el: "#widget-modal",
+        data:{
+            chartType: 'Bar'
+        },
+        computed:{
+            isStateDiscChart:function(){
+                return this.chartType == 'StateDisc';
+            },
+            isStateListChart: function(){
+                return this.chartType == "StateList";
+            },
+            needsAggregation:function(){
+                return this.chartType != "StateList" && this.chartType != "StateDisc";
+            }
+        }
+    });
+
     $("#overlay-close-button").removeClass('create-view');
     $("#overlay-close-button").addClass('show-view');
 

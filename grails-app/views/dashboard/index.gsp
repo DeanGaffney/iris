@@ -13,6 +13,7 @@
     <asset:javascript src="charts/subscription-charts.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
+    <asset:javascript src="vue/vue.js"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
     <asset:stylesheet src="gridstack/gridstack-extra.css"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
@@ -47,6 +48,8 @@
 </div>
 
 <g:javascript>
+
+
 
     var socket = new SockJS("${createLink(uri: '/stomp')}");
     var client = Stomp.over(socket);

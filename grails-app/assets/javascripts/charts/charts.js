@@ -71,3 +71,22 @@ function LineChart(cssSelector, data){
         bindto: cssSelector
     });
 }
+
+function DiscStateChart(cssSelector, data){
+    this.chart = bb.generate({
+        data: {
+            columns: data,
+            type: "pie"
+        },
+        pie:{
+            label:{
+                show : true,
+                format: function(value, ratio, id) {
+                    return value;
+                }
+            }
+        },
+        bindto: cssSelector
+    });
+
+}
