@@ -1,5 +1,6 @@
 package com.wit.iris.sockets
 
+import com.wit.iris.charts.Chart
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonOutput
 import org.springframework.messaging.simp.SimpMessagingTemplate
@@ -15,11 +16,11 @@ class SocketService {
      * @param chartType - the type of dashboard.chart (Bubble, Pie etc...)
      * @param data - the data to be send to the dashboard.chart
      */
-    void sendUpdateToClient(long schemaId, String chartType, Map data){
-        brokerMessagingTemplate.convertAndSend "/topic/$schemaId/$chartType".toString(), JsonOutput.toJson(data)
+    void sendUpdateToClient(long schemaId, Chart chart, Map data){
+        brokerMessagingTemplate.convertAndSend "/topic/$schemaId/$chart.chartType/$chart.subscriptionId".toString(), JsonOutput.toJson(data)
     }
 
-    void sendDataToClient(long schemaId, String chartType, Map data){
-        brokerMessagingTemplate.convertAndSend "/topic/load/$schemaId/$chartType".toString(), JsonOutput.toJson(data)
+    void sendDataToClient(long schemaId, Chart chart, Map data){
+        brokerMessagingTemplate.convertAndSend "/topic/load/$schemaId/$chart.chartType/$chart.subscriptionId".toString(), JsonOutput.toJson(data)
     }
 }

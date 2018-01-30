@@ -15,7 +15,7 @@ class AggregationController {
 
     def create(){
         List schemas = Schema.list()
-        render(template: "builder", model: [schemas : schemas])
+        render(template: "create", model: [schemas : schemas])
     }
 
     /**

@@ -2,7 +2,7 @@
  * Created by dean on 17/01/18.
  */
 
-function getSubscriptionChart(chartType, containerSelector, schemaId){
+function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId){
     var chart;
     if(chartType == chartTypes.Bar){
         chart = new BarChart(containerSelector, []).chart;
@@ -13,13 +13,13 @@ function getSubscriptionChart(chartType, containerSelector, schemaId){
     }else if(chartType == chartTypes.Line){
         chart = new LineChart(containerSelector, []).chart;
     }
-    setChartSubscription(chart, chartType, schemaId);
+    setChartSubscription(subscriptionId, chart, chartType, schemaId);
     return chart;
 }
 
-function setChartSubscription(chart, chartType, schemaId){
+function setChartSubscription(subscriptionId, chart, chartType, schemaId){
     //this subscription is for updates being sent to the chart
-    client.subscribe("/topic/" + schemaId + "/" + chartType, function(message) {
+    client.subscribe("/topic/" + schemaId + "/" + chartType + "/" + subscriptionId, function(message) {
         var parsedMsg = JSON.parse(message.body);
         //update the chart
         chart.flow({
@@ -29,7 +29,7 @@ function setChartSubscription(chart, chartType, schemaId){
     });
 
     //this subscription is for initial loading data for the chart
-    client.subscribe("/topic/load/" + schemaId + "/" + chartType, function(message){
+    client.subscribe("/topic/load/" + schemaId + "/" + chartType + "/" + subscriptionId, function(message){
         var parsedMsg = JSON.parse(message.body);
         //update the chart
         chart.load({
@@ -39,7 +39,7 @@ function setChartSubscription(chart, chartType, schemaId){
     });
 }
 
-function onChartLoad(controllerUrl, data, chart){
+function onChartLoad(controllerUrl, data){
     $.ajax({
         url: controllerUrl,
         type: REST.method.post,

@@ -114,7 +114,7 @@ class DashboardService {
             agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
 
             Chart chart = new Chart(name: ele["chartName"], chartType: ele["chartType"],
-                                    aggregation: agg, schema: schema, grid: grid)
+                                    aggregation: agg, schema: schema, grid: grid, subscriptionId: ele["id"])
 
             if(!chart.validate()){
                 log.debug(chart.errors.allErrors*.toString())

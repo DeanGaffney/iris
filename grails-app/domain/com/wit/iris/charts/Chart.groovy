@@ -9,6 +9,7 @@ class Chart {
 
     String name
     String chartType
+    String subscriptionId
     Aggregation aggregation
     Schema schema
     boolean archived = false
@@ -19,6 +20,7 @@ class Chart {
         aggregation(nullable: false)
         schema(nullable: false)
         archived(nullable: true)
+        subscriptionId(nullable: true)
     }
 
     static belongsTo = [grid: Grid]

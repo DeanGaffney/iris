@@ -1,1 +1,1 @@
-<g:render template="/aggregation/builder"/>
+<g:render template="/aggregation/create"/>

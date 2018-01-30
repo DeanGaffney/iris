@@ -28,7 +28,7 @@ class ChartService {
         Map formattedData = formatChartData(chart, data)
         log.debug("Formatted dashboard chart data: \n${formattedData.toString()}")
         //use socket service to send data to dashboard.chart
-        socketService.sendUpdateToClient(schemaId, chart.chartType, formattedData)
+        socketService.sendUpdateToClient(schemaId, chart, formattedData)
     }
 
     /**
@@ -96,7 +96,7 @@ class ChartService {
     void loadChart(long schemaId, Chart chart, List<JSONObject> responses){
         Map formattedData = formatChartDataOnLoad(chart, responses)
         log.debug("Formatted dashboard chart data: \n${formattedData.toString()}")
-        socketService.sendDataToClient(schemaId, chart.chartType, formattedData)
+        socketService.sendDataToClient(schemaId, chart, formattedData)
     }
 
     /**

@@ -20,7 +20,7 @@ function load(controllerUrl, data, serializedData){
     var items = GridStackUI.Utils.sort(serializedData);
     _.each(items, function (node) {
         var chart = addWidget(node, true);
-        onChartLoad(controllerUrl, data, chart);
+        onChartLoad(controllerUrl, data);
     }, this);
     return false;
 }
@@ -147,12 +147,12 @@ function addWidget(widget, isLoading){
         addLoadedWidget(ele, widget);
         //add the aggregation to the browser cache
         localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
-        chart = getSubscriptionChart(widget.chartType, selector, widget.schemaId);
+        chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId);
     }else{
         add(ele);
         chart = getPlaceHolderChart(widget.chartType, selector);
         //add the aggregation to the browser cache
-        localStorage.setItem(widget.id, JSON.stringify(JSON.parse(widget.aggregation)));
+        localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
     }
 
     displayingCharts[widget.id] = chart;        //add the chart to the displayingCharts object
@@ -213,10 +213,12 @@ function init(){
  * @returns {ChartWidget}
  */
 function getAddedWidgetInfo(){
+    var aggJson = aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
+
     return new ChartWidget("widget-" + new Date().getTime(),
         $("#chart-name").val(),
         $("#chart-type").val(),
-        $("#aggregation-text-area").val(),
+        aggJson,
         $("#schema-select").val());
 }
 
@@ -227,8 +229,9 @@ function getAddedWidgetInfo(){
 function clearWidgetModal(){
     $("#chart-name").val($("#char-name").attr("placeholder"));          //reset chart name
     $("#chart-type").val("Bar");                                        //reset chart type
-    $("#aggregation-text-area").val("");                                //reset agg text area
     $("#schema-select").val("null");                                    //reset schema select
+    aggregation = null;
+    currentAggregation = null;
 }
 
 /**
