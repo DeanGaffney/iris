@@ -3,7 +3,7 @@
  */
 
 
-var stateDisc;
+var stateDisc = new StateDisc('', '');
 
 function StateDisc(schemaId, schemaField){
     this.schemaId = schemaId;
@@ -16,3 +16,12 @@ function State(label, value, colour){
     this.value = value;
     this.colour = colour;
 }
+
+
+$(document).on("change", "#schema-select", function(){
+    stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
+});
+
+$(document).on("change", "#schema-field-select", function(){
+    stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
+});

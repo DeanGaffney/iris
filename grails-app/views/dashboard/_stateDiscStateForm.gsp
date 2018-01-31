@@ -25,17 +25,8 @@
         useAlpha: false
     });
 
-    var stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
-
-    $(document).on("change", "#schema-select", function(){
-       stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
-    });
-
-    $(document).on("change", "#schema-field-select", function(){
-        stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
-    });
-
     $("#confirm-state-btn").on("click", function(){
         stateDisc.states.push(new State($("#state-label").val(), $("#state-value").val(), cp.colorpicker('getValue')));
+        $("#state-disc-form-area").html("");
     });
 </g:javascript>
