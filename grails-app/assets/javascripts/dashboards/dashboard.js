@@ -81,7 +81,7 @@ function collectSerializedData(){
             schemaId: widgetInfo.schemaid,
             chartName: widgetInfo.chartname,
             chartType: widgetInfo.charttype,
-            aggregation: JSON.parse(localStorage.getItem(node.el[0].id))
+            data: JSON.parse(localStorage.getItem(node.el[0].id))
         };
     }, this);
 }
@@ -145,15 +145,13 @@ function addWidget(widget, isLoading){
 
     if(isLoading){
         addLoadedWidget(ele, widget);
-        //add the aggregation to the browser cache
-        localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
         chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId);
     }else{
         add(ele);
         chart = getPlaceHolderChart(widget.chartType, selector);
-        //add the aggregation to the browser cache
-        localStorage.setItem(widget.id, JSON.stringify(widget.aggregation));
     }
+    //add widget data to the cache
+    localStorage.setItem(widget.id, JSON.stringify(widget.data));
 
     displayingCharts[widget.id] = chart;        //add the chart to the displayingCharts object
 
@@ -314,14 +312,14 @@ function Grid(serializedData){
  * @param uid - unique id of the widget (date in milliseconds)
  * @param chartName - name of the chart
  * @param chartType - type of the chart (BAR, BUBBLE, PIE etc....)
- * @param aggregation - aggregation associated ith the chart
+ * @param data - data to bind to the chart (aggregations, states etc.....)
  * @param schemaId - the id of the schema to associate with the chart
  * @constructor
  */
-function ChartWidget(uid, chartName, chartType, aggregation, schemaId){
+function ChartWidget(uid, chartName, chartType, data, schemaId){
     this.id = uid;
     this.chartName = chartName;
     this.chartType = chartType;
-    this.aggregation = aggregation;
+    this.data = data;
     this.schemaId = schemaId;
 }

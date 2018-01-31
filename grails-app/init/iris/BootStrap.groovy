@@ -59,7 +59,7 @@ class BootStrap {
                         "                \"width\": 3,\n" +
                         "                \"chartType\": \"Bar\",\n" +
                         "                \"y\": 0,\n" +
-                        "                \"aggregation\": {\n" +
+                        "                \"data\": {\n" +
                         "                    \"size\": 0,\n" +
                         "                    \"aggs\": {\n" +
                         "                        \"aggs_1\": {\n" +
@@ -86,7 +86,7 @@ class BootStrap {
                         "                \"width\": 3,\n" +
                         "                \"chartType\": \"Bubble\",\n" +
                         "                \"y\": 0,\n" +
-                        "                \"aggregation\": {\n" +
+                        "                \"data\": {\n" +
                         "                    \"size\": 0,\n" +
                         "                    \"aggs\": {\n" +
                         "                        \"aggs_1\": {\n" +
@@ -113,7 +113,7 @@ class BootStrap {
                         "                \"width\": 3,\n" +
                         "                \"chartType\": \"Pie\",\n" +
                         "                \"y\": 0,\n" +
-                        "                \"aggregation\": {\n" +
+                        "                \"data\": {\n" +
                         "                    \"size\": 0,\n" +
                         "                    \"aggs\": {\n" +
                         "                        \"aggs_1\": {\n" +
@@ -140,7 +140,7 @@ class BootStrap {
                         "                \"width\": 3,\n" +
                         "                \"chartType\": \"Line\",\n" +
                         "                \"y\": 0,\n" +
-                        "                \"aggregation\": {\n" +
+                        "                \"data\": {\n" +
                         "                    \"size\": 0,\n" +
                         "                    \"aggs\": {\n" +
                         "                        \"aggs_1\": {\n" +

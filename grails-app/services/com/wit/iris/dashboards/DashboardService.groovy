@@ -110,8 +110,15 @@ class DashboardService {
         gridJson["serializedData"].each{ele ->
             Schema schema = Schema.get(ele["schemaId"] as Long)
 
-            Aggregation agg = new Aggregation(esIndex: schema.esIndex, json: ele["aggregation"].toString())
-            agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
+            Aggregation agg;
+
+            if(ele["chartType"] != ChartType.STATE_DISC && ele["chartType"] != ChartType.STATE_LIST){
+                agg = new Aggregation(esIndex: schema.esIndex, json: ele["data"].toString())
+                agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
+            }else{
+                agg = new Aggregation(esIndex: schema.esIndex, json: "{}".toString())
+                agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
+            }
 
             Chart chart = new Chart(name: ele["chartName"], chartType: ele["chartType"],
                                     aggregation: agg, schema: schema, grid: grid, subscriptionId: ele["id"])
