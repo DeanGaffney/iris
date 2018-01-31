@@ -1,3 +1,4 @@
+
 <label for="schema-field-select">Select Schema Field</label>
 <g:select name="schema-field-select"
           from="${schemaFields}"
@@ -9,6 +10,3 @@
           @change="getSchemaFields()"
           href="${createLink(controller: 'schema', action: 'getSchemaFields')}"/>
 
-<g:javascript>
-
-</g:javascript>

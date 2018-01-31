@@ -3,7 +3,6 @@
  */
 var aggregation;       // the root aggregation object
 var currentAggregation;
-var aggCounter = 0;
 
 //==================================
 //      AGGREGATION BUILDING

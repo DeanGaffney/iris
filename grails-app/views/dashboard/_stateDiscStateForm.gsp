@@ -11,7 +11,7 @@
 
     <div class="form-group" class="col-4">
         <label for="state-color">State Colour</label>
-        <div id="state-color" class="input-group colorpicker-component" title="Using input value">
+        <div id="state-color" class="input-group colorpicker-component" title="State Colour Picker">
             <input type="text" class="form-control input-lg" value="#DD0F20"/>
             <span class="input-group-addon"><i></i></span>
         </div>
@@ -20,5 +20,22 @@
 </div>
 
 <g:javascript>
-    $("#state-color").colorpicker();
+
+    var cp = $("#state-color").colorpicker({
+        useAlpha: false
+    });
+
+    var stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
+
+    $(document).on("change", "#schema-select", function(){
+       stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
+    });
+
+    $(document).on("change", "#schema-field-select", function(){
+        stateDisc = new StateDisc($("#schema-select").val(), $("#schema-field-select option:selected").text());
+    });
+
+    $("#confirm-state-btn").on("click", function(){
+        stateDisc.states.push(new State($("#state-label").val(), $("#state-value").val(), cp.colorpicker('getValue')));
+    });
 </g:javascript>

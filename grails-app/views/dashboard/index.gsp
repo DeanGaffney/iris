@@ -52,14 +52,11 @@
 
 <g:javascript>
 
-
-
     var socket = new SockJS("${createLink(uri: '/stomp')}");
     var client = Stomp.over(socket);
 
     client.connect({}, function(){});
     client.debug = null;
-
 
     //show creation area when create button is clicked
     $("#create-dashboard-btn").on("click", function(){
