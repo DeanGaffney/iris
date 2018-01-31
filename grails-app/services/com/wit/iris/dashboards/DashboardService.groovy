@@ -157,13 +157,19 @@ class DashboardService {
     /**
      * Updates relevant dashboard charts
      * @param schemaId - the schema id to associate updates with
+     * @param rawJson - raw data sent from agent
      */
-    void updateDashboardCharts(long schemaId){
+    void updateDashboardCharts(long schemaId, JSONObject rawJson){
         getRelevantDashboardCharts(schemaId).each {
-            //loop over all charts related to schema and execute the aggregation
-            RestResponse aggResultData = aggregationService.execute(it.aggregation)
-            //update dashboard.chart with aggregation results
-            chartService.updateChart(schemaId, it, aggResultData.json)
+            if(it.chartType != ChartType.STATE_DISC.getValue()){
+                //loop over all charts related to schema and execute the aggregation
+                RestResponse aggResultData = aggregationService.execute(it.aggregation)
+                //update dashboard.chart with aggregation results
+                chartService.updateChart(schemaId, it, aggResultData.json)
+            }else{
+                chartService.updateChart(schemaId, it, rawJson)
+            }
+
         }
     }
 
@@ -178,12 +184,14 @@ class DashboardService {
         Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber, archived: false])
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.grid.charts.each {chart ->
-            List<JSONObject> responses = []
-            5.times {
-                RestResponse aggResultData = aggregationService.execute(chart.aggregation)
-                responses.add(aggResultData.json)
+            if(chartService.isBasicChart(chart.chartType)){
+                List<JSONObject> responses = []
+                5.times {
+                    RestResponse aggResultData = aggregationService.execute(chart.aggregation)
+                    responses.add(aggResultData.json)
+                }
+                chartService.loadChart(chart.schema.id, chart, responses)
             }
-            chartService.loadChart(chart.schema.id, chart, responses)
         }
     }
 

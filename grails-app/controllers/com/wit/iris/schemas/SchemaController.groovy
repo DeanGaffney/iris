@@ -58,7 +58,7 @@ class SchemaController {
         }else{
             resp = routeService.route(schema, request.JSON).json as Map        //route and transform data
             //get all dashboards that are currently marked as rendering
-            dashboardService.updateDashboardCharts(id)
+            dashboardService.updateDashboardCharts(id, request.JSON)
         }
         render resp as JSON
     }

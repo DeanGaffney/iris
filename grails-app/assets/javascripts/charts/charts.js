@@ -14,7 +14,7 @@ var chartTypes = {
 var chartPatterns = ["#12EED8", "#FFFF00", "#AF4BFF", "#BC2C4B"];
 
 function BarChart(containerSelector, data){
-    this.chart = bb.generate({
+    this.instance = bb.generate({
         bindto: containerSelector,
         data: {
             type: "bar",
@@ -28,7 +28,7 @@ function BarChart(containerSelector, data){
 
 
 function BubbleChart(cssSelector, data) {
-    this.chart = bb.generate({
+    this.instance = bb.generate({
         data: {
             columns: data,
             type: "bubble",
@@ -50,7 +50,7 @@ function BubbleChart(cssSelector, data) {
 }
 
 function PieChart(containerSelector, data){
-    this.chart = bb.generate({
+    this.instance = bb.generate({
         data: {
             columns: data,
             type: "pie"
@@ -63,7 +63,7 @@ function PieChart(containerSelector, data){
 }
 
 function LineChart(cssSelector, data){
-    this.chart = bb.generate({
+    this.instance = bb.generate({
         data: {
             columns: data
         },
@@ -75,10 +75,15 @@ function LineChart(cssSelector, data){
 }
 
 function StateDiscChart(cssSelector, data){
-    this.chart = bb.generate({
+    this.instance = bb.generate({
         data: {
-            columns: data,
-            type: "pie"
+            columns: [  //default to the first state for placeholders
+                [data.labels[data.values[0]], parseInt(data.values[0])]
+            ],
+            type: "pie",
+            colors:{
+                [data.labels[data.values[0]]]: data.colours[data.values[0]]
+            }
         },
         pie:{
             label:{
@@ -95,4 +100,5 @@ function StateDiscChart(cssSelector, data){
 
     this.colours = data.colours;
 
+    this.schemaField = data.schemaField;
 }

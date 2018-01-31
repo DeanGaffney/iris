@@ -6,17 +6,20 @@
 function getPlaceHolderChart(chartType, containerSelector, chartData){
     var chart;
     if(chartType == chartTypes.Bar){
-        chart = new BarChart(containerSelector, placeholderData[chartType]).chart;
+        chart = new BarChart(containerSelector, placeholderData[chartType]).instance;
     }else if(chartType == chartTypes.Pie){
-        chart = new PieChart(containerSelector, placeholderUpdateData[chartType]).chart;
+        chart = new PieChart(containerSelector, placeholderUpdateData[chartType]).instance;
     }else if(chartType == chartTypes.Bubble){
-        chart = new BubbleChart(containerSelector, placeholderData[chartType]).chart;
+        chart = new BubbleChart(containerSelector, placeholderData[chartType]).instance;
     }else if(chartType == chartTypes.Line){
-        chart = new LineChart(containerSelector, placeholderData.Line).chart;
+        chart = new LineChart(containerSelector, placeholderData.Line).instance;
     }else if(chartType == chartTypes.StateDisc){
-        chart = new StateDiscChart(containerSelector, chartData).chart;
+        chart = new StateDiscChart(containerSelector, chartData).instance;
     }
-    updatePlaceholderChart(chart, placeholderUpdateData[chartType]);
+
+    if(chartType != chartType.StateDisc){
+        updatePlaceholderChart(chart, placeholderUpdateData[chartType]);
+    }
     return chart;
 }
 

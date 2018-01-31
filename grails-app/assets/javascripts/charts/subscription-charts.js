@@ -5,16 +5,18 @@
 function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId, chartData){
     var chart;
     if(chartType == chartTypes.Bar){
-        chart = new BarChart(containerSelector, []).chart;
+        chart = new BarChart(containerSelector, []);
     }else if(chartType == chartTypes.Pie){
-        chart = new PieChart(containerSelector, []).chart;
+        chart = new PieChart(containerSelector, []);
     }else if(chartType == chartTypes.Bubble){
-        chart = new BubbleChart(containerSelector, []).chart;
+        chart = new BubbleChart(containerSelector, []);
     }else if(chartType == chartTypes.Line){
-        chart = new LineChart(containerSelector, []).chart;
+        chart = new LineChart(containerSelector, []);
+    }else if(chartType == chartTypes.StateDisc){
+        chart = new StateDiscChart(containerSelector, chartData);
     }
     setChartSubscription(subscriptionId, chart, chartType, schemaId);
-    return chart;
+    return chart.instance;
 }
 
 function setChartSubscription(subscriptionId, chart, chartType, schemaId){
@@ -22,21 +24,52 @@ function setChartSubscription(subscriptionId, chart, chartType, schemaId){
     client.subscribe("/topic/" + schemaId + "/" + chartType + "/" + subscriptionId, function(message) {
         var parsedMsg = JSON.parse(message.body);
         //update the chart
-        chart.flow({
-            columns: parsedMsg.data.columns,
-            length: 1
-        });
+        if(chartType != chartTypes.StateDisc){  //REGULAR CHARTS
+            updateBasicCharts(chart, parsedMsg);
+        }else{  //STATE BASED CHARTS
+            updateStateDiscChart(chart, parsedMsg);
+        }
     });
 
     //this subscription is for initial loading data for the chart
     client.subscribe("/topic/load/" + schemaId + "/" + chartType + "/" + subscriptionId, function(message){
         var parsedMsg = JSON.parse(message.body);
         //update the chart
-        chart.load({
+        chart.instance.load({
             columns: parsedMsg.data.columns,
             length: 0
         });
     });
+}
+
+function updateBasicCharts(chart, parsedJson){
+    chart.instance.flow({
+        columns: parsedJson.data.columns,
+        length: 1
+    });
+}
+
+function updateStateDiscChart(chart, parsedJson){
+    var val = parsedJson[chart.schemaField];
+
+    //if there is no values found, the incoming state is new so unload and update
+    if(chart.instance.data.values(chart.labels[val]) == null){
+        var color = chart.colours[val];
+        var label = chart.labels[val];
+        var dataToUnload = chart.instance.data()[0].id;
+
+        chart.instance.load({
+            columns: [
+                [label, val]
+            ],
+            unload:[dataToUnload],
+            colors:{
+                [label]: color
+            }
+        });
+
+        chart.instance.flush();
+    }
 }
 
 function onChartLoad(controllerUrl, data){

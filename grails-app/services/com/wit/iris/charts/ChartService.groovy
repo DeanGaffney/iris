@@ -42,6 +42,8 @@ class ChartService {
         log.debug("Formatting data: \n ${data.toString()}")
         if(isBasicChart(chart.chartType)){
             formattedData = formatDataForBasicChart(data, chart.aggregation)
+        }else if(chart.chartType == ChartType.STATE_DISC.getValue()){
+            formattedData = data
         }
         return formattedData
     }

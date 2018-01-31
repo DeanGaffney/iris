@@ -29,7 +29,8 @@ function getStateDiscData(stateObj){
     return {
         labels: stateObj.labels,
         colours: stateObj.colours,
-        values: stateObj.values
+        values: stateObj.values,
+        schemaField: stateObj.schemaField
     }
 }
 
