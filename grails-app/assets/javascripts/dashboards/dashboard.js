@@ -211,13 +211,30 @@ function init(){
  * @returns {ChartWidget}
  */
 function getAddedWidgetInfo(){
-    var aggJson = aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
-
+    var chartType = $("#chart-type").val();
+    var data = getAddedWidgetData(chartType);
     return new ChartWidget("widget-" + new Date().getTime(),
         $("#chart-name").val(),
-        $("#chart-type").val(),
-        aggJson,
+        chartType,
+        data,
         $("#schema-select").val());
+}
+
+/**
+ * Collects the data information for the chart based on it's type
+ * @param chartType - the chart type (BAR, BUBBLE, STATEDISC etc...)
+ * @returns the data for the newly added widget
+ */
+function getAddedWidgetData(chartType){
+    var data;
+    if(chartType == "StateDisc"){
+
+    }else if(chartType == "StateList"){
+
+    }else{
+        data = aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
+    }
+    return data;
 }
 
 /**

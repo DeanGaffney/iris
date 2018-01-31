@@ -14,8 +14,11 @@
     <asset:javascript src="charts/placeholder-charts.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
     <asset:javascript src="vue/vue.js"/>
+    <asset:javascript src="charts/statedisc-builder.js"/>
+    <asset:javascript src="bootstrap/bootstrap-colorpicker.min.js"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
     <asset:stylesheet src="gridstack/gridstack-extra.css"/>
+    <asset:stylesheet src="bootstrap/bootstrap-colorpicker.min.css"/>
     <g:set var="entityName" value="${message(code: 'schema.label', default: 'Dashboards')}" />
     <title>Dashboard Home</title>
 </head>

@@ -446,6 +446,12 @@ $list-padding: percentage(0.03);
   }
 }
 
+#state-disc-area{
+  label{
+    color: $darker-bg-color;
+  }
+}
+
 //================================
 //       AGGREGATIONS PAGE
 //================================

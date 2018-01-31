@@ -155,4 +155,8 @@ class DashboardController {
         render(template: template)
     }
 
+    def getStateDiscForm(){
+        render(template: "stateDiscStateForm")
+    }
+
 }

@@ -1,1 +1,1 @@
-<g:render template="/schema/schemaSelect"/>
+<g:render template="/schema/schemaSelectWithFieldJs"/>
