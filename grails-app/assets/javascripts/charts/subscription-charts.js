@@ -2,7 +2,7 @@
  * Created by dean on 17/01/18.
  */
 
-function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId){
+function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId, chartData){
     var chart;
     if(chartType == chartTypes.Bar){
         chart = new BarChart(containerSelector, []).chart;

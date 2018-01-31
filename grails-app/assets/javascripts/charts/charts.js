@@ -6,7 +6,9 @@ var chartTypes = {
     Bar: "Bar",
     Bubble: "Bubble",
     Pie: "Pie",
-    Line: "Line"
+    Line: "Line",
+    StateDisc: "StateDisc",
+    StateList: "StateList"
 };
 
 var chartPatterns = ["#12EED8", "#FFFF00", "#AF4BFF", "#BC2C4B"];
@@ -72,7 +74,7 @@ function LineChart(cssSelector, data){
     });
 }
 
-function DiscStateChart(cssSelector, data){
+function StateDiscChart(cssSelector, data){
     this.chart = bb.generate({
         data: {
             columns: data,
@@ -88,5 +90,9 @@ function DiscStateChart(cssSelector, data){
         },
         bindto: cssSelector
     });
+
+    this.labels = data.labels;
+
+    this.colours = data.colours;
 
 }

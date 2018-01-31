@@ -12,9 +12,9 @@
     <asset:javascript src="charts/charts.js"/>
     <asset:javascript src="charts/subscription-charts.js"/>
     <asset:javascript src="charts/placeholder-charts.js"/>
+    <asset:javascript src="charts/statedisc-builder.js"/>
     <asset:javascript src="dashboards/dashboard.js"/>
     <asset:javascript src="vue/vue.js"/>
-    <asset:javascript src="charts/statedisc-builder.js"/>
     <asset:javascript src="bootstrap/bootstrap-colorpicker.min.js"/>
     <asset:stylesheet src="gridstack/gridstack.css"/>
     <asset:stylesheet src="gridstack/gridstack-extra.css"/>

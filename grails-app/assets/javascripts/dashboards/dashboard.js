@@ -145,10 +145,10 @@ function addWidget(widget, isLoading){
 
     if(isLoading){
         addLoadedWidget(ele, widget);
-        chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId);
+        chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId, widget.data);
     }else{
         add(ele);
-        chart = getPlaceHolderChart(widget.chartType, selector);
+        chart = getPlaceHolderChart(widget.chartType, selector, widget.data);
     }
     //add widget data to the cache
     localStorage.setItem(widget.id, JSON.stringify(widget.data));
@@ -228,7 +228,7 @@ function getAddedWidgetInfo(){
 function getAddedWidgetData(chartType){
     var data;
     if(chartType == "StateDisc"){
-
+        data = getStateDiscData(stateDisc);
     }else if(chartType == "StateList"){
 
     }else{

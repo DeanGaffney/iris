@@ -3,7 +3,7 @@
  */
 
 
-function getPlaceHolderChart(chartType, containerSelector){
+function getPlaceHolderChart(chartType, containerSelector, chartData){
     var chart;
     if(chartType == chartTypes.Bar){
         chart = new BarChart(containerSelector, placeholderData[chartType]).chart;
@@ -13,6 +13,8 @@ function getPlaceHolderChart(chartType, containerSelector){
         chart = new BubbleChart(containerSelector, placeholderData[chartType]).chart;
     }else if(chartType == chartTypes.Line){
         chart = new LineChart(containerSelector, placeholderData.Line).chart;
+    }else if(chartType == chartTypes.StateDisc){
+        chart = new StateDiscChart(containerSelector, chartData).chart;
     }
     updatePlaceholderChart(chart, placeholderUpdateData[chartType]);
     return chart;
