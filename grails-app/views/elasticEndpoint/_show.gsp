@@ -81,4 +81,5 @@
        show: true,
        backdrop: true
     });
+
 </g:javascript>
