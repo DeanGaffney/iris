@@ -11,38 +11,74 @@
                 </div>
 
                 <div class="modal-body">
-                    <!--SCHEMA-->
-                    <div>
-                        <div class="form-group">
-                            <label class="col-2 col-form-label">Name</label>
-                            <div class="col-6">
-                                <input class="form-control" id="schema-name" type="text" value="" required>
-                            </div>
-                            <label class="col-2 col-form-label">Refresh Interval</label>
-                            <div class="col-6">
-                                <input class="form-control" id="schema-refresh" type="number" value="" required>
-                            </div>
-                        </div>
-                        <div id="schema-field-container"></div>
-                    <button type="button" id="add-schema-field-btn" class="btn" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
-                </div>
 
-                    <!--SCHEMA FIELDS-->
-                    <div id="schema-field-collapse" data-toggle="collapse" href="#schema-fields-container" aria-expanded="false" aria-controls="schema-fields-container" data-target="#schema-fields-container">
-                        <h5 id="schema-fields-title">Schema Fields (0)</h5>
-                        <div id="schema-fields-container" class="collapse">
-                            <table id="schema-fields-table" class="table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                        <!--SCHEMA CREATION START-->
+                        <div class="card">
+
+                            <div class="card-header" role="tab" id="schema-creation-header">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#schema-creation" aria-expanded="false" aria-controls="schema-creation">
+                                        Schema
+                                    </a>
+                                </h5>
+                            </div>
+
+                           <div id="schema-creation" class="collapse show" role="tabpanel" aria-labelledby="schema-creation-header">
+                                <div class="card-block">
+                                    <div class="form-group">
+                                        <label class="col-2 col-form-label">Name</label>
+                                        <div class="col-6">
+                                            <input class="form-control" id="schema-name" type="text" value="" required>
+                                        </div>
+                                        <label class="col-2 col-form-label">Refresh Interval</label>
+                                        <div class="col-6">
+                                            <input class="form-control" id="schema-refresh" type="number" value="" required>
+                                        </div>
+                                    </div>
+                                    <div id="schema-field-container"></div>
+                                    <button type="button" id="add-schema-field-btn" class="btn" href="${createLink(controller: 'schemaField', action: 'form')}">Add field</button>
+                                </div>
+                           </div>
+
                         </div>
+                        <!--SCHEMA CREATION END-->
+
+                        <!--SCHEMA FIELD CREATION-->
+                        <div class="card">
+
+                            <div class="card-header" role="tab" id="schema-fields-header">
+                                <h5 class="mb-0">
+                                    <a id="schema-fields-title" data-toggle="collapse" data-parent="#accordion" href="#schema-fields" aria-expanded="false" aria-controls="schema-fields">
+                                        Schema Fields
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="schema-fields" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-header">
+                                <div class="card-block">
+                                    <div id="schema-fields-container">
+                                        <table id="schema-fields-table" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Type</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!--SCHEMA FIELD END-->
+
                     </div>
+                    <!--ACCORDION END-->
                 </div>
 
                 <div class="modal-footer">

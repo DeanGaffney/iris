@@ -29,9 +29,11 @@
 
         tableEntries = $("#schema-fields-table > tbody > tr").length;
 
-        $("#schema-fields-table > tbody > tr:last-child > th").html(tableEntries)
+        $("#schema-fields-table > tbody > tr:last-child > th").html(tableEntries);
 
-        $("#schema-fields-title").html($("#schema-fields-title").text().replace(/\d+/g, tableEntries));
+        console.log()
+
+        $("#schema-fields-title").text(($("#schema-fields-title").text().replace(/\d+/g, tableEntries)));
 
         // clear the field area
         clearFieldArea();
