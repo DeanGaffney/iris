@@ -145,7 +145,7 @@ function addWidget(widget, isLoading){
 
     if(isLoading){
         addLoadedWidget(ele, widget);
-        chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId, widget.data);
+        chart = getSubscriptionChart(widget.id, widget.chartType, selector, widget.schemaId, widget.data, widget.chartName);
     }else{
         add(ele);
         chart = getPlaceHolderChart(widget.chartType, selector, widget.data);

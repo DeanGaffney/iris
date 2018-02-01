@@ -2,18 +2,18 @@
  * Created by dean on 17/01/18.
  */
 
-function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId, chartData){
+function getSubscriptionChart(subscriptionId, chartType, containerSelector, schemaId, chartData, title){
     var chart;
     if(chartType == chartTypes.Bar){
-        chart = new BarChart(containerSelector, []);
+        chart = new BarChart(containerSelector, [], title);
     }else if(chartType == chartTypes.Pie){
-        chart = new PieChart(containerSelector, []);
+        chart = new PieChart(containerSelector, [], title);
     }else if(chartType == chartTypes.Bubble){
-        chart = new BubbleChart(containerSelector, []);
+        chart = new BubbleChart(containerSelector, [], title);
     }else if(chartType == chartTypes.Line){
-        chart = new LineChart(containerSelector, []);
+        chart = new LineChart(containerSelector, [], title);
     }else if(chartType == chartTypes.StateDisc){
-        chart = new StateDiscChart(containerSelector, chartData);
+        chart = new StateDiscChart(containerSelector, chartData, title);
     }
     setChartSubscription(subscriptionId, chart, chartType, schemaId);
     return chart.instance;

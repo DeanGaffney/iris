@@ -2,19 +2,20 @@
  * Created by dean on 09/01/18.
  */
 
+var placeholderTitle = "Placeholder";
 
 function getPlaceHolderChart(chartType, containerSelector, chartData){
     var chart;
     if(chartType == chartTypes.Bar){
-        chart = new BarChart(containerSelector, placeholderData[chartType]).instance;
+        chart = new BarChart(containerSelector, placeholderData[chartType], placeholderTitle + " Bar Chart").instance;
     }else if(chartType == chartTypes.Pie){
-        chart = new PieChart(containerSelector, placeholderUpdateData[chartType]).instance;
+        chart = new PieChart(containerSelector, placeholderUpdateData[chartType], placeholderTitle + " Pie Chart").instance;
     }else if(chartType == chartTypes.Bubble){
-        chart = new BubbleChart(containerSelector, placeholderData[chartType]).instance;
+        chart = new BubbleChart(containerSelector, placeholderData[chartType], placeholderTitle + " Bubble Chart").instance;
     }else if(chartType == chartTypes.Line){
-        chart = new LineChart(containerSelector, placeholderData.Line).instance;
+        chart = new LineChart(containerSelector, placeholderData.Line, placeholderTitle + " Line Chart").instance;
     }else if(chartType == chartTypes.StateDisc){
-        chart = new StateDiscChart(containerSelector, chartData).instance;
+        chart = new StateDiscChart(containerSelector, chartData, placeholderTitle + " State Disc Chart").instance;
     }
 
     if(chartType != chartType.StateDisc){

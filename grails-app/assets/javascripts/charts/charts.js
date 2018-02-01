@@ -13,7 +13,7 @@ var chartTypes = {
 
 var chartPatterns = ["#12EED8", "#FFFF00", "#AF4BFF", "#BC2C4B"];
 
-function BarChart(containerSelector, data){
+function BarChart(containerSelector, data, title){
     this.instance = bb.generate({
         bindto: containerSelector,
         data: {
@@ -22,12 +22,22 @@ function BarChart(containerSelector, data){
         },
         color:{
             pattern: chartPatterns
-        }
+        },
+        title:{
+            text: title,
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            },
+            position: "top-center"
+        },
     });
 }
 
 
-function BubbleChart(cssSelector, data) {
+function BubbleChart(cssSelector, data, title) {
     this.instance = bb.generate({
         data: {
             columns: data,
@@ -45,11 +55,21 @@ function BubbleChart(cssSelector, data) {
                 type: "category"
             }
         },
+        title:{
+            text: title,
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            },
+            position: "top-center"
+        },
         bindto: cssSelector
     });
 }
 
-function PieChart(containerSelector, data){
+function PieChart(containerSelector, data, title){
     this.instance = bb.generate({
         data: {
             columns: data,
@@ -58,11 +78,21 @@ function PieChart(containerSelector, data){
         color:{
             pattern: chartPatterns
         },
+        title:{
+            text: title,
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            },
+            position: "top-center"
+        },
         bindto: containerSelector
     });
 }
 
-function LineChart(cssSelector, data){
+function LineChart(cssSelector, data, title){
     this.instance = bb.generate({
         data: {
             columns: data
@@ -70,11 +100,21 @@ function LineChart(cssSelector, data){
         color:{
             pattern: chartPatterns
         },
+        title:{
+            text: title,
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            },
+            position: "top-center"
+        },
         bindto: cssSelector
     });
 }
 
-function StateDiscChart(cssSelector, data){
+function StateDiscChart(cssSelector, data, title){
     this.instance = bb.generate({
         data: {
             columns: [  //default to the first state for placeholders
@@ -92,6 +132,16 @@ function StateDiscChart(cssSelector, data){
                     return value;
                 }
             }
+        },
+        title:{
+            text: title,
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            },
+            position: "top-center"
         },
         bindto: cssSelector
     });

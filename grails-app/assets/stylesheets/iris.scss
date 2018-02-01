@@ -291,6 +291,17 @@ $list-padding: percentage(0.03);
   stroke: $secondary-color;
 }
 
+.bb text{
+  color: $secondary-color;
+}
+
+.bb-title{
+  font: 20px $font-stack !important;
+  letter-spacing: $letter-spacing;
+  color: $secondary-color !important;
+  fill: $secondary-color;
+}
+
 #dashboard-area{
   background-color: $background-color;
 }
