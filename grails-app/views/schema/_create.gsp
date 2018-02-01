@@ -51,7 +51,7 @@
                             <div class="card-header" role="tab" id="schema-fields-header">
                                 <h5 class="mb-0">
                                     <a id="schema-fields-title" data-toggle="collapse" data-parent="#accordion" href="#schema-fields" aria-expanded="false" aria-controls="schema-fields">
-                                        Schema Fields
+                                        Schema Fields (0)
                                     </a>
                                 </h5>
                             </div>

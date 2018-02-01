@@ -31,8 +31,6 @@
 
         $("#schema-fields-table > tbody > tr:last-child > th").html(tableEntries);
 
-        console.log()
-
         $("#schema-fields-title").text(($("#schema-fields-title").text().replace(/\d+/g, tableEntries)));
 
         // clear the field area

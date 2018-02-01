@@ -42,7 +42,8 @@ class SchemaController {
 
     def show(long id){
         Schema schema = Schema.get(id)
-        render(template: "show", model: [schema: schema])
+        String schemaJson = schemaService.getExpectedJson(schema)
+        render(template: "show", model: [schema: schema, schemaJson: schemaJson])
     }
 
     /**

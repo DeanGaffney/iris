@@ -11,36 +11,96 @@
                 </div>
 
                 <div class="modal-body">
-                    <div id="schema-field-collapse" data-toggle="collapse" href="#schema-fields-container" aria-expanded="false" aria-controls="schema-fields-container" data-target="#schema-fields-container">
-                        <h5>Schema Fields</h5>
-                        <div id="schema-fields-container" class="collapse">
-                            <table id="schema-fields-table" class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <g:each in="${schema.schemaFields}" var="schemaField" status="i">
+
+                    <!--ACCORDION-->
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <!--SCHEMA FIELDS START-->
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="schema-fields-show-header">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#schema-fields-show" aria-expanded="false" aria-controls="schema-fields-show">
+                                    Schema Fields (${schema.schemaFields.size()})
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="schema-fields-show" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-show-header">
+
+                            <div class="card-block">
+                                <div id="schema-fields-container">
+                                    <table id="schema-fields-table" class="table">
+                                        <thead>
                                         <tr>
-                                            <th scope="row">${i + 1}</th>
-                                            <td>${schemaField.name}</td>
-                                            <td>${schemaField.fieldType}</td>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
                                         </tr>
-                                    </g:each>
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody>
+                                        <g:each in="${schema.schemaFields}" var="schemaField" status="i">
+                                            <tr>
+                                                <th scope="row">${i + 1}</th>
+                                                <td>${schemaField.name}</td>
+                                                <td>${schemaField.fieldType}</td>
+                                            </tr>
+                                        </g:each>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
+                    <!--SCHEMA FIELDS END-->
 
-                <div id="schema-url-collapse">
-                    <h5>URL</h5>
-                    <div id="schema-url-container">
-                        <p id="schema-url"><g:createLink controller="schema" action="route" params="[id: schema.id]" absolute="true"/></p>
+                    <!--SCHEMA URL START-->
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="schema-url-header">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#schema-url-show" aria-expanded="false" aria-controls="schema-url-show">
+                                    URI
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="schema-url-show" class="collapse show" role="tabpanel" aria-labelledby="schema-url-header">
+                            <div class="card-block">
+                                <div id="schema-url-container">
+                                    <p id="schema-url"><g:createLink controller="schema" action="route" params="[id: schema.id]" absolute="true"/></p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    <!--SCHEMA URL END-->
+
+                    <!--SCHEMA URL START-->
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="schema-json-header">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#schema-json-show" aria-expanded="false" aria-controls="schema-json-show">
+                                    Expected JSON
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="schema-json-show" class="collapse show" role="tabpanel" aria-labelledby="schema-json-header">
+                            <div class="card-block">
+                                <div id="schema-json-container">
+                                    <pre>${schemaJson}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--SCHEMA URL END-->
+
+                </div>
+                    <!--ACCORDION END-->
                 </div>
 
                 <div class="modal-footer">
