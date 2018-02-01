@@ -97,7 +97,7 @@ p{
   font-family: $font-stack;
 }
 
-#schema-url{
+#schema-url, #elastic-url, #elastic-state{
   @extend p;
   letter-spacing: $letter-spacing;
 }
@@ -145,6 +145,12 @@ nav.navbar{
 }
 
 #create-schema-container label{
+  color : $darker-bg-color;
+  font-family: $font-stack;
+  letter-spacing: $letter-spacing;
+}
+
+#create-elastic-container label{
   color : $darker-bg-color;
   font-family: $font-stack;
   letter-spacing: $letter-spacing;

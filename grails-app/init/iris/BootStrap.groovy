@@ -53,7 +53,7 @@ class BootStrap {
                         "    \"grid\": {\n" +
                         "        \"serializedData\": [\n" +
                         "            {\n" +
-                        "                \"chartName\": \"zsa\",\n" +
+                        "                \"chartName\": \"Memory Used Bar\",\n" +
                         "                \"schemaId\": 3,\n" +
                         "                \"x\": 0,\n" +
                         "                \"width\": 3,\n" +
@@ -80,7 +80,7 @@ class BootStrap {
                         "                \"height\": 5\n" +
                         "            },\n" +
                         "            {\n" +
-                        "                \"chartName\": \"sdfa\",\n" +
+                        "                \"chartName\": \"Memory Used Bubble\",\n" +
                         "                \"schemaId\": 3,\n" +
                         "                \"x\": 3,\n" +
                         "                \"width\": 3,\n" +
@@ -107,7 +107,7 @@ class BootStrap {
                         "                \"height\": 5\n" +
                         "            },\n" +
                         "            {\n" +
-                        "                \"chartName\": \"asda\",\n" +
+                        "                \"chartName\": \"Memory Used Pie\",\n" +
                         "                \"schemaId\": 3,\n" +
                         "                \"x\": 6,\n" +
                         "                \"width\": 3,\n" +
@@ -134,7 +134,7 @@ class BootStrap {
                         "                \"height\": 5\n" +
                         "            },\n" +
                         "            {\n" +
-                        "                \"chartName\": \"zxc\",\n" +
+                        "                \"chartName\": \"Memory Used Line\",\n" +
                         "                \"schemaId\": 3,\n" +
                         "                \"x\": 9,\n" +
                         "                \"width\": 3,\n" +

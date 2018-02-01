@@ -19,6 +19,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	[pattern: '/schemaField/**', access: ['permitAll']],
 	[pattern: '/dashboard/**', 	 access: ['permitAll']],
 	[pattern: '/aggregation/**', access: ['permitAll']],
+	[pattern: '/elasticEndpoint/**', access: ['permitAll']],
 	[pattern: '/stomp/**', 	 	 access: ['permitAll']]
 
 ]

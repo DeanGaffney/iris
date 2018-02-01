@@ -34,6 +34,9 @@
             <li class="nav-item">
                 <a href="${createLink(controller:'dashboard', action:'index')}">Dashboards</a>
             </li>
+            <li class="nav-item">
+                <a href="${createLink(controller:'elasticEndpoint', action:'index')}">Endpoints</a>
+            </li>
         </ul>
     </div>
 </nav>
