@@ -76,7 +76,9 @@ class SchemaService {
     String getExpectedJson(Schema schema){
         Map jsonMap = [:]
         schema.schemaFields.each{ field ->
-            jsonMap[(field.name)] = "YOUR ${field.fieldType.toUpperCase()}"
+            if(!(field.name in IrisSchemaField.values()*.getFieldName())){
+                jsonMap[(field.name)] = "YOUR ${field.fieldType.toUpperCase()}"
+            }
         }
         String json = JsonOutput.toJson(jsonMap)
         return JsonOutput.prettyPrint(json)
