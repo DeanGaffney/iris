@@ -66,13 +66,13 @@ var AGG_TYPES = {
  * @param type - the aggregation type
  */
 function addAttributes(aggType){
-    if(isCommonMetric(aggType)){
-        //check for missing value
-        var missing = $("#agg-template-container").find("#metric-missing-input").val();
-        if(missing.length > 0){
-            aggType[Object.keys(aggType)[0]].missing = missing;
-        }
-    }
+    // if(isCommonMetric(aggType)){
+    //     //check for missing value
+    //     var missing = $("#agg-template-container").find("#metric-missing-input").val();
+    //     if(missing.length > 0){
+    //         aggType[Object.keys(aggType)[0]].missing = missing;
+    //     }
+    // }
     return aggType;
 }
 

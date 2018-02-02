@@ -17,8 +17,8 @@
     </div>
 </div>
 
-<div>
-    <div id="agg-template-container"></div>
+<div class="row">
+    <div id="agg-template-container" class="col-8"></div>
 </div>
 
 <div class="row">
@@ -35,7 +35,9 @@
     <button type="button" id="clear-agg-btn" class="btn">Clear<span class="fa fa-trash"></span></button>
 </div>
 
-<div id="agg-result-container"></div>
+<div class="row">
+    <div id="agg-result-container" class="col-8"></div>
+</div>
 
 
 <g:javascript>

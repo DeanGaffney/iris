@@ -9,13 +9,7 @@
     </head>
     <body>
       <div id="agg-main-container">
-          <button id="create-agg-btn" class="btn" href="${createLink(controller: 'aggregation', action: 'create')}">Create</button>
+          <g:render template="create"/>
       </div>
-      <g:javascript>
-            $("#create-agg-btn").on("click", function(){
-               const URL =  $(this).attr("href");
-               updateContainerHtml(URL, REST.method.put, REST.contentType.json, {}, "#agg-main-container");
-            });
-      </g:javascript>
     </body>
 </html>

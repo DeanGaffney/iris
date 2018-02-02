@@ -13,6 +13,11 @@ class AggregationController {
 
     def aggregationService
 
+    def index(){
+        List schemas = Schema.list()
+        render(view: "index", model: [schemas: schemas])
+    }
+
     def create(){
         List schemas = Schema.list()
         render(template: "create", model: [schemas : schemas])
