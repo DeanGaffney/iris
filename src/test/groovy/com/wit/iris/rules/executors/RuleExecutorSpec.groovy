@@ -1,7 +1,7 @@
 package com.wit.iris.rules.executors
 
 import com.wit.iris.rules.Rule
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
 import org.grails.testing.GrailsUnitTest
@@ -10,21 +10,21 @@ import spock.lang.Specification
 
 class RuleExecutorSpec extends Specification implements GrailsUnitTest, DataTest {
 
-    Schema schema
+    IrisSchema schema
     Rule rule
     User user
     JSONObject json
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [User, Schema, Rule]
+        return [User, IrisSchema, Rule]
     }
 
     def setup() {
         user = new User(username: "deangaffney", password: "password")
         rule = new Rule(script: "json.avg = json.total / json.size \n" +
                                 "return fields")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor",
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor",
                 refreshInterval: 10000, rule: rule)
         json = new JSONObject(["total": 6, "size": 2])
     }

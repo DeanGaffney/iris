@@ -12,18 +12,18 @@ import com.wit.iris.schemas.enums.FieldType
 class SchemaFieldSpec extends Specification {
 
     User user
-    Schema schema
+    IrisSchema schema
     SchemaField schemaField
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
         user.addToSchemas(schema)
         user.save(flush: true)
 
-        assert Schema.count() == 1 && SchemaField.count() == 1
+        assert IrisSchema.count() == 1 && SchemaField.count() == 1
         assert User.count() == 1
     }
 

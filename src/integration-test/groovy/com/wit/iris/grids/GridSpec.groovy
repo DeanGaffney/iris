@@ -3,7 +3,7 @@ package com.wit.iris.grids
 import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
@@ -17,12 +17,12 @@ class GridSpec extends Specification {
     Grid grid
     GridCell gridCell
     Chart chart
-    Schema schema
+    IrisSchema schema
     Aggregation aggregation
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
@@ -39,7 +39,7 @@ class GridSpec extends Specification {
         assert Grid.count() == 1
         assert GridCell.count() == 1
         assert Chart.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert Aggregation.count() == 1
     }
 

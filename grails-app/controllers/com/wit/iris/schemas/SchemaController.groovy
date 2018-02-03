@@ -4,14 +4,14 @@ import grails.converters.JSON
 
 class SchemaController {
 
-    static scaffold = Schema
+    static scaffold = IrisSchema
 
     def schemaService
     def routeService
     def dashboardService
 
     def index(){
-        List<Schema> schemas = Schema.list()
+        List<IrisSchema> schemas = IrisSchema.list()
         render(view: "index", model:[schemas: schemas])
     }
 
@@ -19,29 +19,29 @@ class SchemaController {
         render(template: "create")
     }
 
-    def save(Schema schema){
+    def save(IrisSchema schema){
         schemaService.createSchema(schema)
         redirect(view: "index")
     }
 
     def edit(){
-        Schema schema = Schema.get(request.JSON.schemaId)
+        IrisSchema schema = IrisSchema.get(request.JSON.schemaId)
         render(template: "edit", model: [schema: schema])
     }
 
-    def update(Schema schema){
-        Schema updatedSchema = schemaService.updateSchema(schema)
+    def update(IrisSchema schema){
+        IrisSchema updatedSchema = schemaService.updateSchema(schema)
         render(template: "show", model: [schema: updatedSchema])
     }
 
     def delete(){
-        Schema schema = Schema.get(params.id)
+        IrisSchema schema = IrisSchema.get(params.id)
         schemaService.deleteSchema(schema)
         redirect(view: "index")
     }
 
     def show(long id){
-        Schema schema = Schema.get(id)
+        IrisSchema schema = IrisSchema.get(id)
         String schemaJson = schemaService.getExpectedJson(schema)
         render(template: "show", model: [schema: schema, schemaJson: schemaJson])
     }
@@ -52,7 +52,7 @@ class SchemaController {
      */
     def route(long id){
         Map resp = ["status": 200, "message": "data inserted"]
-        Schema schema = Schema.get(id)
+        IrisSchema schema = IrisSchema.get(id)
         if(schema == null){
             resp.status = 500
             resp.message = "Schema with id $id does not exist"
@@ -66,7 +66,7 @@ class SchemaController {
 
     def getSchemaFields(){
         long schemaId = request.JSON.schemaId as Long
-        Schema schema = Schema.get(schemaId)
+        IrisSchema schema = IrisSchema.get(schemaId)
         List schemaFields = schema.schemaFields as List
         render(template: "schemaFieldSelect", model: [schemaFields: schemaFields])
     }

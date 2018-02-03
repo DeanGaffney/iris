@@ -3,7 +3,7 @@ package com.wit.iris.charts
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 
 class Chart {
 
@@ -11,7 +11,7 @@ class Chart {
     String chartType
     String subscriptionId
     Aggregation aggregation
-    Schema schema
+    IrisSchema schema
     boolean archived = false
 
     static constraints = {

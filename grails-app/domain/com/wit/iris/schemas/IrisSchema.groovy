@@ -3,7 +3,7 @@ package com.wit.iris.schemas
 import com.wit.iris.rules.Rule
 import com.wit.iris.users.User
 
-class Schema {
+class IrisSchema {
 
     String name
     String esIndex

@@ -1,7 +1,7 @@
 package com.wit.iris.routing
 
 import com.wit.iris.rules.executors.RuleExecutor
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.schemas.enums.IrisSchemaField
 import grails.gorm.transactions.Transactional
 import org.grails.web.json.JSONObject
@@ -16,7 +16,7 @@ class RouteService {
     /**
      * Routes incoming data to Elasticsearch
      **/
-    RestResponse route(Schema schema, JSONObject json) {
+    RestResponse route(IrisSchema schema, JSONObject json) {
         Map data = json as Map
         if(schema.rule != null){
             data = RuleExecutor.execute(schema.rule, data)

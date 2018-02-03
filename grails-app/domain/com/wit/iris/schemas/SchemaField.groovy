@@ -7,7 +7,7 @@ class SchemaField implements Comparable {
     String name
     String fieldType
 
-    static belongsTo = [schema: Schema]
+    static belongsTo = [schema: IrisSchema]
 
     static constraints = {
         name(nullable: false, matches: "^\\w+\$", blank: false)

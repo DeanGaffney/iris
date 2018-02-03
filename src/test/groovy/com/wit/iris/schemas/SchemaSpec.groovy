@@ -6,27 +6,27 @@ import grails.testing.gorm.DataTest
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTest{
+class SchemaSpec extends Specification implements DomainUnitTest<IrisSchema>, DataTest{
 
     User user
-    Schema schema
+    IrisSchema schema
     SchemaField schemaField
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [User, Schema, SchemaField]
+        return [User, IrisSchema, SchemaField]
     }
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
         user.addToSchemas(schema)
         user.save(flush:true)
 
         assert User.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert SchemaField.count() == 1
     }
 
@@ -40,10 +40,10 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
     void "test create Schema"(){
         setup: "I create a new Schema"
         setupData()
-        user.addToSchemas(new Schema(name: "Other monitor", esIndex: "other_monitor", refreshInterval: 5000)).save()
+        user.addToSchemas(new IrisSchema(name: "Other monitor", esIndex: "other_monitor", refreshInterval: 5000)).save()
 
         expect: "The count to be 2"
-        Schema.count() == 2
+        IrisSchema.count() == 2
     }
 
     void "test schema archived property is false by default"(){
@@ -64,7 +64,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         schema.save()
 
         expect: "The SchemaFields to be saved with the Schema"
-        Schema.count() == 1
+        IrisSchema.count() == 1
         SchemaField.count() == 3
     }
 
@@ -76,7 +76,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         schema.delete(flush: true)
 
         then: "It is deleted from the database"
-        Schema.count() == 0
+        IrisSchema.count() == 0
     }
 
     void "test edit Schema"(){
@@ -90,7 +90,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         schema.save()
 
         then: "I can find the schema by its new name"
-        Schema.findByName("other monitor") != null
+        IrisSchema.findByName("other monitor") != null
     }
 
     void "test Schema name constraints"(){
@@ -122,7 +122,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         schema.validate()
 
         when: "I create a Schema with an existing schema name(not unique)"
-        Schema notUniqueSchema = new Schema(name: "Performance Monitor", esIndex: "other_monitor", refreshInterval: 1000)
+        IrisSchema notUniqueSchema = new IrisSchema(name: "Performance Monitor", esIndex: "other_monitor", refreshInterval: 1000)
 
         then: "It wont be valid"
         !notUniqueSchema.validate()
@@ -164,7 +164,7 @@ class SchemaSpec extends Specification implements DomainUnitTest<Schema>, DataTe
         !schema.validate()
 
         when: "I create a new Schema with a non unique esIndex"
-        Schema nonUniqueSchema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        IrisSchema nonUniqueSchema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
 
         then: "It is not valid"
         !nonUniqueSchema.validate()

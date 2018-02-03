@@ -1,9 +1,8 @@
 package com.wit.iris.elastic
 
 import com.wit.iris.elastic.aggregations.types.enums.*
-import grails.converters.JSON
 import com.wit.iris.schemas.enums.FieldType
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
@@ -76,7 +75,7 @@ class AggregationService {
      * @param schema - the schema to get the fields from
      * @return A List of schema fields which have fieldType that is numeric
      */
-    List getMetricFields(Schema schema){
+    List getMetricFields(IrisSchema schema){
         return schema.schemaFields.findAll{ it.fieldType != FieldType.STRING.getValue() &&
                                             it.fieldType != FieldType.BOOLEAN.getValue() &&
                                             it.fieldType != FieldType.DATE.getValue()} as List
@@ -107,7 +106,7 @@ class AggregationService {
      * @param aggType - the type of aggregation (terms, date histogram etc.....)
      * @return List of schema fields suited for the aggregation type
      */
-    List getBucketFields(Schema schema, aggType){
+    List getBucketFields(IrisSchema schema, aggType){
         List fields = Collections.emptyList()
         if(aggType == BucketType.TERMS.getValue()){
             fields = getTermsFields(schema)
@@ -120,7 +119,7 @@ class AggregationService {
      * @param schema - schema to get the fields from
      * @return List of Schema Fields
      */
-    List getTermsFields(Schema schema){
+    List getTermsFields(IrisSchema schema){
         return schema.schemaFields.findAll{ it.fieldType == FieldType.STRING.getValue()} as List
     }
 

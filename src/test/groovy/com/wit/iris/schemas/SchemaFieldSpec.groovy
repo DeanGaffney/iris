@@ -9,24 +9,24 @@ import spock.lang.Specification
 class SchemaFieldSpec extends Specification implements DomainUnitTest<SchemaField> , DataTest{
 
     User user
-    Schema schema
+    IrisSchema schema
     SchemaField schemaField
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [User, Schema, SchemaField]
+        return [User, IrisSchema, SchemaField]
     }
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 10000)
         schemaField = new SchemaField(name: "writeSpeed", fieldType: FieldType.DOUBLE.getValue())
         schema.addToSchemaFields(schemaField)
         user.addToSchemas(schema)
         user.save(flush:true)
 
         assert User.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert SchemaField.count() == 1
     }
 

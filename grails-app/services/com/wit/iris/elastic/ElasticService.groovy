@@ -1,6 +1,6 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.schemas.SchemaField
 import com.wit.iris.schemas.enums.IrisSchemaField
 import grails.gorm.transactions.Transactional
@@ -22,7 +22,7 @@ class ElasticService {
      * @param schema - the schema to create the index for
      * @return response from the endpoint
      */
-    RestResponse createIndex(Schema schema){
+    RestResponse createIndex(IrisSchema schema){
         resp = restService.put("${getElasticEndpointUrl()}/$schema.esIndex", createMapping(schema))
         log.debug("Create index response: $resp.json")
         if(resp.statusCodeValue != 200){
@@ -36,7 +36,7 @@ class ElasticService {
      * Creates a mapping for schema
      * @return json formatted string representing the mapping for the schema
      */
-    String createMapping(Schema schema){
+    String createMapping(IrisSchema schema){
         Map mapping = ["mappings" : ["schema" : ["properties" : [:]]]]
         Map properties = [(IrisSchemaField.INSERTION_DATE.getFieldName()): ["type": IrisSchemaField.INSERTION_DATE.getFieldType()]]        //add insertionDate mapping to each schema
         schema.schemaFields.each{

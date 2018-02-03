@@ -5,8 +5,7 @@ import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
 import com.wit.iris.revisions.Revision
-import com.wit.iris.schemas.Schema
-import com.wit.iris.users.User
+import com.wit.iris.schemas.IrisSchema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
@@ -108,7 +107,7 @@ class DashboardService {
      */
     void createCharts(JSONObject gridJson, Grid grid){
         gridJson["serializedData"].each{ele ->
-            Schema schema = Schema.get(ele["schemaId"] as Long)
+            IrisSchema schema = IrisSchema.get(ele["schemaId"] as Long)
 
             Aggregation agg;
 

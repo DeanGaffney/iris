@@ -1,7 +1,7 @@
 package com.wit.iris.users
 
 import com.wit.iris.dashboards.Dashboard
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import grails.compiler.GrailsCompileStatic
@@ -20,7 +20,7 @@ class User implements Serializable {
     boolean accountLocked
     boolean passwordExpired
 
-    static hasMany = [schemas: Schema, dashboards: Dashboard]
+    static hasMany = [schemas: IrisSchema, dashboards: Dashboard]
 
     Set<Role> getAuthorities() {
         (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>

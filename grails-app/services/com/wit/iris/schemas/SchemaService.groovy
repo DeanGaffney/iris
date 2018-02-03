@@ -3,8 +3,6 @@ package com.wit.iris.schemas
 import com.wit.iris.schemas.enums.IrisSchemaField
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import org.grails.web.json.JSONObject
 
 @Transactional
 class SchemaService {
@@ -17,7 +15,7 @@ class SchemaService {
      * @param schema, the schema to save
      * @return the saved schema instance
      */
-    Schema createSchema(Schema schema){
+    IrisSchema createSchema(IrisSchema schema){
         schema.esIndex = elasticService.getIndexFromName(schema.name)
 
         //add iris insertion date as a field to the schema
@@ -38,8 +36,8 @@ class SchemaService {
      * @param schema, the schema to update
      * @return The updated version of the schema
      */
-    Schema updateSchema(Schema schema){
-        Schema legacySchema = Schema.findByName(schema.name)
+    IrisSchema updateSchema(IrisSchema schema){
+        IrisSchema legacySchema = IrisSchema.findByName(schema.name)
         //get list before clearing
         List<SchemaField> legacyFields = legacySchema.schemaFields.toList()
         List<SchemaField> updatedFields = schema.schemaFields.toList()
@@ -62,7 +60,7 @@ class SchemaService {
      * Deletes a schema and its elasticsearch index
      * @param schema, the schema to delete
      */
-    void deleteSchema(Schema schema){
+    void deleteSchema(IrisSchema schema){
         String esIndexName = schema.esIndex     //when I add an if statement to see if it has been deleted it doesnt work as expected //TODO look into this
         schema.delete(flush: true)
         elasticService.deleteIndex(esIndexName)      //delete the elasticsearch index
@@ -73,7 +71,7 @@ class SchemaService {
      * @param schema - the schema to create the preview for
      * @return a string showing the expected json payload for the schema
      */
-    String getExpectedJson(Schema schema){
+    String getExpectedJson(IrisSchema schema){
         Map jsonMap = [:]
         schema.schemaFields.each{ field ->
             if(!(field.name in IrisSchemaField.values()*.getFieldName())){

@@ -6,7 +6,7 @@ import com.wit.iris.dashboards.Dashboard
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
 import com.wit.iris.grids.GridCell
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import spock.lang.Specification
@@ -21,12 +21,12 @@ class UserSpec extends Specification {
     Grid grid
     GridCell gridCell
     Chart chart
-    Schema schema
+    IrisSchema schema
     Aggregation aggregation
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}")
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
@@ -44,7 +44,7 @@ class UserSpec extends Specification {
         assert Grid.count() == 1
         assert GridCell.count() == 1
         assert Chart.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert Aggregation.count() == 1
     }
 
@@ -96,7 +96,7 @@ class UserSpec extends Specification {
         user.save(flush: true)
 
         then: "The schema is deleted"
-        Schema.count() == 0
+        IrisSchema.count() == 0
     }
 
     void "test cascade delete of Dashboard on user"(){

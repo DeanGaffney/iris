@@ -69,8 +69,7 @@ dependencies {
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.6"
-    runtime "mysql:mysql-connector-java:6.0.2"
-
+    runtime 'mysql:mysql-connector-java:5.1.36'
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-web-testing-support"

@@ -1,11 +1,9 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import grails.converters.JSON
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonBuilder
-
-import java.util.logging.Logger
 
 class AggregationController {
 
@@ -14,12 +12,12 @@ class AggregationController {
     def aggregationService
 
     def index(){
-        List schemas = Schema.list()
+        List schemas = IrisSchema.list()
         render(view: "index", model: [schemas: schemas])
     }
 
     def create(){
-        List schemas = Schema.list()
+        List schemas = IrisSchema.list()
         render(template: "create", model: [schemas : schemas])
     }
 
@@ -28,7 +26,7 @@ class AggregationController {
      * @return the aggregation result as JSON
      */
     def getAggregationResult(){
-        Schema schema = Schema.get(request.JSON.schemaId)
+        IrisSchema schema = IrisSchema.get(request.JSON.schemaId)
         String aggJson = new JsonBuilder(request.JSON.aggJson).toString()
         Aggregation agg = new Aggregation(esIndex: schema.esIndex, json: aggJson,
                                           levels: request.JSON.aggLevels)
@@ -42,7 +40,7 @@ class AggregationController {
      */
     def getMetricTemplate(){
         //grab the selected schema
-        Schema schema = Schema.get(request.JSON.schemaId)
+        IrisSchema schema = IrisSchema.get(request.JSON.schemaId)
         String aggType = request.JSON.aggType as String
         String template = aggregationService.getMetricTemplate(aggType)
         List schemaFields = aggregationService.getMetricFields(schema)
@@ -54,7 +52,7 @@ class AggregationController {
      * @return the bucket aggregation template to the client
      */
     def getBucketTemplate(){
-        Schema schema = Schema.get(request.JSON.schemaId)
+        IrisSchema schema = IrisSchema.get(request.JSON.schemaId)
         String aggType = request.JSON.aggType as String
         String template = aggregationService.getBucketTemplate(aggType)
         List schemaFields = aggregationService.getBucketFields(schema, aggType)

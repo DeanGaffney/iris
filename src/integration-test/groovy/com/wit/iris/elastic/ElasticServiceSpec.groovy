@@ -1,6 +1,6 @@
 package com.wit.iris.elastic
 
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
@@ -17,7 +17,7 @@ class ElasticServiceSpec extends Specification {
     String shakespeareIndex
 
     User user
-    Schema schema
+    IrisSchema schema
     RestResponse resp
 
     def setupData(){
@@ -25,11 +25,11 @@ class ElasticServiceSpec extends Specification {
         elasticEndpoint.save(flush: true)
         shakespeareIndex = "shakespeare"
         user = new User(username: "dean", password: "password")
-        schema = new Schema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
+        schema = new IrisSchema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
         user.addToSchemas(schema).save(flush: true)
 
         assert ElasticEndpoint.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert User.count() == 1
     }
 

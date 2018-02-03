@@ -4,7 +4,7 @@ import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.elastic.ElasticEndpoint
 import com.wit.iris.elastic.ElasticService
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.plugins.rest.client.RestResponse
 import grails.testing.mixin.integration.Integration
@@ -24,7 +24,7 @@ class ChartServiceSpec extends Specification {
     RestResponse resp
 
     Chart chart
-    Schema schema
+    IrisSchema schema
     User user
 
     def setupData(){
@@ -32,10 +32,10 @@ class ChartServiceSpec extends Specification {
         elasticEndpoint.save(flush: true)
         shakespeareIndex = "shakespeare"
         user = new User(username: "dean", password: "password")
-        schema = new Schema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
+        schema = new IrisSchema(name: "test", esIndex: "test", refreshInterval: 1000, user: user)
         user.addToSchemas(schema).save(flush: true)
 
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
         assert User.count() == 1
     }
 

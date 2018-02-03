@@ -2,7 +2,7 @@ package com.wit.iris.charts
 
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
-import com.wit.iris.schemas.Schema
+import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.testing.mixin.integration.Integration
 import grails.transaction.*
@@ -14,12 +14,12 @@ class ChartSpec extends Specification {
 
     User user
     Chart chart
-    Schema schema
+    IrisSchema schema
     Aggregation aggregation
 
     def setupData(){
         user = new User(username: "deangaffney", password: "password")
-        schema = new Schema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
+        schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor", refreshInterval: 1000)
         aggregation = new Aggregation(esIndex: schema.esIndex, json: "{}", levels: 1)
         chart = new Chart(name: "SQL CHART", chartType: ChartType.BUBBLE.getValue(),
                 aggregation: aggregation, schema: schema)
@@ -30,7 +30,7 @@ class ChartSpec extends Specification {
         assert User.count() == 1
         assert Chart.count() == 1
         assert Aggregation.count() == 1
-        assert Schema.count() == 1
+        assert IrisSchema.count() == 1
     }
     def setup() {
     }
