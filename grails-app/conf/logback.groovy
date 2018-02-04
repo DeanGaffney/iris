@@ -32,15 +32,16 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
-}
-
-appender("IRIS_DEBUG", FileAppender){
-    file = "${targetDir}/debug.log"
-    append = true
-    encoder(PatternLayoutEncoder) {
-        pattern = "%level %logger - %msg%n"
+    appender("IRIS_DEBUG", FileAppender){
+        file = "${targetDir}/debug.log"
+        append = true
+        encoder(PatternLayoutEncoder) {
+            pattern = "%level %logger - %msg%n"
+        }
     }
+    logger("com.wit.iris", DEBUG, ['IRIS_DEBUG'], false)
 }
-logger("com.wit.iris", DEBUG, ['IRIS_DEBUG'], false)
 
-root(ERROR, ['STDOUT', 'IRIS_DEBUG'])
+
+
+root(ERROR, ['STDOUT'])
