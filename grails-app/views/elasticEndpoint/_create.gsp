@@ -70,11 +70,10 @@
     });
 
     $("#save-elastic-btn").on("click", function(){
-        const URL = $(this).attr("href");
+        var URL = $(this).attr("href");
         var endpointName = $("#elastic-endpoint-name").val();
         var endpointUrl = $("#elastic-endpoint-url").val();
         var state = $("#elastic-endpoint-state").is(":checked");
-        console.log(state);
 
         var data = {
             name: endpointName,

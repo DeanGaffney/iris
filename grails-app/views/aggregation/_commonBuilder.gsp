@@ -51,7 +51,7 @@
     //agg type button clicked
     //on click average button
     $("#agg-buttons > button").on("click", function(){
-        const URL = $(this).attr("href");
+        var URL = $(this).attr("href");
         var aggType = $(this).attr("id").replace("-btn", "");       //remove btn on id, used in backend
         updateContainerHtml(URL, REST.method.post, REST.contentType.json,
                 {schemaId: aggregation.schemaId, aggType : aggType}, "#agg-template-container");
@@ -63,7 +63,7 @@
     });
 
     $("#test-agg-btn").on("click", function(){
-        const URL = $(this).attr("href");
+        var URL = $(this).attr("href");
         aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
         var agg = {
             schemaId: aggregation.schemaId,

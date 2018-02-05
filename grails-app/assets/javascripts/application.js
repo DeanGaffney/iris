@@ -5,10 +5,11 @@
 // You're free to add application-wide JavaScript to this file, but it's generally better
 // to create separate JavaScript files as needed.
 //
-//= require jquery/jquery-3.2.1.min
-//= require jquery/jquery-ui.min
-//= require bootstrap/tether.min
-//= require bootstrap/bootstrap.min
+
+//= require jquery/jquery-3.2.1.min.js
+//= require jquery/jquery-ui.min.js
+//= require bootstrap/tether.min.js
+//= require bootstrap/bootstrap.min.js
 //= require flash-messages/flash.js
 //= require lodash/lodash.min.js
 //= require_tree .

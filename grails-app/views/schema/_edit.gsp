@@ -32,12 +32,12 @@
     }
 
     $("#add-schema-field-btn").on( "click", function(){
-        const URL = $(this).attr("href");
+        var URL = $(this).attr("href");
         appendContainerHtml(URL, REST.method.post, REST.contentType.json, {}, "#schema-field-container");
     });
 
     $("#update-schema-btn").on("click", function(){
-        const URL = $(this).attr("href");
+        var URL = $(this).attr("href");
         //create schema object from name and refresh interval
         var schemaObj = new schema($("#schema-name").val(), $("#schema-refresh").val());
         $(".schema-field-form").each(function(){

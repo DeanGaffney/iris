@@ -274,7 +274,7 @@ function downloadChartImage(widget){
     var chart = displayingCharts[$(widget).attr('id')];
     // Call after the chart finished rendering
     chart.export("image/png", function(dataUrl) {
-        const link = document.createElement("a");
+        var link = document.createElement("a");
         link.setAttribute("href", dataUrl);
         link.setAttribute("download", Date.now() + '.png');
         link.click();

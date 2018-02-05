@@ -117,7 +117,7 @@
 
 <g:javascript>
     $("#edit-schema-btn").on("click", function(){
-        const URL = $(this).attr('href');
+        var URL = $(this).attr('href');
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");
     });
 

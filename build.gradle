@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.6"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.7"
         classpath "com.github.viswaramamoorthy:gradle-util-plugins:0.1.0-RELEASE"
     }
 }
@@ -41,13 +41,12 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.2.0'
     compile 'org.grails:grails-datastore-rest-client:6.1.7.RELEASE'
     compile 'org.grails.plugins:grails-spring-websocket:2.3.0'
-    assets 'com.bertramlabs.plugins:sass-asset-pipeline:2.14.6'
-    compile 'com.bertramlabs.plugins:less-asset-pipeline:2.14.6'
+    assets 'com.bertramlabs.plugins:sass-asset-pipeline:2.14.7'
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails:grails-plugin-rest"
@@ -68,7 +67,7 @@ dependencies {
     runtime "org.glassfish.web:el-impl:2.1.2-b03"
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
-    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.6"
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.7"
     runtime 'mysql:mysql-connector-java:5.1.36'
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
@@ -86,6 +85,14 @@ bootRun {
 assets {
     minifyJs = true
     minifyCss = true
+    enableSourceMaps = true
+    configOptions = [:]
+
+    minifyOptions = [
+            languageMode: 'ES6',
+            targetLanguage: 'ES5', //Can go from ES6 to ES5 for those bleeding edgers
+            optimizationLevel: 'SIMPLE',
+    ]
 }
 
 task killGeckoDrivers(type:Exec){

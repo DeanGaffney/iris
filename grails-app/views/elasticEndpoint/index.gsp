@@ -15,7 +15,7 @@
     </div>
 </div>
 <div id="schemas-wrapper" class="list-wrapper">
-    <h1 id="schema-list-header" class="list-header">My Schemas</h1>
+    <h1 id="schema-list-header" class="list-header">My Endpoints</h1>
     <g:each in="${endpoints}" var="endpoint" status="i">
         <div class="row list-item-row">
             <span class="   list-item-prefix">Endpoint</span>
