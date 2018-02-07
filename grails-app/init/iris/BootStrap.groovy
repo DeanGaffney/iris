@@ -177,9 +177,10 @@ class BootStrap {
 
             }
             production {
-                Role role = Role.findOrSaveWhere([authority: 'USER_ROLE'])
-                User user = User.findOrSaveWhere([username: "admin", password: "password"])
+                Role role = new Role([authority: 'USER_ROLE']).save(flush: true)
+                User user = new User([username: "admin", password: "password"]).save(flush: true)
                 UserRole.create(user, role)
+
                 UserRole.withSession{
                     it.flush()
                     it.clear()
