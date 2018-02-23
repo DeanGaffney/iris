@@ -10,7 +10,7 @@ enum FieldType {
     FLOAT("float"),
     BOOLEAN("boolean"),
     STRING("String"),
-    DATE("Date");
+    DATE("date");
 
     private final String value;
 
