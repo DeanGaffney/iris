@@ -28,6 +28,14 @@
     </div>
 </div>
 
+<div class="row">
+    <label class="custom-control custom-checkbox">
+        <input id="agg-most-recent-checkbox" type="checkbox" class="custom-control-input" required>
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Most Recent</span>
+    </label>
+</div>
+
 
 <div class="row">
     <button type="button" id="add-agg-btn" class="btn hidden">Add</button>
@@ -46,6 +54,13 @@
         //on change make the aggregation object be a new aggregation with the new schema id
         aggregation = new Aggregation($(this).val());
         currentAggregation = new Aggregation($(this).val());
+    });
+
+    $("#agg-most-recent-checkbox").on("change", function(){
+        //on change make the aggregation object be a new aggregation with the new schema id
+        aggregation = new Aggregation($("#schema-select").val());
+        currentAggregation = new Aggregation($("#schema-select").val());
+        clear();
     });
 
     //agg type button clicked
@@ -74,10 +89,14 @@
     });
 
     $("#clear-agg-btn").on("click", function(){
+       clear();
+    });
+
+    function clear(){
         //reset aggregation object
         aggregation.init();
         currentAggregation.init();
         $("#agg-result-container").html("");
         $("#aggs-list").html("");
-    });
+    }
 </g:javascript>

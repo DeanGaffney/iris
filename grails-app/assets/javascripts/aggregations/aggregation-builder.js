@@ -139,6 +139,8 @@ function getRootAggregation(){
     agg["size"] = 0;
     //remove name from the agg, not needed for backend
     delete agg.name;
+
+    if($("#agg-most-recent-checkbox").checked) makeAggregationMostRecent(agg);
     return agg;
 }
 
@@ -151,4 +153,22 @@ function getRootAggregation(){
 function nestAggregations(currentAggregation, subAggregation){
     currentAggregation.aggs[currentAggregation.name]["aggs"] = subAggregation.aggs;
     return currentAggregation;
+}
+
+/**
+ * Makes an aggregation work on the most recent documents by adding a query to it
+ *    "query": {
+        "match_all": {}
+       },
+     "size": 1,
+     "sort": [
+     {
+      "insertionDate": {
+        "order": "desc"
+      }
+     }
+     ]
+ */
+function makeAggregationMostRecent(agg){
+    console.log(agg);
 }
