@@ -140,7 +140,9 @@ function getRootAggregation(){
     //remove name from the agg, not needed for backend
     delete agg.name;
 
-    if($("#agg-most-recent-checkbox").checked) makeAggregationMostRecent(agg);
+    if($("#agg-most-recent-checkbox").is(":checked")){
+        makeAggregationMostRecent(agg);
+    }
     return agg;
 }
 
@@ -170,5 +172,7 @@ function nestAggregations(currentAggregation, subAggregation){
      ]
  */
 function makeAggregationMostRecent(agg){
-    console.log(agg);
+    agg["query"] = {"match_all": {} };
+    agg["size"] = 1;
+    agg["sort"] = [{"insertionDate": {"order" : "desc"}}];
 }

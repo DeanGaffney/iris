@@ -54,6 +54,7 @@
         //on change make the aggregation object be a new aggregation with the new schema id
         aggregation = new Aggregation($(this).val());
         currentAggregation = new Aggregation($(this).val());
+        clear();
     });
 
     $("#agg-most-recent-checkbox").on("change", function(){
@@ -96,6 +97,7 @@
         //reset aggregation object
         aggregation.init();
         currentAggregation.init();
+        $("#agg-template-container").html("");
         $("#agg-result-container").html("");
         $("#aggs-list").html("");
     }
