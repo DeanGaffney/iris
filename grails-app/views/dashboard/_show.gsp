@@ -110,8 +110,7 @@
         var url = $(this).attr("href");
         var revisionData = data;
         revisionData['requestedRevisionNumber'] = $(this).val();
-        console.log(JSON.stringify(revisionData));
-       updateContainerHtml(url, REST.method.post, REST.contentType.json, revisionData, '.overlay-content');
+        updateContainerHtml(url, REST.method.post, REST.contentType.json, revisionData, '.overlay-content');
     });
 
     $("#delete-dashboard-btn").on("click", function(){

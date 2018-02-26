@@ -54,14 +54,14 @@
         //on change make the aggregation object be a new aggregation with the new schema id
         aggregation = new Aggregation($(this).val());
         currentAggregation = new Aggregation($(this).val());
-        clear();
+        clearAggregationBuilder();
     });
 
     $("#agg-most-recent-checkbox").on("change", function(){
         //on change make the aggregation object be a new aggregation with the new schema id
         aggregation = new Aggregation($("#schema-select").val());
         currentAggregation = new Aggregation($("#schema-select").val());
-        clear();
+        clearAggregationBuilder();
     });
 
     //agg type button clicked
@@ -90,10 +90,10 @@
     });
 
     $("#clear-agg-btn").on("click", function(){
-       clear();
+        clearAggregationBuilder();
     });
 
-    function clear(){
+    function clearAggregationBuilder(){
         //reset aggregation object
         aggregation.init();
         currentAggregation.init();
