@@ -44,16 +44,14 @@ function setChartSubscription(subscriptionId, chart, chartType, schemaId){
 }
 
 function updateBasicCharts(chart, parsedJson){
-    var length = (chart.points > 5) ? 5 : (chart.points > 1) ? 1 : 0;
+    var listOfColVals = chart.instance.data().map(col => col.values.map(item => item.value))
+                                             .map(values => values.length);
+    var maxListLength = Math.max(...listOfColVals);
+    console.log(maxListLength);
+    var length = (maxListLength >= 5) ? 1 : 0;
     chart.instance.flow({
         columns: parsedJson.data.columns,
-        length: length,
-        done: function(){
-            chart.points++;
-            if(chart.points >= 5){
-                chart.points = 0;
-            }
-        }
+        length: length
     });
 }
 
