@@ -34,18 +34,26 @@ function setChartSubscription(subscriptionId, chart, chartType, schemaId){
     //this subscription is for initial loading data for the chart
     client.subscribe("/topic/load/" + schemaId + "/" + chartType + "/" + subscriptionId, function(message){
         var parsedMsg = JSON.parse(message.body);
-        //update the chart
+       // update the chart
         chart.instance.load({
             columns: parsedMsg.data.columns,
             length: 0
         });
+
     });
 }
 
 function updateBasicCharts(chart, parsedJson){
+    var length = (chart.points > 5) ? 5 : (chart.points > 1) ? 1 : 0;
     chart.instance.flow({
         columns: parsedJson.data.columns,
-        length: 1
+        length: length,
+        done: function(){
+            chart.points++;
+            if(chart.points >= 5){
+                chart.points = 0;
+            }
+        }
     });
 }
 

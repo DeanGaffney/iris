@@ -14,6 +14,7 @@ var chartTypes = {
 var chartPatterns = ["#12EED8", "#FFFF00", "#AF4BFF", "#BC2C4B"];
 
 function BarChart(containerSelector, data, title){
+    this.points = 0;
     this.instance = bb.generate({
         bindto: containerSelector,
         data: {
@@ -38,6 +39,7 @@ function BarChart(containerSelector, data, title){
 
 
 function BubbleChart(cssSelector, data, title) {
+    this.points = 0;
     this.instance = bb.generate({
         data: {
             columns: data,
@@ -70,6 +72,7 @@ function BubbleChart(cssSelector, data, title) {
 }
 
 function PieChart(containerSelector, data, title){
+    this.points = 0;
     this.instance = bb.generate({
         data: {
             columns: data,
@@ -93,6 +96,7 @@ function PieChart(containerSelector, data, title){
 }
 
 function LineChart(cssSelector, data, title){
+    this.points = 0;
     this.instance = bb.generate({
         data: {
             columns: data
@@ -115,6 +119,7 @@ function LineChart(cssSelector, data, title){
 }
 
 function StateDiscChart(cssSelector, data, title){
+    this.points = 0;
     this.instance = bb.generate({
         data: {
             columns: [  //default to the first state for placeholders
