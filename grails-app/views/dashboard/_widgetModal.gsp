@@ -32,14 +32,15 @@
                                     <label for="chart-name">Chart Name</label>
                                     <input type="text" class="form-control" id="chart-name" placeholder="Name...">
 
-                                    <label for="chart-type">Example multiple select</label>
+                                    <label for="chart-type">Chart Type</label>
 
                                     <g:select v-model="chartType" @change="updateWidgetArea()" name="chart-type" from="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
                                               keys="${com.wit.iris.charts.enums.ChartType.values()*.getValue()}"
                                               class="form-control custom-select"
                                               href="${createLink(controller: 'dashboard', action: 'getWidgetChartTemplate')}"/>
 
-
+                                    <label for="raw-checkbox">Raw</label>
+                                    <input id="raw-checkbox" type="checkbox" v-model="isRaw" @change="updateWidgetArea()">
                                 </div>
                             </div>
                         </div>
@@ -95,29 +96,55 @@
                         <!--STATE DISC CREATION END-->
                     </template>
 
+                    %{--<!--STATE LIST CREATION START-->--}%
+                    %{--<template v-else-if="isStateListChart">--}%
+                        %{--<div class="card">--}%
+
+                            %{--<div class="card-header" role="tab" id="state-list-header">--}%
+                                %{--<h5 class="mb-0">--}%
+                                    %{--<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#state-list-creation" aria-expanded="false" aria-controls="state-list-creation">--}%
+                                        %{--State List--}%
+                                    %{--</a>--}%
+                                %{--</h5>--}%
+                            %{--</div>--}%
+
+                            %{--<div id="state-list-creation" class="collapse" role="tabpanel" aria-labelledby="state-list-header">--}%
+                                %{--<div class="card-block">--}%
+                                    %{--<div id="state-list-area">--}%
+
+                                    %{--</div>--}%
+                                %{--</div>--}%
+                            %{--</div>--}%
+
+                        %{--</div>--}%
+                        %{--<!--STATE LIST CREATION END-->--}%
+                    %{--</template>--}%
+
                     <!--STATE LIST CREATION START-->
-                    <template v-else-if="isStateListChart">
-                        <div class="card">
+                <template v-else-if="isRaw">
+                    <div class="card">
 
-                            <div class="card-header" role="tab" id="state-list-header">
-                                <h5 class="mb-0">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#state-list-creation" aria-expanded="false" aria-controls="state-list-creation">
-                                        State List
-                                    </a>
-                                </h5>
-                            </div>
+                        <div class="card-header" role="tab" id="raw-chart-header">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#raw-chart-creation" aria-expanded="false" aria-controls="state-list-creation">
+                                    Raw Attributes
+                                </a>
+                            </h5>
+                        </div>
 
-                            <div id="state-list-creation" class="collapse" role="tabpanel" aria-labelledby="state-list-header">
-                                <div class="card-block">
-                                    <div id="state-list-area">
+                        <div id="raw-chart-creation" class="collapse" role="tabpanel" aria-labelledby="state-list-header">
+                            <div class="card-block">
+                                <div id="raw-area">
 
-                                    </div>
                                 </div>
                             </div>
-
                         </div>
-                        <!--STATE LIST CREATION END-->
-                    </template>
+
+                    </div>
+                    <!--STATE LIST CREATION END-->
+                </template>
+
+
 
 
                 </div>
@@ -136,7 +163,8 @@
     var widgetApp = new Vue({
         el: "#widget-modal",
         data: {
-            chartType: 'Bar'
+            chartType: 'Bar',
+            isRaw: false
         },
         computed: {
             isStateDiscChart: function () {
@@ -146,13 +174,13 @@
                 return this.chartType == "StateList";
             },
             needsAggregation: function () {
-                return this.chartType != "StateList" && this.chartType != "StateDisc";
+                return this.chartType != "StateList" && this.chartType != "StateDisc" && !this.isRaw;
             }
         },
         methods: {
             updateWidgetArea: function () {
                 var url = $("#chart-type").attr("href");
-                updateContainerHtml(url, REST.method.post, REST.contentType.json, {chartType: this.chartType}, getWidgetAreaToUpdate());
+                updateContainerHtml(url, REST.method.post, REST.contentType.json, {chartType: this.chartType, isRaw: this.isRaw}, getWidgetAreaToUpdate());
             }
         }
     });
@@ -160,8 +188,8 @@
     widgetApp.updateWidgetArea();
 
     function getWidgetAreaToUpdate() {
-        return (widgetApp.chartType == 'StateDisc') ? "#state-disc-area" : (widgetApp.chartType == 'StateList') ?
-                "#state-list-area" : "#aggregation-area";
+        return (widgetApp.chartType == 'StateDisc') ? "#state-disc-area" : (widgetApp.isRaw) ?
+                "#raw-area" : "#aggregation-area";
     }
 
 </g:javascript>

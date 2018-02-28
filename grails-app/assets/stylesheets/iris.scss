@@ -488,3 +488,7 @@ $list-padding: percentage(0.03);
   font-family: $font-stack;
   letter-spacing: $letter-spacing;
 }
+
+#chart-creation label{
+  color: $darker-bg-color;
+}

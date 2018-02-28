@@ -12,6 +12,7 @@ class Chart {
     String subscriptionId
     Aggregation aggregation
     IrisSchema schema
+    boolean isRaw = false
     boolean archived = false
 
     static constraints = {
@@ -21,6 +22,7 @@ class Chart {
         schema(nullable: false)
         archived(nullable: true)
         subscriptionId(nullable: true)
+        isRaw(nullable: true)
     }
 
     static belongsTo = [grid: Grid]

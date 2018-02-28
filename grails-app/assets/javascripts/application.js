@@ -121,3 +121,20 @@ function appendContainerHtml(controllerUrl, methodType, contentType, data, succe
     });
 }
 
+function rawDataContainerUpdate(controllerUrl, methodType, contentType, data, successContainer){
+    $.ajax({
+        url: controllerUrl,
+        type: methodType,
+        dataType: REST.dataType.html,
+        contentType: contentType,
+        data: JSON.stringify(data),
+        success: function(data){
+            $(successContainer).html(data);
+            $(successContainer).append(data);
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
+

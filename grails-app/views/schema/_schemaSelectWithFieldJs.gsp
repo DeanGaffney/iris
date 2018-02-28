@@ -10,6 +10,11 @@
                 var url = $("#schema-select").attr("href");
                 var schemaId = $("#schema-select").val();
                 updateContainerHtml(url, REST.method.post, REST.contentType.json, {schemaId: schemaId}, "#schema-field-area");
+            },
+            appendSchemaFields: function(){
+                var url = $("#schema-select").attr("href");
+                var schemaId = $("#schema-select").val();
+                appendContainerHtml(url, REST.method.post, REST.contentType.json, {schemaId: schemaId}, "#schema-field-area");
             }
         }
     });

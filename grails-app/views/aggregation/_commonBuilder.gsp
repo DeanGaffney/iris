@@ -34,6 +34,12 @@
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">Most Recent</span>
     </label>
+
+    <label for="agg-size-input" class="col-2 col-form-label">
+        <span>Number of Documents</span>
+        <input class="form-control form-check disabled" type="number" value="1" id="agg-size-input">
+    </label>
+
 </div>
 
 

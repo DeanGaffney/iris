@@ -173,6 +173,6 @@ function nestAggregations(currentAggregation, subAggregation){
  */
 function makeAggregationMostRecent(agg){
     agg["query"] = {"match_all": {} };
-    agg["size"] = 1;
+    agg["size"] = $("#agg-size-input").val();
     agg["sort"] = [{"insertionDate": {"order" : "desc"}}];
 }

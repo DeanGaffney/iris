@@ -9,6 +9,7 @@ import com.wit.iris.schemas.IrisSchema
 import grails.gorm.transactions.Transactional
 import grails.plugins.rest.client.RestResponse
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.grails.web.json.JSONObject
 
 import java.util.function.Predicate
@@ -111,16 +112,22 @@ class DashboardService {
 
             Aggregation agg;
 
+            boolean isRaw = false
             if(ele["chartType"] != ChartType.STATE_DISC && ele["chartType"] != ChartType.STATE_LIST){
                 agg = new Aggregation(esIndex: schema.esIndex, json: ele["data"].toString())
                 agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
+                if(ele["data"]["isRaw"]) {
+                    isRaw = true
+                    log.debug("raw found in data")
+                }
             }else{
                 agg = new Aggregation(esIndex: schema.esIndex, json: "{}".toString())
                 agg.levels = aggregationService.countAggregationLevels(agg.json.toString())
             }
 
             Chart chart = new Chart(name: ele["chartName"], chartType: ele["chartType"],
-                                    aggregation: agg, schema: schema, grid: grid, subscriptionId: ele["id"])
+                                    aggregation: agg, schema: schema, grid: grid, subscriptionId: ele["id"],
+                                    isRaw: isRaw)
 
             if(!chart.validate()){
                 log.debug(chart.errors.allErrors*.toString())
@@ -160,7 +167,7 @@ class DashboardService {
      */
     void updateDashboardCharts(long schemaId, JSONObject rawJson){
         getRelevantDashboardCharts(schemaId).each {
-            if(it.chartType != ChartType.STATE_DISC.getValue()){
+            if(it.chartType != ChartType.STATE_DISC.getValue() && !it.isRaw){
                 //loop over all charts related to schema and execute the aggregation
                 RestResponse aggResultData = aggregationService.execute(it.aggregation)
                 //update dashboard.chart with aggregation results
@@ -168,7 +175,6 @@ class DashboardService {
             }else{
                 chartService.updateChart(schemaId, it, rawJson)
             }
-
         }
     }
 
@@ -183,7 +189,7 @@ class DashboardService {
         Revision rev = Revision.findWhere([revisionId: revisionId, revisionNumber: revisionNumber, archived: false])
         Dashboard dashboard = Dashboard.findWhere([revision: rev])
         dashboard.grid.charts.each {chart ->
-            if(chartService.isBasicChart(chart.chartType)){
+            if(chartService.isBasicChart(chart.chartType) && !chart.isRaw){
                 List<JSONObject> responses = []
                 5.times {
                     RestResponse aggResultData = aggregationService.execute(chart.aggregation)
@@ -305,12 +311,14 @@ class DashboardService {
                highestRevNum in getRevisions(revisionId)*.revisionNumber
     }
 
-    String getWidgetChartTemplate(String chartType){
+    String getWidgetChartTemplate(String chartType, boolean isRaw){
         String template = '/dashboard/'
         if(chartType == ChartType.STATE_DISC.getValue()){
             template += 'stateDisc'
         }else if(chartType == ChartType.STATE_LIST.getValue()){
             template += 'stateList'
+        }else if(isRaw){
+           template += 'raw'
         }else{
             template += 'agg'
         }

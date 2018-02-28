@@ -151,7 +151,8 @@ class DashboardController {
 
     def getWidgetChartTemplate(){
         String chartType = request.JSON.chartType as String
-        String template = dashboardService.getWidgetChartTemplate(chartType)
+        boolean isRaw = request.JSON.isRaw as Boolean
+        String template = dashboardService.getWidgetChartTemplate(chartType, isRaw)
         render(template: template)
     }
 

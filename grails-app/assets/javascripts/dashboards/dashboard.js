@@ -231,10 +231,20 @@ function getAddedWidgetData(chartType){
         data = getStateDiscData(stateDisc);
     }else if(chartType == "StateList"){
 
+    }else if(widgetApp.isRaw){
+        data = getRawChartData();
     }else{
         data = aggregation.json = (_.isEmpty(aggregation.json)) ? getRootAggregation() : aggregation.json;
     }
     return data;
+}
+
+function getRawChartData(){
+    return{
+        "chartKey": $("#schema-field-area select:nth-child(2) > option:selected").text(),
+        "chartField": $("#schema-field-area select:nth-child(4) > option:selected").text(),
+        "isRaw": true
+    }
 }
 
 /**
@@ -242,7 +252,7 @@ function getAddedWidgetData(chartType){
  * back to their default values
  */
 function clearWidgetModal(){
-    $("#chart-name").val($("#char-name").attr("placeholder"));          //reset chart name
+    $("#chart-name").val($("#chart-name").attr("placeholder"));          //reset chart name
     $("#chart-type").val("Bar");                                        //reset chart type
     $("#schema-select").val("null");                                    //reset schema select
     aggregation = null;
@@ -333,10 +343,11 @@ function Grid(serializedData){
  * @param schemaId - the id of the schema to associate with the chart
  * @constructor
  */
-function ChartWidget(uid, chartName, chartType, data, schemaId){
+function ChartWidget(uid, chartName, chartType, data, schemaId, isRaw){
     this.id = uid;
     this.chartName = chartName;
     this.chartType = chartType;
     this.data = data;
     this.schemaId = schemaId;
+    this.isRaw = isRaw;
 }

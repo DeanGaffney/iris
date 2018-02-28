@@ -4,6 +4,7 @@ import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.grails.web.json.JSONObject
 
 @Transactional
@@ -40,12 +41,27 @@ class ChartService {
     Map formatChartData(Chart chart, JSONObject data){
         Map formattedData = [:]
         log.debug("Formatting data: \n ${data.toString()}")
-        if(isBasicChart(chart.chartType)){
-            formattedData = formatDataForBasicChart(data, chart.aggregation)
-        }else if(chart.chartType == ChartType.STATE_DISC.getValue()){
+        if(chart.chartType == ChartType.STATE_DISC.getValue()){
             formattedData = data
+        }else if(isBasicChart(chart.chartType)){
+            if(chart.isRaw){
+                formattedData = formatRawData(chart, data)
+            }else{
+                formattedData = formatDataForBasicChart(data, chart.aggregation)
+            }
         }
         return formattedData
+    }
+
+    Map formatRawData(Chart chart, JSONObject data){
+        JsonSlurper slurper = new JsonSlurper()
+        Map chartData = slurper.parseText(chart.aggregation.json)
+        log.debug("The aggregation json data for raw chart keys and field \n ${chartData.toString()}")
+        String chartKey = chartData["chartKey"]
+        String chartField = chartData["chartField"]
+        Map formattedMap = [data: [columns:[[(data[chartKey]), (data[chartField])]]]]
+        log.debug("Formatted Raw data: \n ${formattedMap.toString()}")
+        return formattedMap
     }
 
     //BAR, BUBBLE, PIE - (TERMS), (TERMS, METRIC)
