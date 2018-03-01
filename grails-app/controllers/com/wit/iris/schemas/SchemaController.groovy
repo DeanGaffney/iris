@@ -10,6 +10,7 @@ class SchemaController {
     def routeService
     def dashboardService
 
+
     def index(){
         List<IrisSchema> schemas = IrisSchema.list()
         render(view: "index", model:[schemas: schemas])
@@ -60,6 +61,24 @@ class SchemaController {
             resp = routeService.route(schema, request.JSON).json as Map        //route and transform data
             //get all dashboards that are currently marked as rendering
             dashboardService.updateDashboardCharts(id, request.JSON)
+        }
+        render resp as JSON
+    }
+
+    /**
+     * Accepts a json request from an agent,
+     * the json request should contain a 'name' key to search for a schema by
+     * the response will then be the unique schema endpoint for the agent
+     */
+    def getAgentUrl(){
+        Map resp = [status: 200, url: ""]
+        IrisSchema schema = IrisSchema.findWhere(name: request.JSON.name, archived: false)
+        if(schema){
+            String serverBase = getGrailsLinkGenerator().getServerBaseURL()
+           resp.url = serverBase + g.createLink(controller: "schema", action: "route") + "/" + schema.id
+        }else{
+            resp.status = 500
+            resp.url = "N/A"
         }
         render resp as JSON
     }
