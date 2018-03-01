@@ -23,9 +23,9 @@ class RuleExecutorSpec extends Specification implements GrailsUnitTest, DataTest
     def setup() {
         user = new User(username: "deangaffney", password: "password")
         rule = new Rule(script: "json.avg = json.total / json.size \n" +
-                                "return fields")
+                                "return json")
         schema = new IrisSchema(name: "Performance Monitor", esIndex: "performance_monitor",
-                refreshInterval: 10000, rule: rule)
+                refreshInterval: 10000, rule: rule, user: user)
         json = new JSONObject(["total": 6, "size": 2])
     }
 

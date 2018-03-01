@@ -3,6 +3,7 @@ package iris
 import com.wit.iris.dashboards.Dashboard
 import com.wit.iris.elastic.ElasticEndpoint
 import com.wit.iris.revisions.Revision
+import com.wit.iris.rules.Rule
 import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.schemas.SchemaField
 import com.wit.iris.users.Role
@@ -39,6 +40,12 @@ class BootStrap {
                                                       new SchemaField(name: "type", fieldType: FieldType.STRING.getValue())],
                          refreshInterval: 10000).save(flush: true)
 
+                String nodeScript = "json.osName = json.osName.toUpperCase()\n" +
+                                    "json.memFree = json.memFree / 1024 / 1024/ 1024\n" +
+                                    "return json"
+
+                Rule nodeRule = new Rule(script: nodeScript)
+
                 new IrisSchema(name: "node_agent", esIndex: "node_agent",
                         user: user, schemaFields: [new SchemaField(name: "osName", fieldType: FieldType.STRING.getValue()),
                                                    new SchemaField(name: "uptime", fieldType: FieldType.DOUBLE.getValue()),
@@ -47,7 +54,7 @@ class BootStrap {
                                                    new SchemaField(name: "memFree", fieldType: FieldType.LONG.getValue()),
                                                    new SchemaField(name: "memUsed", fieldType: FieldType.LONG.getValue()),
                                                    new SchemaField(name: "cpuCurrentLoad", fieldType: FieldType.DOUBLE.getValue())],
-                        refreshInterval: 10000).save(flush: true)
+                        refreshInterval: 10000, rule: nodeRule).save(flush: true)
 
                 JSONObject dashboardJson = new JSONObject("{\n" +
                         "    \"grid\": {\n" +

@@ -4,7 +4,6 @@ import com.wit.iris.charts.Chart
 import com.wit.iris.charts.enums.ChartType
 import com.wit.iris.elastic.Aggregation
 import com.wit.iris.grids.Grid
-import com.wit.iris.grids.GridCell
 import com.wit.iris.schemas.IrisSchema
 import com.wit.iris.users.User
 import grails.testing.gorm.DataTest
@@ -16,14 +15,13 @@ class DashboardSpec extends Specification implements DomainUnitTest<Dashboard>, 
     User user
     Dashboard dashboard
     Grid grid
-    GridCell gridCell
     Chart chart
     IrisSchema schema
     Aggregation aggregation
 
     @Override
     Class[] getDomainClassesToMock() {
-        return [User, Dashboard, Grid, GridCell, Chart, IrisSchema, Aggregation]
+        return [User, Dashboard, Grid, Chart, IrisSchema, Aggregation]
     }
 
     def setupData(){
@@ -33,8 +31,6 @@ class DashboardSpec extends Specification implements DomainUnitTest<Dashboard>, 
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
         grid = new Grid(gridCellPositions: "[{some: json}]")
-        gridCell = new GridCell(gridPosition: 0, chart: chart)
-        grid.addToGridCells(gridCell)
         dashboard = new Dashboard(name: "JVM Dashboard", grid: grid)
 
         user.addToSchemas(schema)
@@ -44,7 +40,6 @@ class DashboardSpec extends Specification implements DomainUnitTest<Dashboard>, 
         assert User.count() == 1
         assert Dashboard.count() == 1
         assert Grid.count() == 1
-        assert GridCell.count() == 1
         assert Chart.count() == 1
         assert IrisSchema.count() == 1
         assert Aggregation.count() == 1

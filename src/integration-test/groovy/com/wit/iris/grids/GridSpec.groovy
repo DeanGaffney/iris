@@ -15,7 +15,6 @@ class GridSpec extends Specification {
 
     User user
     Grid grid
-    GridCell gridCell
     Chart chart
     IrisSchema schema
     Aggregation aggregation
@@ -27,8 +26,6 @@ class GridSpec extends Specification {
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
         grid = new Grid(gridCellPositions: "[{some: json}]")
-        gridCell = new GridCell(gridPosition: 0, chart: chart)
-        grid.addToGridCells(gridCell)
 
         user.addToSchemas(schema)
         user.save(flush: true)
@@ -37,7 +34,6 @@ class GridSpec extends Specification {
 
         assert User.count() == 1
         assert Grid.count() == 1
-        assert GridCell.count() == 1
         assert Chart.count() == 1
         assert IrisSchema.count() == 1
         assert Aggregation.count() == 1
@@ -59,7 +55,6 @@ class GridSpec extends Specification {
 
         then: "Grid cells also get deleted"
         assert Grid.count() == 0
-        assert GridCell.count() == 0
     }
 
     void "test cascade removeFrom Grid"(){
@@ -67,14 +62,12 @@ class GridSpec extends Specification {
         setupData()
 
         when: "I delete a gridcell from a grid"
-        grid.removeFromGridCells(grid.gridCells[0])
 
         and: "I save the grid"
         grid.save(flush: true)
 
         then: "Grid cells also get deleted"
         assert Grid.count() == 1
-        assert GridCell.count() == 0
     }
 
     void "test cascade update of GridCell on Grid save"(){
@@ -82,12 +75,10 @@ class GridSpec extends Specification {
         setupData()
 
         when: "I update a grid cell"
-        gridCell.gridPosition = 1
 
         and: "I save the grid"
         grid.save(flush: true)
 
         then: "The GridCell update is saved too"
-        assert GridCell.findByGridPosition(1) != null
     }
 }

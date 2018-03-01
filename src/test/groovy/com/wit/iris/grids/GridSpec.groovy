@@ -14,7 +14,6 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
 
     User user
     Grid grid
-    GridCell gridCell
     Chart chart
     IrisSchema schema
     Aggregation aggregation
@@ -31,8 +30,6 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
         chart = new Chart(name: "SQL Chart", chartType: ChartType.BAR.getValue(),
                 aggregation: aggregation, schema: schema)
         grid = new Grid(gridCellPositions: "[{some: json}]")
-        gridCell = new GridCell(gridPosition: 0, chart: chart)
-        grid.addToGridCells(gridCell)
         grid.save(flush: true, failOnError: true)
 
         user.addToSchemas(schema)
@@ -40,7 +37,6 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
 
         assert User.count() == 1
         assert Grid.count() == 1
-        assert GridCell.count() == 1
         assert Chart.count() == 1
         assert IrisSchema.count() == 1
         assert Aggregation.count() == 1
@@ -65,15 +61,5 @@ class GridSpec extends Specification implements DomainUnitTest<Grid>, DataTest{
         assert Grid.count() == 0
     }
 
-    void "test Grid gridPositions constraints"(){
-        setup:
-        setupData()
-
-        when: "I change a gridCellPositions to be null"
-        grid.gridCellPositions = null
-
-        then: "It is not valid"
-        !grid.validate()
-    }
 
 }
