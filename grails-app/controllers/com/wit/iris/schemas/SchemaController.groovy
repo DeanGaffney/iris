@@ -76,6 +76,9 @@ class SchemaController {
         if(schema){
             String serverBase = getGrailsLinkGenerator().getServerBaseURL()
            resp.url = serverBase + g.createLink(controller: "schema", action: "route") + "/" + schema.id
+            if(resp.url.count("iris/") > 1){
+                resp.url = resp.url.replaceFirst("iris/", "")      //ec2 adds iris twice because of jetty i think
+            }
         }else{
             resp.status = 500
             resp.url = "N/A"

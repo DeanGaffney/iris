@@ -12,7 +12,9 @@ class RuleExecutor {
         binding.setVariable("json", json)
         GroovyShell shell = new GroovyShell(binding)
         Map result = shell.evaluate(rule.script) as Map
-        if(result.isEmpty())result = json
+        if(result == null || result.isEmpty()){
+            result = json
+        }
         return result
     }
 }
