@@ -7,6 +7,29 @@ $letter-spacing: 5px;
 $hover-color: #ca73ff;
 $link-color: #C62E65;
 
+
+//================================
+//           ACE EDITOR
+//================================
+#editor {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.ace_editor {
+  border: 1px solid lightgray;
+  margin: auto;
+  height: 200px;
+  width: 80%;
+}
+
+.scrollmargin {
+  height: 80px;
+  text-align: center;
+}
+
 //================================
 //           LINKS
 //================================

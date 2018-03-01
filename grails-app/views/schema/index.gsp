@@ -3,6 +3,7 @@
     <head>
         <meta name="layout" content="main" />
         <asset:stylesheet src="iris.css" />
+        <asset:javascript src="ace/ace.js" />
         <g:set var="entityName" value="${message(code: 'schema.label', default: 'Schema')}" />
         <title>Schema Home</title>
     </head>

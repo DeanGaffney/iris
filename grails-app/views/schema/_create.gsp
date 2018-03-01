@@ -77,6 +77,28 @@
 
                         <!--SCHEMA FIELD END-->
 
+                        <!--SCHEMA RULE CREATION-->
+                        <div class="card">
+
+                            <div class="card-header" role="tab" id="schema-rule-header">
+                                <h5 class="mb-0">
+                                    <a id="schema-rule-title" data-toggle="collapse" data-parent="#accordion" href="#schema-rule" aria-expanded="false" aria-controls="schema-fields">
+                                        Schema Rule
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="schema-rule" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-header">
+                                <div class="card-block">
+                                    <div id="schema-rule-container">
+                                        <div id="editor">def groovy = 'something'</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--SCHEMA RULE END-->
+
                     </div>
                     <!--ACCORDION END-->
                 </div>
@@ -92,15 +114,31 @@
 
 <g:javascript>
 
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/groovy");
+    editor.session.setUseWrapMode(true);
+
+    editor.setOptions({
+        autoScrollEditorIntoView: true,
+        maxLines: 100
+    });
+    editor.renderer.setScrollMargin(10, 10, 10, 10);
+
+    editor.setAutoScrollEditorIntoView(true);
+
     $("#schema-modal").modal({
         show: true,
         backdrop: true
     });
 
-    var Schema = function(name, refreshInterval){
+    var Schema = function(name, refreshInterval,scriptVal){
         this.name = name;
         this.refreshInterval = refreshInterval;
         this.schemaFields = [];
+        this.rule = {
+            script: scriptVal
+        };
     }
 
     var SchemaField = function(name, fieldType){
@@ -116,7 +154,7 @@
     $("#save-schema-btn").on("click", function(){
         var URL = $(this).attr("href");
         //create schema object from name and refresh interval
-        var schemaObj = new Schema($("#schema-name").val(), $("#schema-refresh").val());
+        var schemaObj = new Schema($("#schema-name").val(), $("#schema-refresh").val(), editor.getSession().getValue());
         $("#schema-fields-table > tbody > tr").each(function(){
             var schemaFieldObj = new SchemaField($(this).find("td.schema-field-name").html(), $(this).find("td.schema-field-type").html());
             //add this obj to schema array

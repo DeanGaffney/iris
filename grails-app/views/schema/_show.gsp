@@ -99,6 +99,29 @@
                     </div>
                     <!--SCHEMA URL END-->
 
+
+                    <!--SCHEMA RULE CREATION-->
+                    <div class="card">
+
+                        <div class="card-header" role="tab" id="schema-rule-header">
+                            <h5 class="mb-0">
+                                <a id="schema-rule-title" data-toggle="collapse" data-parent="#accordion" href="#schema-rule" aria-expanded="false" aria-controls="schema-fields">
+                                    Schema Rule
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="schema-rule" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-header">
+                            <div class="card-block">
+                                <div id="schema-rule-container">
+                                    <div id="editor">def groovy = 'something'</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--SCHEMA RULE END-->
+
                 </div>
                     <!--ACCORDION END-->
                 </div>
@@ -116,6 +139,24 @@
 </div>
 
 <g:javascript>
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/groovy");
+    editor.session.setUseWrapMode(true);
+
+    editor.setOptions({
+        autoScrollEditorIntoView: true,
+        maxLines: 100,
+        readOnly: true,
+        highlightActiveLine: false,
+        highlightGutterLine: false
+    });
+    editor.renderer.setScrollMargin(10, 10, 10, 10);
+
+    editor.setAutoScrollEditorIntoView(true);
+    editor.getSession().setValue("${schema?.rule?.script}");
+
     $("#edit-schema-btn").on("click", function(){
         var URL = $(this).attr('href');
         updateContainerHtml(URL, REST.method.post, REST.contentType.json, {schemaId: "${schema.id}"}, "#schema-main-container");
