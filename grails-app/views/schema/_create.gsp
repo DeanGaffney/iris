@@ -91,7 +91,7 @@
                             <div id="schema-rule" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-header">
                                 <div class="card-block">
                                     <div id="schema-rule-container">
-                                        <div id="editor">def groovy = 'something'</div>
+                                        <div id="editor">//You have access to a Map object called 'json'</div>
                                     </div>
                                 </div>
                             </div>
