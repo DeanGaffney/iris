@@ -91,7 +91,7 @@
                             <div id="schema-rule" class="collapse show" role="tabpanel" aria-labelledby="schema-fields-header">
                                 <div class="card-block">
                                     <div id="schema-rule-container">
-                                        <div id="editor">//You have access to a Map object called 'json'</div>
+                                        <div id="editor">/*This Groovy script will run every time new data enters associated with this schema. You have access to the raw json through a Map object called 'json'*/</div>
                                     </div>
                                 </div>
                             </div>
