@@ -1,6 +1,7 @@
 package com.wit.iris.schemas
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 
 class SchemaController {
 
@@ -51,6 +52,7 @@ class SchemaController {
      * Takes in data for transformation and routing to elasticsearch
      * data is also sent to any charts needing to be updated
      */
+    @Secured('ROLE_USER')
     def route(long id){
         Map resp = ["status": 200, "message": "data inserted"]
         IrisSchema schema = IrisSchema.get(id)
