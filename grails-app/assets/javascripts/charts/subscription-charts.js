@@ -52,7 +52,7 @@ function updateBasicCharts(chart, parsedJson){
             maxListLength = dataLengths[i]
         }
     }
-    
+
     var length = (maxListLength >= 5) ? 1 : 0;
     chart.instance.flow({
         columns: parsedJson.data.columns,
