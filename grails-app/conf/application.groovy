@@ -21,6 +21,7 @@ grails.plugin.springsecurity.interceptUrlMap = [
 		[pattern: '/api/logout',        access: ['isFullyAuthenticated()']],
 		[pattern: '/rest/**',    access: ['isFullyAuthenticated()']],
 		[pattern: '/schema/route/**',    access: ['isFullyAuthenticated()']],
+		[pattern: '/schema/getAgentUrl',    access: ['isFullyAuthenticated()']],
 		[pattern: '/**',             access: ['isFullyAuthenticated()']]
 
 ]
@@ -32,6 +33,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 		[pattern: '/api/**', filters:'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'],
 
 		[pattern: '/schema/route/**', filters:'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'],
+		[pattern: '/schema/getAgentUrl', filters:'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter'],
 
 		[pattern: '/**', filters:'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter']
 
