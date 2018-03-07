@@ -2,6 +2,11 @@ package com.wit.iris.auth
 
 class AuthenticationToken {
 
-    static constraints = {
+    String tokenValue
+    String username
+
+    static mapping = {
+        tokenValue sqlType: 'text'
+        version false
     }
 }
