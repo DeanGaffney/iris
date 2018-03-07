@@ -44,10 +44,15 @@ function setChartSubscription(subscriptionId, chart, chartType, schemaId){
 }
 
 function updateBasicCharts(chart, parsedJson){
-    var listOfColVals = chart.instance.data().map(col => col.values.map(item => item.value))
+    var dataLengths = chart.instance.data().map(col => col.values.map(item => item.value))
                                              .map(values => values.length);
-    var maxListLength = Math.max(...listOfColVals);
-    console.log(maxListLength);
+    var maxListLength = 0;
+    for(var i = 0; i < dataLengths.length; i++){
+        if(maxListLength < dataLengths[i]){
+            maxListLength = dataLengths[i]
+        }
+    }
+    
     var length = (maxListLength >= 5) ? 1 : 0;
     chart.instance.flow({
         columns: parsedJson.data.columns,
