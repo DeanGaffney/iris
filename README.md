@@ -63,6 +63,6 @@ There was five agents created to demonstrate the versatility of Iris, they are a
 
 * **Dean Gaffney** - *Design, Code* 
 * **Kieran Murphy** - *Supervisor*
-* **Shane Nolan** - *Design, Supervisor*
+* **[Shane Nolan](https://github.com/shanenolanwit)** - *Design, Supervisor*
 
 See also the list of [contributors](https://github.com/DeanGaffney/iris/graphs/contributors) who participated in this project.
