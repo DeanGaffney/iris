@@ -47,6 +47,8 @@ The semester 1 report covers the motivation, planning and designing of Iris.
 The semester 2 report covers the implementation of Iris and the Iris agents that were used to demonstrate the functionality of Iris.
 
 #### Iris agents
+There was five agents created to demonstrate the versatility of Iris, they are as follows:
+
 * [Android](https://github.com/DeanGaffney/iris-android)
 * [Selenium](https://github.com/DeanGaffney/iris-selenium)
 * [Node.js](https://github.com/DeanGaffney/iris-node)
