@@ -39,6 +39,12 @@ Iris uses Elasticsearch to to do data aggregations on incoming data. Iris comes 
 ## Iris Video Demonstration
 Iris is a large system and it is difficult to capture all of the details in a single readme file, the quickest way to understand the system is to watch a quick video demonstration on Iris ([Iris Video Demo](https://www.youtube.com/watch?v=_4BrCjIJeNk)).
 
+## Iris Presentation
+A presentation on Iris can be found [here](https://docs.google.com/presentation/d/1hVUR8WAre52-dlXGmbzmUwJK9PCOiS0Z_uR8PyuRilw/edit?usp=sharing).
+
+## Iris Poster
+The poster that was used for Iris at the W.I.T industry day can be found [here](https://drive.google.com/file/d/1BZMQUfYcGy-KQV87PGrVrMMxZLu7kgyW/view?usp=sharing).
+
 ## Iris Documentation Report
 Iris was created as a final year project and has many features which are not discussed in this readme file. For in depth information on the system it is recommended that you read the reports created for Iris. These can be found in the [iris-report](https://github.com/DeanGaffney/iris-report) repository.
 
@@ -46,7 +52,7 @@ The semester 1 report covers the motivation, planning and designing of Iris.
 
 The semester 2 report covers the implementation of Iris and the Iris agents that were used to demonstrate the functionality of Iris.
 
-#### Iris agents
+## Iris agents
 There was five agents created to demonstrate the versatility of Iris, they are as follows:
 
 * [Android](https://github.com/DeanGaffney/iris-android)
