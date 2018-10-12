@@ -8,7 +8,7 @@ class ElasticEndpoint {
 
     static constraints = {
         name(unique: true, nullable: false, blank: false)
-        url(unique: true,  nullable: false, url: true)
+        url(unique: true,  nullable: false)
         active(nullable: false)
     }
 }
